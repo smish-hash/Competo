@@ -1,4 +1,4 @@
-package com.StartupBBSR.competo;
+package com.StartupBBSR.competo.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.StartupBBSR.competo.Activity.LoginActivity;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,5 +30,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (googleSignInAccount != null){
+            activityMainBinding.textViewDemo.setText(googleSignInAccount.getDisplayName());
+        }
     }
 }
