@@ -55,7 +55,7 @@
                 android:focusable="true"
                 android:text="Don't have an account? Register"
                 android:textColor="@color/accent_gray"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
                 app:layout_constraintStart_toStartOf="@+id/buttonLogin"
                 app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
@@ -206,6 +206,17 @@
                     tools:layout_editor_absoluteX="116dp"
                     tools:layout_editor_absoluteY="175dp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/forgotPassTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Forgot Password"
+                android:textColor="@color/accent_gray"
+                app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
+                app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+                app:layout_constraintTop_toBottomOf="@+id/signupTV" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

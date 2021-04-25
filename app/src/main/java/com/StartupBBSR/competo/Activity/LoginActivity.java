@@ -12,11 +12,11 @@ import android.widget.Toast;
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.databinding.ActivityLoginBinding;
+import com.StartupBBSR.competo.databinding.AlertlayoutBinding;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,7 +32,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,6 +70,9 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
     private static String TAG = "fbdebug";
 
+    private String m_mail = "";
+    DocumentSnapshot document;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseFirestore.getInstance();
 
+//        For fb
         mCallbackManager = CallbackManager.Factory.create();
 
         activityLoginBinding.buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +102,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onSignUp();
+            }
+        });
+
+        activityLoginBinding.forgotPassTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPassword();
             }
         });
 
@@ -214,10 +224,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(googleSignInIntent, RC_SIGN_IN);
     }
 
-    private void fbLogIn() {
-        Log.d(TAG, "fbLogIn: ");
-    }
-
     private void handleFacebookToken(AccessToken accessToken) {
         Log.d(TAG, "handleFacebookToken: ");
         Log.d("fblog", "handleFacebookToken: " + accessToken);
@@ -226,12 +232,12 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Log.d("fblog", "SignInWithCredential: successful");
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     loginWithCredential(user);
                 } else {
-                    Toast.makeText(getApplicationContext(), "SignInWithCredential: failed\n"+task.getResult(), Toast.LENGTH_SHORT)
+                    Toast.makeText(getApplicationContext(), "SignInWithCredential: failed\n" + task.getResult(), Toast.LENGTH_SHORT)
                             .show();
                 }
             }
@@ -257,7 +263,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        if (mCallbackManager.onActivityResult(requestCode, resultCode, data)){
+        if (mCallbackManager.onActivityResult(requestCode, resultCode, data)) {
             return;
         }
     }
@@ -282,12 +288,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginWithCredential(FirebaseUser user) {
-        Log.d(TAG, "loginWithCredential: ");
         String TAG = "cred";
 
-        Log.d(TAG, "loginWithCredential: Name: " + user.getDisplayName());
-        Log.d(TAG, "loginWithCredential: Email: " + user.getEmail());
-        Log.d(TAG, "loginWithCredential: Phone: " + user.getPhoneNumber());
         if (temp_flag == 1) {
             Log.d(TAG, "loginWithCredential: Role: Organizer");
         } else {
@@ -299,9 +301,26 @@ public class LoginActivity extends AppCompatActivity {
                 .document(firebaseAuth.getCurrentUser().getUid());
 
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("Name", user.getDisplayName());
-        userInfo.put("Phone", user.getPhoneNumber());
-        userInfo.put("Email", user.getEmail());
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    document = task.getResult();
+                    userInfo.put("Name", user.getDisplayName());
+                    userInfo.put("Email", user.getEmail());
+                    userInfo.put("Bio", document.getString("Bio"));
+                    userInfo.put("Photo", document.getString("Photo"));
+                    userInfo.put("linkedIn", document.getString("linkedIn"));
+                    userInfo.put("Phone", document.getString("Phone"));
+
+                } else {
+                    userInfo.put("Name", user.getDisplayName());
+                    userInfo.put("Email", user.getEmail());
+                }
+            }
+        });
+
 
 //        Now we check the role selected
         if (temp_flag == 0)
@@ -309,7 +328,7 @@ public class LoginActivity extends AppCompatActivity {
         else
             userInfo.put("isOrganizer", "1");
 
-        documentReference.set(userInfo);
+        documentReference.update(userInfo);
 
         if (temp_flag == 0) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -366,6 +385,49 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void forgotPassword() {
+        AlertlayoutBinding alertlayoutBinding = AlertlayoutBinding.inflate(getLayoutInflater());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle("Forgot Password");
+        builder.setMessage("Enter email to continue");
+        builder.setView(alertlayoutBinding.getRoot());
+        EditText input = alertlayoutBinding.input;
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+//                Get email address from user
+                m_mail = input.getText().toString();
+
+
+//                Send password reset link
+                if (!m_mail.isEmpty()) {
+                    firebaseAuth.sendPasswordResetEmail(m_mail)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Reset link sent to:\n" + m_mail, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
+
     }
 
     private void checkUserRoleAndSignIn(String uid) {

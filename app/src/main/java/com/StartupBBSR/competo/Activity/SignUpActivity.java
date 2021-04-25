@@ -12,6 +12,12 @@ import android.widget.Toast;
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.databinding.ActivitySignUpBinding;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,12 +30,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +59,10 @@ public class SignUpActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 123;
 
+    //    Facebook
+    private CallbackManager mCallbackManager;
+    private static String TAG = "fbdebug";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +76,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseFirestore.getInstance();
+
+//        For fb
+        mCallbackManager = CallbackManager.Factory.create();
 
         activitySignUpBinding.buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +110,28 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 btn_clicked = "fb";
                 // TODO: 4/5/2021 facebookLogin();
-                Toast.makeText(getApplicationContext(), "coming soon", Toast.LENGTH_SHORT)
-                        .show();
+                checkRole();
+            }
+        });
+
+        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "onSuccess: ");
+                Log.d("fblog", "onSuccess: " + loginResult);
+                handleFacebookToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "onCancel: ");
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "onError: ");
+                Log.d("fblog", "onError: " + error);
             }
         });
 
@@ -127,7 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
                             googleSignIn();
                             googleSignInIntent();
                         } else if (btn_clicked.equals("fb")) {
-                            // TODO: 4/5/2021 fb integration
+                            LoginManager.getInstance().logInWithReadPermissions(SignUpActivity.this, Arrays.asList("email", "public_profile"));
                         }
 
                         dialogInterface.dismiss();
@@ -147,7 +182,7 @@ public class SignUpActivity extends AppCompatActivity {
                             googleSignIn();
                             googleSignInIntent();
                         } else if (btn_clicked.equals("fb")) {
-                            // TODO: 4/5/2021 fb integration
+                            LoginManager.getInstance().logInWithReadPermissions(SignUpActivity.this, Arrays.asList("email", "public_profile"));
                         }
                         dialogInterface.dismiss();
                     }
@@ -170,6 +205,26 @@ public class SignUpActivity extends AppCompatActivity {
     private void googleSignInIntent() {
         Intent googleSignInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(googleSignInIntent, RC_SIGN_IN);
+    }
+
+    private void handleFacebookToken(AccessToken accessToken) {
+        Log.d(TAG, "handleFacebookToken: ");
+        Log.d("fblog", "handleFacebookToken: " + accessToken);
+
+        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d("fblog", "SignInWithCredential: successful");
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    loginWithCredential(user);
+                } else {
+                    Toast.makeText(getApplicationContext(), "SignInWithCredential: failed\n" + task.getResult(), Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
     }
 
     @Override

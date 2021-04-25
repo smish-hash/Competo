@@ -32,9 +32,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (googleSignInAccount != null){
-            activityMainBinding.textViewDemo.setText(googleSignInAccount.getDisplayName());
-        }
+        activityMainBinding.btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            }
+        });
     }
 }
