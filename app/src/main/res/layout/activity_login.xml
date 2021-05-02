@@ -218,6 +218,7 @@
                 app:layout_constraintStart_toStartOf="@+id/buttonLogin"
                 app:layout_constraintTop_toBottomOf="@+id/signupTV" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -225,7 +226,10 @@
         android:id="@+id/loginProgressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="#006200EA"
+
+
         android:gravity="bottom|center_horizontal"
         android:orientation="vertical"
         android:padding="@dimen/grid_3x"

@@ -5,6 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,6 +49,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import com.StartupBBSR.competo.MainActivity;
+import com.StartupBBSR.competo.databinding.ActivitySignUpBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding activitySignUpBinding;
@@ -52,6 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseDB;
+
 
     private int temp_flag = 0;
     private String btn_clicked = "";
@@ -77,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseFirestore.getInstance();
 
+
 //        For fb
         mCallbackManager = CallbackManager.Factory.create();
 
@@ -93,6 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                 onSignIn();
             }
         });
+
 
 
         //        Google Sign in
@@ -135,6 +157,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+
 //        Text Change Listeners
         textChangedListener(activitySignUpBinding.nameET, activitySignUpBinding.nameTIL);
         textChangedListener(activitySignUpBinding.numberET, activitySignUpBinding.numberTIL);
@@ -143,6 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 //        Check role switch
         checkRoleSwitch();
+
 
     }
 

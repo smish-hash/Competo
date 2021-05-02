@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.0"
 
     defaultConfig {
         applicationId "com.StartupBBSR.competo"
@@ -64,10 +64,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
-
 //    Facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
 
 //    CircularImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 }

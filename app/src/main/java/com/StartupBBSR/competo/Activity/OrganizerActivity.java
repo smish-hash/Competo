@@ -29,6 +29,7 @@ public class OrganizerActivity extends AppCompatActivity {
             }
         });
 
+
         activityOrganizerBinding.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
