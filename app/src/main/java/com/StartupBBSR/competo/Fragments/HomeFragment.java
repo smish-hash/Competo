@@ -15,6 +15,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
     // tab titles
     private String[] homeTabTitles = new String[]{"Feed", "Events", "Event Pal", "Inbox"};
 
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment {
         @Override
         public int getItemCount() {
 //            tab size
-            return 4;
+            return homeTabTitles.length;
         }
     }
 }

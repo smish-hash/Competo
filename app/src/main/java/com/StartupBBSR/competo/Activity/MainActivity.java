@@ -110,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             logout();
         else if (id == R.id.menu_settings)
             Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
-        else if (id == R.id.menu_profile)
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
 
         return true;
     }
