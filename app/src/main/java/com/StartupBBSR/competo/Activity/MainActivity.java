@@ -1,6 +1,6 @@
 package com.StartupBBSR.competo.Activity;
 
-<<<<<<< HEAD
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -35,31 +35,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavHostFragment navHostFragment;
     private BottomNavigationView bottomNavigationView;
 
-=======
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import com.StartupBBSR.competo.Activity.LoginActivity;
-import com.StartupBBSR.competo.databinding.ActivityMainBinding;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseAuth;
-
-public class MainActivity extends AppCompatActivity {
-
-    private ActivityMainBinding activityMainBinding;
-
->>>>>>> 96f3ec8db64b08646013a41ba64d552b49520b87
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-<<<<<<< HEAD
+
         drawerLayout = activityMainBinding.drawer;
         navigationView = activityMainBinding.navView;
         navigationView.setNavigationItemSelectedListener(this);
@@ -70,45 +53,34 @@ public class MainActivity extends AppCompatActivity {
 
 // TODO: 5/12/2021 implement bottom nav bar using nav host 
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                switch (item.getItemId()){
-                    case R.id.homeFragment:
-                        fragment = new HomeFragment();
-                        loadFragment(fragment);
-                        break;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Fragment fragment;
+            switch (item.getItemId()){
+                case R.id.homeFragment:
+                    fragment = new HomeFragment();
+                    loadFragment(fragment);
+                    break;
 
-                    case R.id.findFragment:
-                        fragment = new FindFragment();
-                        loadFragment(fragment);
-                        break;
+                case R.id.findFragment:
+                    fragment = new FindFragment();
+                    loadFragment(fragment);
+                    break;
 
-                    case R.id.wishlistFragment:
-                        fragment = new WishlistFragment();
-                        loadFragment(fragment);
-                        break;
+                case R.id.wishlistFragment:
+                    fragment = new WishlistFragment();
+                    loadFragment(fragment);
+                    break;
 
-                    case R.id.profileFragment:
-                        fragment = new ProfileFragment();
-                        loadFragment(fragment);
-                        break;
-                }
-                return true;
-=======
-        activityMainBinding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
->>>>>>> 96f3ec8db64b08646013a41ba64d552b49520b87
+                case R.id.profileFragment:
+                    fragment = new ProfileFragment();
+                    loadFragment(fragment);
+                    break;
             }
+            return true;
+
         });
 
 
-<<<<<<< HEAD
         activityMainBinding.actionBar.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
@@ -149,13 +121,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }
-=======
-        activityMainBinding.btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-            }
-        });
-    }
->>>>>>> 96f3ec8db64b08646013a41ba64d552b49520b87
 }
