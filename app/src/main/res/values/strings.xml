@@ -7,10 +7,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+<<<<<<< HEAD
     <string name="inbox">Inbox</string>
     <string name="event_pal">Event Pal</string>
     <string name="events">Events</string>
     <string name="feed">Feed</string>
+=======
+    <string name="communication_form">communication_form</string>
+    <string name="event_pal">event_pal</string>
+    <string name="event">event</string>
+    <string name="home">home</string>
+>>>>>>> 96f3ec8db64b08646013a41ba64d552b49520b87
     <string name="user_activity">User Activity</string>
     <string name="logout">LogOut</string>
 
