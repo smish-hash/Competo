@@ -2,14 +2,22 @@ package com.StartupBBSR.competo.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Activity.EditProfileActivity;
+import com.StartupBBSR.competo.Models.UserModel;
+import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentProfileBinding;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class ProfileFragment extends Fragment {
@@ -29,18 +38,8 @@ public class ProfileFragment extends Fragment {
     // tab titles
     private String[] profileTabTitles = new String[]{"About", "My Events", "Interests", "Updates"};
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore firebaseDB;
-    private String userId;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDB = FirebaseFirestore.getInstance();
-        userId = firebaseAuth.getUid();
-    }
+    private UserModel userModel;
+    private Constant constant;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,10 +49,14 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        constant = new Constant();
+        userModel = (UserModel) getActivity().getIntent().getSerializableExtra(constant.getUserModelObject());
+
         binding.btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), EditProfileActivity.class));
+                startActivity(new Intent(getContext(), EditProfileActivity.class)
+                .putExtra(constant.getUserModelObject(), userModel));
             }
         });
         init();
@@ -61,18 +64,59 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        DocumentReference documentReference = firebaseDB.collection("Users").document(userId);
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        loadData();
+
+        binding.pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                binding.profileName.setText(value.getString("Name"));
-                Glide.with(getContext())
-                        .load(value.getString("Photo"))
-                        .into(binding.profileImage);
+            public void onRefresh() {
+                loadData();
+                binding.pullToRefresh.setRefreshing(false);
             }
         });
+
+        if (userModel.getUserLinkedin().isEmpty()){
+            binding.ivGotolinkedin.setVisibility(View.GONE);
+        }
+
+        binding.ivGotolinkedin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri linkedinUri = Uri.parse(userModel.getUserLinkedin());
+                Intent intent = new Intent(Intent.ACTION_VIEW, linkedinUri);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void loadData() {
+        binding.profileName.setText(userModel.getUserName());
+        String imgurl = userModel.getUserPhoto();
+        if (imgurl != null){
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loadUsingGlide(imgurl);
+        }
+    }
+
+    private void loadUsingGlide(String imgurl) {
+
+        Glide.with(getContext()).
+                load(imgurl).
+                listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        binding.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        binding.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(binding.profileImage);
     }
 
     private void init() {

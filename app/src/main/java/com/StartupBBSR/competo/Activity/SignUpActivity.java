@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.R;
+import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivitySignUpBinding;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -83,6 +84,8 @@ public class SignUpActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
     private static String TAG = "fbdebug";
 
+    private Constant constant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseFirestore.getInstance();
+
+        constant = new Constant();
 
 
 //        For fb
@@ -307,20 +312,21 @@ public class SignUpActivity extends AppCompatActivity {
                 .document(firebaseAuth.getCurrentUser().getUid());
 
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("Name", user.getDisplayName());
-        userInfo.put("Phone", user.getPhoneNumber());
-        userInfo.put("Email", user.getEmail());
+        userInfo.put(constant.getUserNameField(), user.getDisplayName());
+        userInfo.put(constant.getUserPhoneField(), user.getPhoneNumber());
+        userInfo.put(constant.getUserEmailField(), user.getEmail());
+        userInfo.put(constant.getUserPhotoField(), user.getPhotoUrl().toString());
 
 //        Now we check the role selected
         if (temp_flag == 0)
-            userInfo.put("isUser", "1");
+            userInfo.put(constant.getUserisUserField(), "1");
         else
-            userInfo.put("isOrganizer", "1");
+            userInfo.put(constant.getUserisOrganizerField(), "1");
 
         documentReference.set(userInfo);
 
         if (temp_flag == 0) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), com.StartupBBSR.competo.Activity.MainActivity.class));
             finish();
         } else {
             startActivity(new Intent(getApplicationContext(), OrganizerActivity.class));
@@ -355,15 +361,16 @@ public class SignUpActivity extends AppCompatActivity {
                             .document(firebaseAuth.getCurrentUser().getUid());
 
                     Map<String, Object> userInfo = new HashMap<>();
-                    userInfo.put("Name", activitySignUpBinding.nameET.getText().toString());
-                    userInfo.put("Phone", activitySignUpBinding.numberET.getText().toString());
-                    userInfo.put("Email", activitySignUpBinding.emailET.getText().toString());
+                    userInfo.put(constant.getUserNameField(), activitySignUpBinding.nameET.getText().toString());
+                    userInfo.put(constant.getUserPhoneField(), activitySignUpBinding.numberET.getText().toString());
+                    userInfo.put(constant.getUserEmailField(), activitySignUpBinding.emailET.getText().toString());
+                    userInfo.put(constant.getUserPhotoField(), null);
 
 //                      Now we check the role selected from the switch
                     if (activitySignUpBinding.roleSwitch.isChecked())
-                        userInfo.put("isUser", "1");
+                        userInfo.put(constant.getUserisUserField(), "1");
                     else
-                        userInfo.put("isOrganizer", "1");
+                        userInfo.put(constant.getUserisOrganizerField(), "1");
 
 
                     documentReference.set(userInfo); // add onsuccess or onfailure here for debugging
