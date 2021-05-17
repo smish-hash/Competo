@@ -9,13 +9,24 @@
 
 
     <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="About"
+        android:id="@+id/tvProfileBio"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/grid_3x"
+        android:layout_marginTop="@dimen/grid_3x"
+        android:layout_marginEnd="@dimen/grid_3x"
+        android:layout_marginBottom="@dimen/grid_3x"
+        android:background="@drawable/button_round_shape"
+        android:backgroundTint="@color/main_accent_2"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
+        android:padding="@dimen/grid_3x"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

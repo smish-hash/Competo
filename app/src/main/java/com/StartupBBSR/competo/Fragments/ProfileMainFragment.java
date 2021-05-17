@@ -83,6 +83,18 @@ public class ProfileMainFragment extends Fragment {
         InterestChipAdapter adapter = new InterestChipAdapter(mDataSet);
         recyclerView.setAdapter(adapter);
 
+        if (userModel.getUserChips().size() == 0)
+            binding.profileBrief.setText("");
+        else {
+            String[] tempData = new String[3];
+            for (int i = 0; i < 3; i++) {
+                tempData[i] = userModel.getUserChips().get(i);
+            }
+
+            binding.profileBrief.setText(Arrays.toString(tempData).replaceAll("\\[|\\]", ""));
+        }
+
+
         return view;
     }
 
@@ -103,7 +115,7 @@ public class ProfileMainFragment extends Fragment {
             }
         });
 
-        if (userModel.getUserLinkedin() == null){
+        if (userModel.getUserLinkedin() == null) {
             binding.ivGotolinkedin.setVisibility(View.GONE);
         }
 
@@ -120,7 +132,7 @@ public class ProfileMainFragment extends Fragment {
     private void loadData() {
         binding.profileName.setText(userModel.getUserName());
         String imgurl = userModel.getUserPhoto();
-        if (imgurl != null){
+        if (imgurl != null) {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadUsingGlide(imgurl);
         }

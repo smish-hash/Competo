@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -85,9 +86,7 @@ public class InterestChipFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        String[] filters = {"Web Development", "Social Sciences", "Marketing",
-                "App Development", "UI/UX", "Coder", "Hackathon", "HR",
-                "Workshop", "Content Writing", "Video Editor", "Photo Editor"};
+        String[] filters = getResources().getStringArray(R.array.FilterChips);
 
         for (String filter : filters) {
             Chip chip = new Chip(getContext());
@@ -98,6 +97,13 @@ public class InterestChipFragment extends Fragment {
             chipGroup.addView(chip);
         }
 
+        binding.tvChipFragmentGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_interestChipFragment_to_profileMainFragment);
+            }
+        });
+
         binding.btnFilterApplyChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +111,7 @@ public class InterestChipFragment extends Fragment {
             }
         });
     }
+
 
     private void getCheckedChips() {
         int count = 0;
@@ -116,7 +123,7 @@ public class InterestChipFragment extends Fragment {
             }
         }
 
-        if (count <= 10 && count >= 3){
+        if (count <= 20 && count >= 3){
             selectedChips = new String[count];
             int index = 0;
             for (int i = 0; i < chipGroup.getChildCount(); i++) {

@@ -15,4 +15,25 @@
     <string name="user_activity">User Activity</string>
     <string name="logout">LogOut</string>
 
+    <string-array name="FilterChips">
+        <item>Web Development</item>
+        <item>Social Science</item>
+        <item>Marketing</item>
+        <item>App Development</item>
+        <item>UI/UX</item>
+        <item>Coder</item>
+        <item>Hackathon</item>
+        <item>Photowalk</item>
+        <item>HR</item>
+        <item>Workshop</item>
+        <item>Content Writing</item>
+        <item>Graphic Designer</item>
+        <item>Video Editor</item>
+        <item>Photo Editor</item>
+        <item>Machine Learning</item>
+        <item>Data Science</item>
+        <item>IoT</item>
+        <item>HOD</item>
+    </string-array>
+
 </resources>
