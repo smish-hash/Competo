@@ -51,7 +51,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.StartupBBSR.competo.MainActivity;
 import com.StartupBBSR.competo.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -136,7 +135,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 btn_clicked = "fb";
-                // TODO: 4/5/2021 facebookLogin();
                 checkRole();
             }
         });
@@ -316,6 +314,9 @@ public class SignUpActivity extends AppCompatActivity {
         userInfo.put(constant.getUserPhoneField(), user.getPhoneNumber());
         userInfo.put(constant.getUserEmailField(), user.getEmail());
         userInfo.put(constant.getUserPhotoField(), user.getPhotoUrl().toString());
+        userInfo.put(constant.getUserPhotoField(), null);
+        userInfo.put(constant.getUserBioField(), null);
+        userInfo.put(constant.getUserLinkedinField(), null);
 
 //        Now we check the role selected
         if (temp_flag == 0)
@@ -365,6 +366,8 @@ public class SignUpActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserPhoneField(), activitySignUpBinding.numberET.getText().toString());
                     userInfo.put(constant.getUserEmailField(), activitySignUpBinding.emailET.getText().toString());
                     userInfo.put(constant.getUserPhotoField(), null);
+                    userInfo.put(constant.getUserBioField(), null);
+                    userInfo.put(constant.getUserLinkedinField(), null);
 
 //                      Now we check the role selected from the switch
                     if (activitySignUpBinding.roleSwitch.isChecked())

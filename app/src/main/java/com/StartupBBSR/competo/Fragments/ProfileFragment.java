@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.StartupBBSR.competo.Activity.EditProfileActivity;
+import com.StartupBBSR.competo.Adapters.InterestChipAdapter;
 import com.StartupBBSR.competo.Models.UserModel;
+import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentProfileBinding;
 import com.bumptech.glide.Glide;
@@ -29,6 +32,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -38,8 +46,12 @@ public class ProfileFragment extends Fragment {
     // tab titles
     private String[] profileTabTitles = new String[]{"About", "My Events", "Interests", "Updates"};
 
+    private String[] mDataSet;
+
     private UserModel userModel;
     private Constant constant;
+
+    private NavController navController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,15 +71,34 @@ public class ProfileFragment extends Fragment {
                 .putExtra(constant.getUserModelObject(), userModel));
             }
         });
+
+        binding.btnEditInterests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_profileFragment2_to_interestChipFragment);
+            }
+        });
+
+
         init();
+        initDataSet();
+
+        RecyclerView recyclerView = binding.interestChipRecyclerView;
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+        InterestChipAdapter adapter = new InterestChipAdapter(mDataSet);
+        recyclerView.setAdapter(adapter);
+
         return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         loadData();
+
+//        navController = Navigation.findNavController(view);
 
         binding.pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -77,7 +108,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        if (userModel.getUserLinkedin().isEmpty()){
+        if (userModel.getUserLinkedin() == null){
             binding.ivGotolinkedin.setVisibility(View.GONE);
         }
 
@@ -126,6 +157,13 @@ public class ProfileFragment extends Fragment {
                 binding.profileViewPager, ((tab, position) ->
                 tab.setText(profileTabTitles[position])
         )).attach();
+    }
+
+    private void initDataSet() {
+        mDataSet = new String[10];
+        for (int i = 0; i < 10; i++) {
+            mDataSet[i] = "Element #" + i;
+        }
     }
 
     private class ProfileViewPagerFragmentAdapter extends FragmentStateAdapter {
