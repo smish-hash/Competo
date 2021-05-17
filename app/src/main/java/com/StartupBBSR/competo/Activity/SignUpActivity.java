@@ -317,6 +317,7 @@ public class SignUpActivity extends AppCompatActivity {
         userInfo.put(constant.getUserPhotoField(), null);
         userInfo.put(constant.getUserBioField(), null);
         userInfo.put(constant.getUserLinkedinField(), null);
+        userInfo.put(constant.getUserInterestedChipsField(), null);
 
 //        Now we check the role selected
         if (temp_flag == 0)
@@ -368,6 +369,7 @@ public class SignUpActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserPhotoField(), null);
                     userInfo.put(constant.getUserBioField(), null);
                     userInfo.put(constant.getUserLinkedinField(), null);
+                    userInfo.put(constant.getUserInterestedChipsField(), null);
 
 //                      Now we check the role selected from the switch
                     if (activitySignUpBinding.roleSwitch.isChecked())

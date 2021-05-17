@@ -7,15 +7,17 @@ import android.widget.TextView;
 
 import com.StartupBBSR.competo.databinding.InterestChipItemBinding;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class InterestChipAdapter extends RecyclerView.Adapter<InterestChipAdapter.ViewHolder> {
 
     private static InterestChipItemBinding binding;
-    private String[] localDataSet;
+    private List<String> localDataSet;
 
-    public InterestChipAdapter(String[] dataSet){
+    public InterestChipAdapter(List<String> dataSet){
         localDataSet = dataSet;
     }
 
@@ -28,12 +30,12 @@ public class InterestChipAdapter extends RecyclerView.Adapter<InterestChipAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getTextView().setText(localDataSet[position]);
+        holder.getTextView().setText(localDataSet.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,12 +1,14 @@
 package com.StartupBBSR.competo.Models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserModel implements Serializable {
     String userName, userEmail, userPhoto, userPhone;
     String userBio;
     String userLinkedin;
     String userRole;
+    List<String> userChips;
 
     public String getOrganizerRole() {
         return organizerRole;
@@ -72,5 +74,13 @@ public class UserModel implements Serializable {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public List<String> getUserChips() {
+        return userChips;
+    }
+
+    public void setUserChips(List<String> userChips) {
+        this.userChips = userChips;
     }
 }

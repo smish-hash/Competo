@@ -12,8 +12,15 @@ public class Constant {
     String userLinkedinField = "LinkedIn";
     String userisUserField = "isUser";
     String userisOrganizerField = "isOrganizer";
+    String userInterestedChipsField = "Chips";
 
     String userModelObject = "userModelObject";
+
+
+
+    public String getUserInterestedChipsField() {
+        return userInterestedChipsField;
+    }
 
     public String getUserModelObject() {
         return userModelObject;

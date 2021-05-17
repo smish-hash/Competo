@@ -43,6 +43,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private ActivityMainBinding activityMainBinding;
@@ -168,6 +171,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userModel.setUserPhone(documentSnapshot.getString(constant.getUserPhoneField()));
         userModel.setUserRole(documentSnapshot.getString(constant.getUserisUserField()));
         userModel.setOrganizerRole(documentSnapshot.getString(constant.getUserisOrganizerField()));
+        userModel.setUserChips((List<String>) documentSnapshot.get(constant.getUserInterestedChipsField()));
+
+        Log.d(TAG, "saveDataToClass: " + userModel.getUserChips());
+
 
         updateHeader();
 
