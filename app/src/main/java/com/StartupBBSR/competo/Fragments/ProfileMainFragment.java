@@ -94,7 +94,6 @@ public class ProfileMainFragment extends Fragment {
             binding.profileBrief.setText(Arrays.toString(tempData).replaceAll("\\[|\\]", ""));
         }
 
-
         return view;
     }
 
@@ -132,6 +131,7 @@ public class ProfileMainFragment extends Fragment {
     private void loadData() {
         binding.profileName.setText(userModel.getUserName());
         String imgurl = userModel.getUserPhoto();
+
         if (imgurl != null) {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadUsingGlide(imgurl);

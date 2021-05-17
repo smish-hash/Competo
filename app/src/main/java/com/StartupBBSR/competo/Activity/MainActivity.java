@@ -3,6 +3,7 @@ package com.StartupBBSR.competo.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.BlurMaskFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +22,7 @@ import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
 import com.bumptech.glide.Glide;
+
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = "test";
 
     private Fragment fragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         constant = new Constant();
         userModel = new UserModel();
 
+
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
 
 
@@ -148,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
                 if (error != null) {
                     Log.d(TAG, "onEvent: " + error.toString());
                     return;
