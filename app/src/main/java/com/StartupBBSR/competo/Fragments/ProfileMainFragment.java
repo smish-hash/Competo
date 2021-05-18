@@ -74,6 +74,17 @@ public class ProfileMainFragment extends Fragment {
             }
         });
 
+        binding.pullToRefresh.setEnabled(false);
+
+        binding.btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.pullToRefresh.setRefreshing(true);
+                loadData();
+                binding.pullToRefresh.setRefreshing(false);
+            }
+        });
+
 
         init();
         initDataSet();
@@ -106,13 +117,7 @@ public class ProfileMainFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        binding.pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-                binding.pullToRefresh.setRefreshing(false);
-            }
-        });
+
 
         if (userModel.getUserLinkedin() == null) {
             binding.ivGotolinkedin.setVisibility(View.GONE);
@@ -136,6 +141,7 @@ public class ProfileMainFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadUsingGlide(imgurl);
         }
+
     }
 
     private void loadUsingGlide(String imgurl) {
@@ -167,10 +173,8 @@ public class ProfileMainFragment extends Fragment {
     }
 
     private void initDataSet() {
-
         mDataSet = userModel.getUserChips();
-
-        Log.d("recycler", "initDataSet: " + Arrays.asList(mDataSet));
+        Log.d("chips", "initDataSet: " + Arrays.asList(mDataSet));
     }
 
     private class ProfileViewPagerFragmentAdapter extends FragmentStateAdapter {

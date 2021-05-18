@@ -6,19 +6,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentProfileAboutBinding;
+import com.StartupBBSR.competo.databinding.FragmentProfileMainBinding;
 
 public class ProfileAboutFragment extends Fragment {
 
     private FragmentProfileAboutBinding binding;
+
     private UserModel userModel;
     private Constant constant;
 
@@ -47,7 +51,7 @@ public class ProfileAboutFragment extends Fragment {
         loadData();
     }
 
-    private void loadData() {
+    public void loadData() {
         if (userModel.getUserBio() != null){
             binding.tvProfileBio.setText(userModel.getUserBio());
         }

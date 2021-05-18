@@ -12,6 +12,7 @@ import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentInterestChipBinding;
+import com.StartupBBSR.competo.databinding.MainActionBarBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
@@ -61,6 +62,8 @@ public class InterestChipFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInterestChipBinding.inflate(getLayoutInflater(), container, false);
+
+
         chipGroup = binding.idChipGroup;
         View view = binding.getRoot();
 
@@ -83,6 +86,7 @@ public class InterestChipFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         String[] filters = getResources().getStringArray(R.array.FilterChips);
+
 
         for (String filter : filters) {
             Chip chip = new Chip(getContext());
