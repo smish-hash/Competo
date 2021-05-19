@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
 
     private void init() {
         binding.homeViewpager.setAdapter(new HomeViewPagerFragmentAdapter(this));
+        binding.homeViewpager.setUserInputEnabled(false);
 
 //        Attaching tab mediator
         new TabLayoutMediator(binding.tabLayout2,

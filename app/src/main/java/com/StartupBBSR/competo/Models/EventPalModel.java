@@ -7,6 +7,7 @@ public class EventPalModel {
     private String Bio;
     private String Photo;
     private List<String> Chips;
+    private String UserID;
 
     public EventPalModel() {
     }
@@ -32,5 +33,9 @@ public class EventPalModel {
 
     public List<String> getChips() {
         return Chips;
+    }
+
+    public String getUserID() {
+        return UserID;
     }
 }

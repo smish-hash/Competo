@@ -138,6 +138,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_text_border"
                     android:hint="Enter Bio"
+                    android:maxLines="15"
                     android:imeOptions="actionNext"
                     android:inputType="textMultiLine"
                     android:maxLength="200"

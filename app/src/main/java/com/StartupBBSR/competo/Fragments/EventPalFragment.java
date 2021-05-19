@@ -13,16 +13,24 @@ import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.EventPalUserItemModel;
 import com.StartupBBSR.competo.R;
+import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentEventPalBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,8 +50,11 @@ public class EventPalFragment extends Fragment {
     //    For Skill sets
     private List<String> mSkillDataSet;
 
-
     private FirebaseFirestore firestoreDB;
+    private FirebaseAuth firebaseAuth;
+    private String userID;
+
+    private Constant constant;
 
     private EventPalUserAdapter adapter;
 
@@ -59,22 +70,31 @@ public class EventPalFragment extends Fragment {
 
 
         firestoreDB = FirebaseFirestore.getInstance();
-        CollectionReference collectionReference = firestoreDB.collection("Users");
+        firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getUid();
+
+        constant = new Constant();
+
+        CollectionReference collectionReference = firestoreDB.collection(constant.getUsers());
 
         View view = binding.getRoot();
 
 //        Dummy Data Set
-        initDataSet();
+//        initDataSet();
 
         SnapHelper snapHelper = new LinearSnapHelper();
 
-        Query query = collectionReference.orderBy("Name");
+//        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
+
+        Query query = collectionReference.orderBy(constant.getUserIdField())
+                .whereNotEqualTo(constant.getUserIdField(), userID);
+
         FirestoreRecyclerOptions<EventPalModel> options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
                 .setQuery(query, EventPalModel.class)
                 .build();
 
         RecyclerView recyclerView = binding.eventPalRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
         snapHelper.attachToRecyclerView(recyclerView);
 //        EventPalUserAdapter adapter = new EventPalUserAdapter(getContext(), mUserDataSet, mSkillDataSet);
@@ -106,7 +126,7 @@ public class EventPalFragment extends Fragment {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.VISIBLE);
                     btnBottomSheet.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+                } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                     Log.d(TAG, "onButtonClick: STATE_EXPANDED");
                     itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.GONE);
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

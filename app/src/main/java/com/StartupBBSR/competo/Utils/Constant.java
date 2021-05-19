@@ -4,6 +4,8 @@ public class Constant {
     String users = "Users";
     String profilePictures = "ProfileImages";
 
+    String userIdField = "UserID";
+
     String userNameField = "Name";
     String userEmailField = "Email";
     String userPhoneField = "Phone";
@@ -64,5 +66,9 @@ public class Constant {
 
     public String getProfilePictures() {
         return profilePictures;
+    }
+
+    public String getUserIdField() {
+        return userIdField;
     }
 }

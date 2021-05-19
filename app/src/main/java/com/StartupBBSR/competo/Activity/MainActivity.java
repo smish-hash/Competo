@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userModel.setUserRole(documentSnapshot.getString(constant.getUserisUserField()));
         userModel.setOrganizerRole(documentSnapshot.getString(constant.getUserisOrganizerField()));
         userModel.setUserChips((List<String>) documentSnapshot.get(constant.getUserInterestedChipsField()));
+        userModel.setUserID(documentSnapshot.getString(constant.getUserIdField()));
 
         Log.d(TAG, "saveDataToClass: " + userModel.getUserChips());
 
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         tvname.setText(userModel.getUserName());
 
-        if (userModel.getUserChips().size() == 0)
+        if (userModel.getUserChips() == null)
             tvBrief.setText("");
         else {
             String[] tempData = new String[3];

@@ -8,6 +8,7 @@ public class UserModel implements Serializable {
     String userBio;
     String userLinkedin;
     String userRole;
+    String userID;
     List<String> userChips;
 
     public String getOrganizerRole() {
@@ -82,5 +83,13 @@ public class UserModel implements Serializable {
 
     public void setUserChips(List<String> userChips) {
         this.userChips = userChips;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

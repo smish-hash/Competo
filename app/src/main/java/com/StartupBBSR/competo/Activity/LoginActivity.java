@@ -318,10 +318,12 @@ public class LoginActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserPhotoField(), document.getString(constant.getUserPhotoField()));
                     userInfo.put(constant.getUserLinkedinField(), document.getString(constant.getUserLinkedinField()));
                     userInfo.put(constant.getUserPhoneField(), document.getString(constant.getUserPhoneField()));
+                    userInfo.put(constant.getUserIdField(), document.getString(constant.getUserIdField()));
 
                 } else {
                     userInfo.put(constant.getUserNameField(), user.getDisplayName());
                     userInfo.put(constant.getUserEmailField(), user.getEmail());
+                    userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
                 }
             }
         });

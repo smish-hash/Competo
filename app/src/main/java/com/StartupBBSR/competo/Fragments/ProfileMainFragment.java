@@ -94,7 +94,7 @@ public class ProfileMainFragment extends Fragment {
         InterestChipAdapter adapter = new InterestChipAdapter(mDataSet);
         recyclerView.setAdapter(adapter);
 
-        if (userModel.getUserChips().size() == 0)
+        if (userModel.getUserChips() == null)
             binding.profileBrief.setText("");
         else {
             String[] tempData = new String[3];
@@ -173,7 +173,8 @@ public class ProfileMainFragment extends Fragment {
     }
 
     private void initDataSet() {
-        mDataSet = userModel.getUserChips();
+        if (userModel.getUserChips() != null)
+            mDataSet = userModel.getUserChips();
         Log.d("chips", "initDataSet: " + Arrays.asList(mDataSet));
     }
 
