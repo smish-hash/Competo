@@ -5,10 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -49,19 +45,6 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-
-import com.StartupBBSR.competo.databinding.ActivitySignUpBinding;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -118,7 +101,6 @@ public class SignUpActivity extends AppCompatActivity {
                 onSignIn();
             }
         });
-
 
 
         //        Google Sign in
@@ -321,20 +303,31 @@ public class SignUpActivity extends AppCompatActivity {
         userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
 
 //        Now we check the role selected
-        if (temp_flag == 0)
+        if (temp_flag == 0) {
             userInfo.put(constant.getUserisUserField(), "1");
-        else
+            userInfo.put(constant.getUserisOrganizerField(), "0");
+        } else {
             userInfo.put(constant.getUserisOrganizerField(), "1");
+            userInfo.put(constant.getUserisUserField(), "0");
+        }
 
         documentReference.set(userInfo);
+//
+//        if (temp_flag == 0) {
+//            startActivity(new Intent(getApplicationContext(), com.StartupBBSR.competo.Activity.MainActivity.class));
+//            finish();
+//        } else {
+//            startActivity(new Intent(getApplicationContext(), OrganizerActivity.class));
+//            finish();
+//        }
 
-        if (temp_flag == 0) {
-            startActivity(new Intent(getApplicationContext(), com.StartupBBSR.competo.Activity.MainActivity.class));
-            finish();
-        } else {
-            startActivity(new Intent(getApplicationContext(), OrganizerActivity.class));
-            finish();
-        }
+        if (temp_flag == 0)
+            Toast.makeText(this, "User Mode", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Organizer Mode", Toast.LENGTH_SHORT).show();
+
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
 
     }
 
@@ -374,21 +367,20 @@ public class SignUpActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
 
 //                      Now we check the role selected from the switch
-                    if (activitySignUpBinding.roleSwitch.isChecked())
+                    if (activitySignUpBinding.roleSwitch.isChecked()) {
                         userInfo.put(constant.getUserisUserField(), "1");
-                    else
+                        userInfo.put(constant.getUserisOrganizerField(), "0");
+                    } else {
                         userInfo.put(constant.getUserisOrganizerField(), "1");
+                        userInfo.put(constant.getUserisUserField(), "0");
+                    }
 
 
                     documentReference.set(userInfo); // add onsuccess or onfailure here for debugging
 
-                    if (activitySignUpBinding.roleSwitch.isChecked()) {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    } else {
-                        startActivity(new Intent(getApplicationContext(), OrganizerActivity.class));
-                        finish();
-                    }
+
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
 
 
                     activitySignUpBinding.signUpProgressLayout.setVisibility(View.GONE);

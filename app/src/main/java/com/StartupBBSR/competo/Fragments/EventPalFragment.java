@@ -136,8 +136,6 @@ public class EventPalFragment extends Fragment {
 
         });
         recyclerView.setAdapter(adapter);
-
-
         return view;
     }
 
@@ -158,17 +156,17 @@ public class EventPalFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
-
-    private void initDataSet() {
-        mSkillDataSet = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            mSkillDataSet.add("Skill #" + i);
-        }
-
-        mUserDataSet = new ArrayList<>();
-        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Satyajit Mishra", "This will contain about Satyajit Mishra", mSkillDataSet));
-        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2F6T63UOJDR2Ms3TUwIT8VlxxjjpF2?alt=media&token=7017c7d4-2036-47e5-aca7-2fb176c9b5b4", "Soumyajeet Mishra", "This will contain about Soumyajeet Mishra", mSkillDataSet));
-        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Smish", "This will contain about Smish", mSkillDataSet));
-        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Aashish", "This will contain about Aashish", mSkillDataSet));
-    }
+//
+//    private void initDataSet() {
+//        mSkillDataSet = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            mSkillDataSet.add("Skill #" + i);
+//        }
+//
+//        mUserDataSet = new ArrayList<>();
+//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Satyajit Mishra", "This will contain about Satyajit Mishra", mSkillDataSet));
+//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2F6T63UOJDR2Ms3TUwIT8VlxxjjpF2?alt=media&token=7017c7d4-2036-47e5-aca7-2fb176c9b5b4", "Soumyajeet Mishra", "This will contain about Soumyajeet Mishra", mSkillDataSet));
+//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Smish", "This will contain about Smish", mSkillDataSet));
+//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Aashish", "This will contain about Aashish", mSkillDataSet));
+//    }
 }

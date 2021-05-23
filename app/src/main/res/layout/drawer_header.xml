@@ -28,23 +28,23 @@
         android:text="Name"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvfilterChipSelected"
+        app:layout_constraintBottom_toTopOf="@+id/tvHeaderRole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <TextView
-        android:id="@+id/tvfilterChipSelected"
+        android:id="@+id/tvHeaderRole"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginEnd="@dimen/grid_2x"
         android:layout_marginBottom="@dimen/grid_2x"
         android:ellipsize="end"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:maxLines="2"
         android:scrollHorizontally="true"
-        android:text="filter chips selection"
+        android:text="Role"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,7 +7,7 @@ public class UserModel implements Serializable {
     String userName, userEmail, userPhoto, userPhone;
     String userBio;
     String userLinkedin;
-    String userRole;
+    String userRole, organizerRole;
     String userID;
     List<String> userChips;
 
@@ -18,8 +18,6 @@ public class UserModel implements Serializable {
     public void setOrganizerRole(String organizerRole) {
         this.organizerRole = organizerRole;
     }
-
-    String organizerRole;
 
     public String getUserName() {
         return userName;

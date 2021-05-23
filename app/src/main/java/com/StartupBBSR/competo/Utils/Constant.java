@@ -4,6 +4,9 @@ public class Constant {
     String users = "Users";
     String profilePictures = "ProfileImages";
 
+    String events = "Events";
+    String eventPosters = "EventPosters";
+
     String userIdField = "UserID";
 
     String userNameField = "Name";
@@ -70,5 +73,13 @@ public class Constant {
 
     public String getUserIdField() {
         return userIdField;
+    }
+
+    public String getEvents() {
+        return events;
+    }
+
+    public String getEventPosters() {
+        return eventPosters;
     }
 }

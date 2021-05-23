@@ -33,6 +33,10 @@
         <item name="chipBackgroundColor">@color/chip_background_color</item>
     </style>
 
+    <style name="inputChipStyle" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+    </style>
+
     <style name="roundButton_colourLightBlue" parent="Theme.MaterialComponents.Light">
         <item name="android:background">@drawable/eventpal_button_round</item>
     </style>
