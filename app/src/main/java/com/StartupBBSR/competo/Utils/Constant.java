@@ -7,6 +7,8 @@ public class Constant {
     String events = "Events";
     String eventPosters = "EventPosters";
 
+    String eventOrganizerID = "eventOrganizerID";
+
     String userIdField = "UserID";
 
     String userNameField = "Name";
@@ -81,5 +83,9 @@ public class Constant {
 
     public String getEventPosters() {
         return eventPosters;
+    }
+
+    public String getEventOrganizerID() {
+        return eventOrganizerID;
     }
 }

@@ -84,7 +84,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
 //        holder.setmData(localItems.get(position));
         holder.Name.setText(model.getName());
         holder.About.setText(model.getBio());
-        Log.d("photo", "onBindViewHolder: "+ model.getPhoto());
         Glide.with(context).load(model.getPhoto()).into(holder.Image);
 
         holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
@@ -104,8 +103,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         private ImageView Image;
         private RecyclerView recyclerView;
         private Button btnSendMessageRequestEventPal;
-
-        private BottomSheetBehavior bottomSheetBehavior;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -153,15 +150,15 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
             });
         }
 
-
-        public void setData(EventPalUserItemModel eventPalUserItemModel) {
-            Glide.with(context).load(eventPalUserItemModel.getImage()).into(Image);
-            Name.setText(eventPalUserItemModel.getName());
-            About.setText(eventPalUserItemModel.getAbout());
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
-            InterestChipAdapter adapter = new InterestChipAdapter(localSkillSets);
-            recyclerView.setAdapter(adapter);
-        }
+//
+//        public void setData(EventPalUserItemModel eventPalUserItemModel) {
+//            Glide.with(context).load(eventPalUserItemModel.getImage()).into(Image);
+//            Name.setText(eventPalUserItemModel.getName());
+//            About.setText(eventPalUserItemModel.getAbout());
+//            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+//            InterestChipAdapter adapter = new InterestChipAdapter(localSkillSets);
+//            recyclerView.setAdapter(adapter);
+//        }
 
         @Override
         public void onClick(View view) {

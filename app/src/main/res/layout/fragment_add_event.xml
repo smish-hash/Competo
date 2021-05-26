@@ -9,9 +9,6 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -32,9 +29,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="250dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:paddingBottom="300dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -156,7 +152,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TimeTIL">
+                app:layout_constraintTop_toBottomOf="@+id/linkTIL">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/tagsChipGroup"
@@ -188,6 +184,26 @@
                     android:layout_height="match_parent"
                     android:hint="Title"
                     android:inputType="textPersonName|textAutoComplete|textCapSentences|textAutoCorrect" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/linkTIL"
+                android:layout_width="@dimen/standard_width"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TimeTIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/linkET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Registration link"
+                    android:inputType="textUri"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar

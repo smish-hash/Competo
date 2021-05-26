@@ -1,6 +1,7 @@
 package com.StartupBBSR.competo.Activity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Adapters.TagRecyclerAdapter;
 import com.StartupBBSR.competo.databinding.ActivityManageEventBinding;
@@ -20,7 +21,5 @@ public class ManageEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityManageEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
     }
 }
