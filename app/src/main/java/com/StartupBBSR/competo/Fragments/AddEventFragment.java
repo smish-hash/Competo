@@ -1,14 +1,13 @@
 package com.StartupBBSR.competo.Fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,16 +15,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.StartupBBSR.competo.Adapters.TagRecyclerAdapter;
+import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentAddEventBinding;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,9 +38,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -75,6 +81,7 @@ public class AddEventFragment extends Fragment {
 
     private NavController navController;
 
+    private int flag = 0, emptyFlag = 0;
 
     private Constant constant;
 
@@ -83,6 +90,8 @@ public class AddEventFragment extends Fragment {
     private FirebaseStorage firebaseStorage;
     private String organizerID;
 
+    private EventModel eventModel;
+    private String eventid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +113,7 @@ public class AddEventFragment extends Fragment {
         constant = new Constant();
 
         calendar = Calendar.getInstance();
+
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -241,6 +251,14 @@ public class AddEventFragment extends Fragment {
 
         });
 
+
+        textChangedListener(binding.TitleET, binding.TitleTIL);
+        textChangedListener(binding.DescriptionET, binding.DescriptionTIL);
+        textChangedListener(binding.VenueET, binding.VenueTIL);
+        textChangedListener(binding.DateET, binding.DateTIL);
+        textChangedListener(binding.TimeET, binding.TimeTIL);
+        textChangedListener(binding.linkET, binding.linkTIL);
+
         return view;
     }
 
@@ -250,13 +268,69 @@ public class AddEventFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
 
+
+        if ((EventModel) getArguments().getSerializable("editEvent") != null) {
+            eventModel = (EventModel) getArguments().getSerializable("editEvent");
+//            Edit Event
+            flag = 1;
+            binding.btnUploadEvent.setText("Save Changes");
+            binding.topAppBar.setTitle("Edit Event");
+        }
+
+
+        if (flag != 0) {
+//            User clicked edit event
+//            loadData into views
+            binding.TitleET.setText(eventModel.getEventTitle());
+            binding.DescriptionET.setText(eventModel.getEventDescription());
+            binding.VenueET.setText(eventModel.getEventVenue());
+            binding.DateET.setText(eventModel.getEventDate());
+            binding.TimeET.setText(eventModel.getEventTime());
+            binding.linkET.setText(eventModel.getEventLink());
+
+            eventid = eventModel.getEventID();
+
+            List<String> tags = eventModel.getEventTags();
+            for (int i = 0; i < tags.size(); i++) {
+                Chip chip = new Chip(getContext());
+                chip.setText(tags.get(i));
+                chip.setCloseIconVisible(true);
+                chip.setCheckable(false);
+                chip.setClickable(false);
+                chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tagChipGroup.removeView(view);
+                    }
+                });
+                tagChipGroup.addView(chip);
+                tagChipGroup.setVisibility(View.VISIBLE);
+            }
+
+            // TODO: 5/26/2021 image already containing download uri. Skipping this part 
+//            loadUsingGlide(eventImageUri.toString());
+//            eventImageUri = Uri.parse(eventModel.getEventPoster());
+//            binding.ivPosterProgressBar.setVisibility(View.VISIBLE);
+
+        }
+
         binding.btnUploadEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateInfo();
+                emptyFlag = 0;
+                checkEmptyField(binding.TitleET, binding.TitleTIL);
+                checkEmptyField(binding.DescriptionET, binding.DescriptionTIL);
+                checkEmptyField(binding.VenueET, binding.VenueTIL);
+                checkEmptyField(binding.DateET, binding.DateTIL);
+                checkEmptyField(binding.TimeET, binding.TimeTIL);
+                checkEmptyField(binding.linkET, binding.linkTIL);
+
+                if (emptyFlag == 6) {
+                    updateInfo();
+                }
+
             }
         });
-
     }
 
     private void updateInfo() {
@@ -267,14 +341,14 @@ public class AddEventFragment extends Fragment {
         StorageReference storageReference = firebaseStorage.getReference()
                 .child(constant.getEventPosters() + "/" + firestoreDB.collection(constant.getEvents()).get());
 
-        if (eventImageUri != null){
+        if (eventImageUri != null) {
 //            Compressing The Image
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), eventImageUri);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 //                Higher the number, higher the quality
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
                 byte[] data = baos.toByteArray();
 
                 uploadTask = storageReference.putBytes(data);
@@ -308,25 +382,25 @@ public class AddEventFragment extends Fragment {
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         eventImageDownloadUri = task.getResult();
-                        Log.d("event", "onComplete: " + eventImageDownloadUri);
                         uploadEvent();
+
                     }
                 }
             });
 
         } else {
             uploadEvent();
+
         }
     }
+
 
     private void uploadEvent() {
 
         binding.btnUploadEvent.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.VISIBLE);
-
-        // TODO: 5/22/2021 assuming nothing is blank
 
         String image;
         String title = binding.TitleET.getText().toString();
@@ -334,6 +408,7 @@ public class AddEventFragment extends Fragment {
         String venue = binding.VenueET.getText().toString();
         String date = binding.DateET.getText().toString();
         String time = binding.TimeET.getText().toString();
+        String link = binding.linkET.getText().toString();
         List<String> eventTags = new ArrayList<>();
 
         for (int i = 0; i < binding.tagsChipGroup.getChildCount(); ++i) {
@@ -341,35 +416,42 @@ public class AddEventFragment extends Fragment {
             eventTags.add(chip.getText().toString());
         }
 
-        if (eventImageDownloadUri != null){
+
+        if (eventImageDownloadUri != null) {
             image = eventImageDownloadUri.toString();
         } else {
             image = null;
         }
-        Log.d("event", "uploadEvent: " + image);
 
-        EventModel eventModel = new EventModel(image, title, description, venue, date, time, eventTags, organizerID);
 
         CollectionReference collectionReference = firestoreDB.collection(constant.getEvents());
 
-        collectionReference.add(eventModel)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        if (flag == 0) {
+//        New Event. New id
+//        Generate random id to use set else if id not needed we could directly use add()
+            eventid = collectionReference.document().getId();
+        }
+
+        EventModel eventModel = new EventModel(image, title, description, venue, date, time, link, eventTags, organizerID, eventid);
+
+        collectionReference.document(eventid).set(eventModel)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getContext(), "Event Uploaded", Toast.LENGTH_SHORT).show();
                         binding.btnUploadEvent.setVisibility(View.VISIBLE);
                         binding.progressBar.setVisibility(View.GONE);
                         navController.navigate(R.id.action_addEventFragment_to_manageEventMainFragment);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Upload Failed:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        binding.btnUploadEvent.setVisibility(View.VISIBLE);
-                        binding.progressBar.setVisibility(View.GONE);
-                    }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Upload failed:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                binding.btnUploadEvent.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     private void pickImage() {
@@ -392,7 +474,7 @@ public class AddEventFragment extends Fragment {
     }
 
     private void updateTimeLabel() {
-        String myTimeFormat = "h:m a";
+        String myTimeFormat = "hh:mm a";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myTimeFormat, Locale.US);
 
         binding.TimeET.setText(simpleDateFormat.format(calendar.getTime()));
@@ -409,8 +491,42 @@ public class AddEventFragment extends Fragment {
 
             eventImageUri = data.getData();
 
-            Glide.with(getContext()).load(eventImageUri).into(binding.ivPoster);
-
+            loadUsingGlide(eventImageUri.toString());
         }
+    }
+
+
+    private void loadUsingGlide(String imgurl) {
+        Glide.with(this).
+                load(imgurl).
+                listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        binding.ivPosterProgressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        binding.ivPosterProgressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(binding.ivPoster);
+    }
+
+    private void textChangedListener(TextInputEditText ET, TextInputLayout TIL) {
+        ET.addTextChangedListener(new addOnTextChangeListener(getContext(), ET, TIL));
+    }
+
+
+    private void checkEmptyField(EditText et, TextInputLayout til) {
+        if (et.getText().toString().isEmpty()) {
+            til.setError("Field cannot be blank");
+            til.setErrorEnabled(true);
+            emptyFlag--;
+        } else {
+            emptyFlag++;
+        }
+
     }
 }
