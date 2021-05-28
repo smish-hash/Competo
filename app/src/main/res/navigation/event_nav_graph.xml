@@ -9,5 +9,19 @@
         android:id="@+id/eventMainFragment"
         android:name="com.StartupBBSR.competo.Fragments.EventMainFragment"
         android:label="fragment_event_main"
-        tools:layout="@layout/fragment_event_main" />
+        tools:layout="@layout/fragment_event_main" >
+        <action
+            android:id="@+id/action_eventMainFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/eventMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.StartupBBSR.competo.Fragments.EventDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details" />
 </navigation>

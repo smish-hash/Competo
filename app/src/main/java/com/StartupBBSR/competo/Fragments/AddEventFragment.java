@@ -467,7 +467,7 @@ public class AddEventFragment extends Fragment {
     }
 
     private void updateDateLabel() {
-        String myDateFormat = "dd/MM/yy";
+        String myDateFormat = "dd-MMM-yy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myDateFormat, Locale.US);
 
         binding.DateET.setText(simpleDateFormat.format(calendar.getTime()));

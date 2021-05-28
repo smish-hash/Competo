@@ -76,4 +76,7 @@ dependencies {
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
 
+//    For motion layout
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0-beta02'
+
 }

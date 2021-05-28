@@ -37,7 +37,6 @@ public class ManageEventMainAdapter extends FirestoreRecyclerAdapter<EventModel,
 //    For snackbar undo
     private DocumentReference documentReference;
     private EventModel eventModel;
-    private FragmentManageEventMainBinding fragmentManageEventMainBinding;
 
     public OnItemClickListener listener;
 
@@ -62,7 +61,6 @@ public class ManageEventMainAdapter extends FirestoreRecyclerAdapter<EventModel,
     @Override
     public ManageEventMainAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = ManageEventMainItemBinding.inflate(LayoutInflater.from(parent.getContext()));
-        fragmentManageEventMainBinding = FragmentManageEventMainBinding.inflate(LayoutInflater.from(parent.getContext()));
         return new ViewHolder(binding.getRoot());
     }
 

@@ -11,23 +11,15 @@ import android.widget.Toast;
 
 import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
-import com.StartupBBSR.competo.Models.EventPalUserItemModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentEventPalBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +37,7 @@ public class EventPalFragment extends Fragment {
     public static final String TAG = "sheet";
 
     private FragmentEventPalBinding binding;
-    //    For Users
-    private List<EventPalUserItemModel> mUserDataSet;
+
     //    For Skill sets
     private List<String> mSkillDataSet;
 
@@ -79,9 +70,6 @@ public class EventPalFragment extends Fragment {
 
         View view = binding.getRoot();
 
-//        Dummy Data Set
-//        initDataSet();
-
         SnapHelper snapHelper = new LinearSnapHelper();
 
 //        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
@@ -94,7 +82,7 @@ public class EventPalFragment extends Fragment {
                 .build();
 
         RecyclerView recyclerView = binding.eventPalRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         snapHelper.attachToRecyclerView(recyclerView);
 //        EventPalUserAdapter adapter = new EventPalUserAdapter(getContext(), mUserDataSet, mSkillDataSet);
@@ -122,15 +110,19 @@ public class EventPalFragment extends Fragment {
                 ImageView btnBottomSheet = itemView.findViewById(R.id.btnBottomSheet);
 
                 if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+
                     Log.d(TAG, "onButtonClick: STATE_COLLAPSED");
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.VISIBLE);
                     btnBottomSheet.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+
                 } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+
                     Log.d(TAG, "onButtonClick: STATE_EXPANDED");
                     itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.GONE);
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     btnBottomSheet.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+
                 }
             }
 
@@ -156,17 +148,4 @@ public class EventPalFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
-//
-//    private void initDataSet() {
-//        mSkillDataSet = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//            mSkillDataSet.add("Skill #" + i);
-//        }
-//
-//        mUserDataSet = new ArrayList<>();
-//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Satyajit Mishra", "This will contain about Satyajit Mishra", mSkillDataSet));
-//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2F6T63UOJDR2Ms3TUwIT8VlxxjjpF2?alt=media&token=7017c7d4-2036-47e5-aca7-2fb176c9b5b4", "Soumyajeet Mishra", "This will contain about Soumyajeet Mishra", mSkillDataSet));
-//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Smish", "This will contain about Smish", mSkillDataSet));
-//        mUserDataSet.add(new EventPalUserItemModel("https://firebasestorage.googleapis.com/v0/b/event-collab-27e46.appspot.com/o/ProfileImages%2FuFuWMJVC2dY9EpA5K2KU168HVoC2?alt=media&token=45d3b17f-004c-48d6-8775-1e38e0b1630a", "Aashish", "This will contain about Aashish", mSkillDataSet));
-//    }
 }

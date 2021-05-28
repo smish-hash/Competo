@@ -175,7 +175,7 @@ public class ProfileMainFragment extends Fragment {
     private void initDataSet() {
         if (userModel.getUserChips() != null)
             mDataSet = userModel.getUserChips();
-        Log.d("chips", "initDataSet: " + Arrays.asList(mDataSet));
+//        Log.d("chips", "initDataSet: " + Arrays.asList(mDataSet));
     }
 
     private class ProfileViewPagerFragmentAdapter extends FragmentStateAdapter {

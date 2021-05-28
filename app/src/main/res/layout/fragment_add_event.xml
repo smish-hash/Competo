@@ -78,6 +78,8 @@
                     android:layout_height="match_parent"
                     android:gravity="start"
                     android:hint="Description"
+                    android:maxLength="500"
+                    android:maxHeight="135dp"
                     android:inputType="textMultiLine|textCapSentences|textAutoComplete|textAutoCorrect"
                     android:nestedScrollingEnabled="true" />
             </com.google.android.material.textfield.TextInputLayout>

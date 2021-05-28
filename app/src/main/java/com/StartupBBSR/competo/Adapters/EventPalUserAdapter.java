@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.StartupBBSR.competo.Models.EventPalModel;
-import com.StartupBBSR.competo.Models.EventPalUserItemModel;
 import com.StartupBBSR.competo.databinding.EventPalUserItemBinding;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.List;
 
@@ -52,7 +50,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
 
     private List<EventPalModel> localItems;
 
-    private List<String> localSkillSets;
     private Context context;
 
 
@@ -60,12 +57,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         super(options);
         this.context = context;
     }
-//
-//    public EventPalUserAdapter(Context context, List<EventPalModel> localItems, List<String> localSkillSets) {
-//        this.localItems = localItems;
-//        this.localSkillSets = localSkillSets;
-//        this.context = context;
-//    }
 
     @NonNull
     @Override
@@ -73,11 +64,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         binding = EventPalUserItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding.getRoot());
     }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull EventPalUserAdapter.ViewHolder holder, int position) {
-//        holder.setData(localItems.get(position));
-//    }
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull EventPalModel model) {
@@ -86,16 +72,11 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         holder.About.setText(model.getBio());
         Glide.with(context).load(model.getPhoto()).into(holder.Image);
 
-        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
         InterestChipAdapter adapter = new InterestChipAdapter(model.getChips());
         holder.recyclerView.setAdapter(adapter);
 
     }
-//
-//    @Override
-//    public int getItemCount() {
-//        return localItems.size();
-//    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -150,38 +131,8 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
             });
         }
 
-//
-//        public void setData(EventPalUserItemModel eventPalUserItemModel) {
-//            Glide.with(context).load(eventPalUserItemModel.getImage()).into(Image);
-//            Name.setText(eventPalUserItemModel.getName());
-//            About.setText(eventPalUserItemModel.getAbout());
-//            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
-//            InterestChipAdapter adapter = new InterestChipAdapter(localSkillSets);
-//            recyclerView.setAdapter(adapter);
-//        }
-
         @Override
         public void onClick(View view) {
         }
-//
-//        public void setmData(EventPalModel model) {
-//            Glide.with(context).load(model.getImage()).into(Image);
-//            Name.setText(model.getName());
-//            About.setText(model.getBio());
-//
-//            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
-//            InterestChipAdapter adapter = new InterestChipAdapter(model.getChips());
-//            recyclerView.setAdapter(adapter);
-//        }
-    }
-
-
-    //    Below two are for diff util purposes
-    public List<EventPalModel> getItems() {
-        return localItems;
-    }
-
-    public void setItems(List<EventPalModel> items) {
-        this.localItems = items;
     }
 }

@@ -13,7 +13,7 @@
     <ImageView
         android:id="@+id/ivEventPalUserImage"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="600dp"
         android:scaleType="centerCrop"
         android:src="@drawable/iron_man" />
 
@@ -94,7 +94,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventPal_UserSkillRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="135dp"
+                    android:layout_height="100dp"
                     android:layout_marginStart="@dimen/grid_3x"
                     android:layout_marginEnd="@dimen/grid_3x"
                     android:layout_marginBottom="8dp"

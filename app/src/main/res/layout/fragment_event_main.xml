@@ -34,5 +34,15 @@
 
 
 <!--    todo recycler view to show events-->
+    <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/event_fragment_item"
+        android:padding="@dimen/grid_2x"
+        android:id="@+id/eventRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
