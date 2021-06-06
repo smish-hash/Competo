@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,12 +75,13 @@ public class AddEventFragment extends Fragment {
 
     private Calendar calendar;
 
+    private String imageString;
     private Uri eventImageUri, eventImageDownloadUri;
     private UploadTask uploadTask;
 
     private NavController navController;
 
-    private int flag = 0, emptyFlag = 0;
+    private int flag = 0, emptyFlag = 0, statusFlag = -1, imageFlag = 0;
 
     private Constant constant;
 
@@ -268,6 +268,18 @@ public class AddEventFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
 
+        binding.switchStatus.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                binding.tvStatus.setText("Upload as live");
+                binding.btnUploadEvent.setText("Upload Event");
+                statusFlag = 1;
+            } else {
+                binding.tvStatus.setText("Save as draft");
+                binding.btnUploadEvent.setText("Save as draft");
+                statusFlag = 0;
+            }
+        });
+
 
         if ((EventModel) getArguments().getSerializable("editEvent") != null) {
             eventModel = (EventModel) getArguments().getSerializable("editEvent");
@@ -307,10 +319,16 @@ public class AddEventFragment extends Fragment {
                 tagChipGroup.setVisibility(View.VISIBLE);
             }
 
+
+            imageString = eventModel.getEventPoster();
+            loadUsingGlide(imageString);
+
+
             // TODO: 5/26/2021 image already containing download uri. Skipping this part 
 //            loadUsingGlide(eventImageUri.toString());
 //            eventImageUri = Uri.parse(eventModel.getEventPoster());
 //            binding.ivPosterProgressBar.setVisibility(View.VISIBLE);
+
 
         }
 
@@ -326,7 +344,13 @@ public class AddEventFragment extends Fragment {
                 checkEmptyField(binding.linkET, binding.linkTIL);
 
                 if (emptyFlag == 6) {
-                    updateInfo();
+                    if (eventImageUri == null && imageString != null){
+                        imageFlag = 1;
+                        uploadEvent();
+                    } else {
+                        imageFlag = 0;
+                        updateInfo();
+                    }
                 }
 
             }
@@ -410,18 +434,23 @@ public class AddEventFragment extends Fragment {
         String time = binding.TimeET.getText().toString();
         String link = binding.linkET.getText().toString();
         List<String> eventTags = new ArrayList<>();
+        String status;
 
         for (int i = 0; i < binding.tagsChipGroup.getChildCount(); ++i) {
             Chip chip = (Chip) binding.tagsChipGroup.getChildAt(i);
             eventTags.add(chip.getText().toString());
         }
 
-
-        if (eventImageDownloadUri != null) {
-            image = eventImageDownloadUri.toString();
+        if (imageFlag == 0){
+            if (eventImageDownloadUri != null) {
+                image = eventImageDownloadUri.toString();
+            } else {
+                image = null;
+            }
         } else {
-            image = null;
+            image = imageString;
         }
+
 
 
         CollectionReference collectionReference = firestoreDB.collection(constant.getEvents());
@@ -432,7 +461,13 @@ public class AddEventFragment extends Fragment {
             eventid = collectionReference.document().getId();
         }
 
-        EventModel eventModel = new EventModel(image, title, description, venue, date, time, link, eventTags, organizerID, eventid);
+        if (statusFlag == 0) {
+            status = "Draft";
+        } else {
+            status = "Live";
+        }
+
+        EventModel eventModel = new EventModel(image, title, description, venue, date, time, link, eventTags, organizerID, eventid, status);
 
         collectionReference.document(eventid).set(eventModel)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

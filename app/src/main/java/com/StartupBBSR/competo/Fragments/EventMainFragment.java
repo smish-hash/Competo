@@ -1,21 +1,12 @@
 package com.StartupBBSR.competo.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
-import com.StartupBBSR.competo.Models.FragmentEventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentEventMainBinding;
@@ -26,8 +17,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 public class EventMainFragment extends Fragment {
 
@@ -35,12 +30,9 @@ public class EventMainFragment extends Fragment {
 
     private EventFragmentAdapter adapter;
 
-    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestoreDB;
 
     private NavController navController;
-
-    // TODO: 5/27/2021 create new user here and send it to next fragment as bundle
 
     private Constant constant;
     private CollectionReference collectionReference;
@@ -58,7 +50,6 @@ public class EventMainFragment extends Fragment {
         binding = FragmentEventMainBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        firebaseAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
 
         constant = new Constant();
@@ -98,7 +89,7 @@ public class EventMainFragment extends Fragment {
     }
 
     private void initData() {
-        Query query = collectionReference.orderBy("eventDate");
+        Query query = collectionReference.whereNotEqualTo("eventStatus", "Draft").orderBy("eventStatus");
 
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)

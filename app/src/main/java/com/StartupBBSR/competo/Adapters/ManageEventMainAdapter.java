@@ -71,6 +71,7 @@ public class ManageEventMainAdapter extends FirestoreRecyclerAdapter<EventModel,
         holder.venue.setText(model.getEventVenue());
         holder.date.setText(model.getEventDate());
         holder.time.setText(model.getEventTime());
+        holder.status.setText(model.getEventStatus());
         Glide.with(context).load(model.getEventPoster()).into(holder.image);
 //
         boolean isExpanded = model.isExpanded();
@@ -80,7 +81,7 @@ public class ManageEventMainAdapter extends FirestoreRecyclerAdapter<EventModel,
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView image, btnEditEvent;
-        private TextView title, description, venue, date, time;
+        private TextView title, description, venue, date, time, status;
 
         private ConstraintLayout expandableLayout;
 
@@ -92,6 +93,7 @@ public class ManageEventMainAdapter extends FirestoreRecyclerAdapter<EventModel,
             venue = binding.tvEventVenue;
             date = binding.tvEventDate;
             time = binding.tvEventTime;
+            status = binding.tvEventStatus;
             btnEditEvent = binding.btnEditEvent;
             expandableLayout = binding.expandableLayout;
 

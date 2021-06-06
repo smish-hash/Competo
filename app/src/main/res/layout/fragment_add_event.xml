@@ -35,7 +35,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/grid_3x">
+            android:layout_marginBottom="@dimen/grid_3x"
+            android:paddingBottom="300dp">
 
             <ImageView
                 android:id="@+id/ivPoster"
@@ -234,9 +235,9 @@
 
         <Button
             android:id="@+id/btnUploadEvent"
-            android:layout_width="@dimen/standard_width"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_gravity="end"
             android:background="@drawable/eventpal_button_round"
             android:text="Upload Event"
             android:textAllCaps="false" />
@@ -247,6 +248,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchStatus"
+            android:padding="@dimen/grid_1x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Live"/>
 
 
     </com.google.android.material.bottomappbar.BottomAppBar>
