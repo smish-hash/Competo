@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Adapters.BannerEventPagerAdapter;
+import com.StartupBBSR.competo.Adapters.VerticalRecyclerViewAdapter;
 import com.StartupBBSR.competo.Models.BannerEvent;
-/*import com.StartupBBSR.competo.Adapters.VerticalRecyclerViewAdapter;
 import com.StartupBBSR.competo.Models.HorizontalModel;
-import com.StartupBBSR.competo.Models.VerticalModel;*/
+import com.StartupBBSR.competo.Models.VerticalModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.databinding.FragmentFeedMainBinding;
 import com.google.android.material.tabs.TabLayout;
