@@ -7,6 +7,10 @@ public class Constant {
     String events = "Events";
     String eventPosters = "EventPosters";
 
+    String MessageRequests = "MessageRequests";
+    String Chats = "Chats", Messages = "Messages", Requests = "Requests", ChatConnections = "ChatConnections";
+    String lastMessage = "LastMessage";
+
     String eventOrganizerID = "eventOrganizerID";
 
     String userIdField = "UserID";
@@ -87,5 +91,29 @@ public class Constant {
 
     public String getEventOrganizerID() {
         return eventOrganizerID;
+    }
+
+    public String getMessageRequests() {
+        return MessageRequests;
+    }
+
+    public String getChats() {
+        return Chats;
+    }
+
+    public String getMessages() {
+        return Messages;
+    }
+
+    public String getRequests() {
+        return Requests;
+    }
+
+    public String getChatConnections() {
+        return ChatConnections;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
     }
 }

@@ -319,6 +319,7 @@ public class LoginActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserLinkedinField(), document.getString(constant.getUserLinkedinField()));
                     userInfo.put(constant.getUserPhoneField(), document.getString(constant.getUserPhoneField()));
                     userInfo.put(constant.getUserIdField(), document.getString(constant.getUserIdField()));
+                    userInfo.put(constant.getLastMessage(), document.getString(constant.getLastMessage()));
 
                 } else {
                     userInfo.put(constant.getUserNameField(), user.getDisplayName());

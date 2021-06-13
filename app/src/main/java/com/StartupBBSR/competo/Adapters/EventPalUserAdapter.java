@@ -1,7 +1,6 @@
 package com.StartupBBSR.competo.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.StartupBBSR.competo.databinding.EventPalUserItemBinding;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 
@@ -37,7 +37,9 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
     public interface OnItemClickListener {
 
         void onItemClick(View itemView, int position);
-        void onButtonClick(View itemView, int position);
+
+        void onButtonClick(DocumentSnapshot snapshot);
+
         void onBottomSheetToggleClick(View itemView, int position);
     }
     // Define the method that allows the parent activity or fragment to define the listener
@@ -47,8 +49,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
     }
 
     private EventPalUserItemBinding binding;
-
-    private List<EventPalModel> localItems;
 
     private Context context;
 
@@ -124,7 +124,8 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onButtonClick(itemView, position);
+                            DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(position);
+                            listener.onButtonClick(documentSnapshot);
                         }
                     }
                 }

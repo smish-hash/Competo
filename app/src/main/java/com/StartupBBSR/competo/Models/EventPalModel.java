@@ -8,15 +8,17 @@ public class EventPalModel {
     private String Photo;
     private List<String> Chips;
     private String UserID;
+    private String lastMessage;
 
     public EventPalModel() {
     }
 
-    public EventPalModel(String name, String bio, String photo, List<String> chips) {
+    public EventPalModel(String name, String bio, String photo, List<String> chips, String lastMessage) {
         Name = name;
         Bio = bio;
         Photo = photo;
         Chips = chips;
+        this.lastMessage = lastMessage;
     }
 
     public String getName() {
@@ -37,5 +39,9 @@ public class EventPalModel {
 
     public String getUserID() {
         return UserID;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
     }
 }

@@ -1,5 +1,8 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,19 +12,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.StartupBBSR.competo.Activity.ChatDetailActivity;
 import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
+import com.StartupBBSR.competo.Models.RequestModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
+import com.StartupBBSR.competo.databinding.AlertlayoutrequestBinding;
 import com.StartupBBSR.competo.databinding.FragmentEventPalBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -49,6 +60,9 @@ public class EventPalFragment extends Fragment {
 
     private EventPalUserAdapter adapter;
 
+    private CollectionReference collectionReference;
+    private FirestoreRecyclerOptions<EventPalModel> options;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +72,7 @@ public class EventPalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentEventPalBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
 
         firestoreDB = FirebaseFirestore.getInstance();
@@ -66,20 +81,16 @@ public class EventPalFragment extends Fragment {
 
         constant = new Constant();
 
-        CollectionReference collectionReference = firestoreDB.collection(constant.getUsers());
-
-        View view = binding.getRoot();
-
-        SnapHelper snapHelper = new LinearSnapHelper();
-
-//        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
+        collectionReference = firestoreDB.collection(constant.getUsers());
 
         Query query = collectionReference.orderBy(constant.getUserIdField())
                 .whereNotEqualTo(constant.getUserIdField(), userID);
 
-        FirestoreRecyclerOptions<EventPalModel> options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
+        options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
                 .setQuery(query, EventPalModel.class)
                 .build();
+
+        SnapHelper snapHelper = new LinearSnapHelper();
 
         RecyclerView recyclerView = binding.eventPalRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -95,11 +106,67 @@ public class EventPalFragment extends Fragment {
                 Toast.makeText(getContext(), "Item Click: " + name.getText().toString(), Toast.LENGTH_SHORT).show();
             }
 
-
             @Override
-            public void onButtonClick(View itemView, int position) {
-                TextView name = itemView.findViewById(R.id.tvEventPalUserName);
-                Toast.makeText(getContext(), "Button: " + name.getText().toString(), Toast.LENGTH_SHORT).show();
+            public void onButtonClick(DocumentSnapshot snapshot) {
+                EventPalModel model = snapshot.toObject(EventPalModel.class);
+
+                String senderRoom = userID + model.getUserID();
+                String receiverRoom = model.getUserID() + userID;
+
+                firestoreDB.collection(constant.getChats())
+                        .document(senderRoom)
+                        .collection(constant.getMessages())
+                        .limit(1)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().isEmpty()) {
+//                                        Create New Request
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        AlertlayoutrequestBinding alertlayoutrequestBinding = AlertlayoutrequestBinding.inflate(getLayoutInflater());
+                                        View alertView = alertlayoutrequestBinding.getRoot();
+                                        builder.setView(alertView);
+                                        builder.setTitle("Connect with " + model.getName())
+                                                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        if (!alertlayoutrequestBinding.input.getText().toString().isEmpty()) {
+                                                            String requestMesssage = alertlayoutrequestBinding.input.getText().toString().trim();
+                                                            RequestModel requestModel = new RequestModel(userID, requestMesssage, new Date().getTime());
+
+                                                            firestoreDB.collection(constant.getRequests())
+                                                                    .document(model.getUserID())
+                                                                    .collection(constant.getRequests())
+                                                                    .document(userID)
+                                                                    .set(requestModel)
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Toast.makeText(getContext(), "Request Sent", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+
+                                                        }
+                                                    }
+                                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        }).show();
+                                    } else {
+//                                    Chat already present
+                                        Intent intent = new Intent(getContext(), ChatDetailActivity.class);
+                                        intent.putExtra("receiverID", model.getUserID());
+                                        intent.putExtra("receiverName", model.getName());
+                                        intent.putExtra("receiverPhoto", model.getPhoto());
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                        });
             }
 
             @Override
@@ -128,8 +195,13 @@ public class EventPalFragment extends Fragment {
 
         });
         recyclerView.setAdapter(adapter);
+
+//        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
+
+
         return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

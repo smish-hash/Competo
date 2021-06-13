@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
+import com.StartupBBSR.competo.Models.ChatConnectionModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivitySignUpBinding;
@@ -35,6 +36,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -302,6 +304,9 @@ public class SignUpActivity extends AppCompatActivity {
         userInfo.put(constant.getUserInterestedChipsField(), null);
         userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
 
+//        Not sure if this would be useful
+        userInfo.put(constant.getLastMessage(), null);
+
 //        Now we check the role selected
         if (temp_flag == 0) {
             userInfo.put(constant.getUserisUserField(), "1");
@@ -311,15 +316,14 @@ public class SignUpActivity extends AppCompatActivity {
             userInfo.put(constant.getUserisUserField(), "0");
         }
 
-        documentReference.set(userInfo);
-//
-//        if (temp_flag == 0) {
-//            startActivity(new Intent(getApplicationContext(), com.StartupBBSR.competo.Activity.MainActivity.class));
-//            finish();
-//        } else {
-//            startActivity(new Intent(getApplicationContext(), OrganizerActivity.class));
-//            finish();
-//        }
+        documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+//                Update connection to null
+                CollectionReference connectionRef = firebaseDB.collection(constant.getChatConnections());
+                connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null));
+            }
+        });
 
         if (temp_flag == 0)
             Toast.makeText(this, "User Mode", Toast.LENGTH_SHORT).show();
@@ -366,6 +370,9 @@ public class SignUpActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserInterestedChipsField(), null);
                     userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
 
+//                    Not sure if this would be useful
+                    userInfo.put(constant.getLastMessage(), null);
+
 //                      Now we check the role selected from the switch
                     if (activitySignUpBinding.roleSwitch.isChecked()) {
                         userInfo.put(constant.getUserisUserField(), "1");
@@ -376,12 +383,18 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
 
-                    documentReference.set(userInfo); // add onsuccess or onfailure here for debugging
+                    documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+//                Update connection to null
+                            CollectionReference connectionRef = firebaseDB.collection(constant.getChatConnections());
+                            connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null));
+                        }
+                    });
 
 
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
-
 
                     activitySignUpBinding.signUpProgressLayout.setVisibility(View.GONE);
                 }
