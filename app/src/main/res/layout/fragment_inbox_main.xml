@@ -13,6 +13,8 @@
        android:layout_height="wrap_content"
        android:text="Message Requests"
        android:textSize="16sp"
+       android:layout_marginTop="@dimen/grid_2x"
+       android:layout_marginEnd="@dimen/grid_2x"
        android:textColor="@color/ui_light_blue"
        android:visibility="gone"
        app:layout_constraintTop_toTopOf="parent"
