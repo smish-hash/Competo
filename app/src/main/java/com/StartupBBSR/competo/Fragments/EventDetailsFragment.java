@@ -40,7 +40,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-
 public class EventDetailsFragment extends Fragment {
 
     private FragmentEventDetailsBinding binding;
@@ -100,14 +99,12 @@ public class EventDetailsFragment extends Fragment {
                 }
             }
         });
-
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         navController = Navigation.findNavController(view);
 
         eventModel = (EventModel) getArguments().getSerializable("eventDetails");

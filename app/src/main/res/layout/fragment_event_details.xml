@@ -9,6 +9,7 @@
     app:layoutDescription="@xml/fragment_event_details_scene"
     tools:context=".Fragments.EventDetailsFragment">
 
+
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
@@ -175,7 +176,6 @@
                 android:paddingEnd="@dimen/grid_2x"
                 android:paddingBottom="@dimen/grid_2x"
                 tools:listitem="@layout/interest_chip_item" />
-
 
         </LinearLayout>
     </ScrollView>

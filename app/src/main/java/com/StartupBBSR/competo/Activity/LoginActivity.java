@@ -322,6 +322,7 @@ public class LoginActivity extends AppCompatActivity {
                     userInfo.put(constant.getLastMessage(), document.getString(constant.getLastMessage()));
                     userInfo.put(constant.getUserMyEventField(), document.get(constant.getUserMyEventField()));
 
+
                 } else {
                     userInfo.put(constant.getUserNameField(), user.getDisplayName());
                     userInfo.put(constant.getUserEmailField(), user.getEmail());

@@ -2,7 +2,9 @@ package com.StartupBBSR.competo.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import android.os.Handler;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentFeedBinding;
+
 
 import javax.security.auth.callback.Callback;
 
@@ -28,17 +31,6 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    /*@Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Toast.makeText(context, "yeap", Toast.LENGTH_SHORT).show();
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
