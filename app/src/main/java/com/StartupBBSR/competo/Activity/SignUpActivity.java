@@ -303,6 +303,7 @@ public class SignUpActivity extends AppCompatActivity {
         userInfo.put(constant.getUserLinkedinField(), null);
         userInfo.put(constant.getUserInterestedChipsField(), null);
         userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
+        userInfo.put(constant.getUserMyEventField(), null);
 
 //        Not sure if this would be useful
         userInfo.put(constant.getLastMessage(), null);
@@ -369,6 +370,7 @@ public class SignUpActivity extends AppCompatActivity {
                     userInfo.put(constant.getUserLinkedinField(), null);
                     userInfo.put(constant.getUserInterestedChipsField(), null);
                     userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
+                    userInfo.put(constant.getUserMyEventField(), null);
 
 //                    Not sure if this would be useful
                     userInfo.put(constant.getLastMessage(), null);

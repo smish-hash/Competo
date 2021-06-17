@@ -18,11 +18,6 @@ public class FeedFragment extends Fragment {
 
     private FragmentFeedBinding binding;
 
-    private UserModel userModel;
-    private Constant constant;
-
-    public static final String TAG = "feedtest";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -12,6 +12,7 @@ public class Constant {
     String lastMessage = "LastMessage";
 
     String eventOrganizerID = "eventOrganizerID";
+    String eventIDField = "eventID";
 
     String userIdField = "UserID";
 
@@ -24,9 +25,9 @@ public class Constant {
     String userisUserField = "isUser";
     String userisOrganizerField = "isOrganizer";
     String userInterestedChipsField = "Chips";
+    String userMyEventField = "MyEvents";
 
     String userModelObject = "userModelObject";
-
 
 
     public String getUserInterestedChipsField() {
@@ -93,6 +94,10 @@ public class Constant {
         return eventOrganizerID;
     }
 
+    public String getEventIDField() {
+        return eventIDField;
+    }
+
     public String getMessageRequests() {
         return MessageRequests;
     }
@@ -115,5 +120,9 @@ public class Constant {
 
     public String getLastMessage() {
         return lastMessage;
+    }
+
+    public String getUserMyEventField() {
+        return userMyEventField;
     }
 }
