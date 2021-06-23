@@ -322,7 +322,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
 //                Update connection to null
                 CollectionReference connectionRef = firebaseDB.collection(constant.getChatConnections());
-                connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null));
+                connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null, null));
             }
         });
 
@@ -390,7 +390,7 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
 //                Update connection to null
                             CollectionReference connectionRef = firebaseDB.collection(constant.getChatConnections());
-                            connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null));
+                            connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null, null));
                         }
                     });
 

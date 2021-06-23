@@ -11,6 +11,11 @@ public class Constant {
     String Chats = "Chats", Messages = "Messages", Requests = "Requests", ChatConnections = "ChatConnections";
     String lastMessage = "LastMessage";
 
+    String Teams = "Teams", TeamNameField = "teamName", TeamImageField = "teamImage", TeamIDField = "teamID", TeamMemberField = "teamMembers";
+    String TeamPhotos = "TeamPhotos";
+    String TeamChats = "TeamChats", TeamMessages = "TeamMessages";
+    String TeamConnections = "TeamConnection";
+
     String eventOrganizerID = "eventOrganizerID";
     String eventIDField = "eventID";
 
@@ -126,4 +131,39 @@ public class Constant {
         return userMyEventField;
     }
 
+    public String getTeams() {
+        return Teams;
+    }
+
+    public String getTeamNameField() {
+        return TeamNameField;
+    }
+
+    public String getTeamImageField() {
+        return TeamImageField;
+    }
+
+    public String getTeamIDField() {
+        return TeamIDField;
+    }
+
+    public String getTeamMemberField() {
+        return TeamMemberField;
+    }
+
+    public String getTeamPhotos() {
+        return TeamPhotos;
+    }
+
+    public String getTeamChats() {
+        return TeamChats;
+    }
+
+    public String getTeamMessages() {
+        return TeamMessages;
+    }
+
+    public String getTeamConnections() {
+        return TeamConnections;
+    }
 }

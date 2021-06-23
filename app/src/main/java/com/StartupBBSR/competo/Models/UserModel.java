@@ -14,6 +14,8 @@ public class UserModel implements Serializable {
 
     private String lastMessage;
 
+    private Boolean selected;
+
     public UserModel() {
     }
 
@@ -126,5 +128,13 @@ public class UserModel implements Serializable {
 
     public void setUserEvents(List<String> userEvents) {
         this.userEvents = userEvents;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
+    }
+
+    public Boolean isSelected() {
+        return selected;
     }
 }
