@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.StartupBBSR.competo.Models.EventPalModel;
+import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.databinding.EventPalUserItemBinding;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -32,6 +33,20 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
 
     //    Listener Member Variable
     private OnItemClickListener listener;
+
+    public EventPalUserAdapter (FirestoreRecyclerOptions<UserModel> Options) {
+        super((FirestoreRecyclerOptions<EventPalModel>) getOptions(Options));
+        this.listener= listener;
+
+    }
+
+    private static Object getOptions(FirestoreRecyclerOptions<UserModel> Options) {
+        return Options;
+    }
+
+    public void updateOptions (FirestoreRecyclerOptions<EventPalModel> Options) {
+    }
+
 
     //    Listener Interface
     public interface OnItemClickListener {
