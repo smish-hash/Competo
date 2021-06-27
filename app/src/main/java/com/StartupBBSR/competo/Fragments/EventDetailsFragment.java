@@ -14,7 +14,6 @@ import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentEventDetailsBinding;
-import com.StartupBBSR.competo.databinding.FragmentHomeBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,19 +25,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager2.widget.ViewPager2;
 
 public class EventDetailsFragment extends Fragment {
 
@@ -51,6 +50,10 @@ public class EventDetailsFragment extends Fragment {
     private int eventPresentFlag = 0;
 
     private NavController navController;
+    int flag = 0;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy", Locale.US);
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("KK:mm a", Locale.US);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,15 @@ public class EventDetailsFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                navController.navigate(R.id.action_eventDetailsFragment_to_eventMainFragment);
+                if (flag == 0)
+                    navController.navigate(R.id.action_eventDetailsFragment_to_eventMainFragment);
+                else if (flag == 1) {
+                    navController.navigate(R.id.action_eventDetailsFragment2_to_profileMainFragment);
+                } else if (flag == 2){
+                    navController.navigate(R.id.action_eventDetailsFragment3_to_findMainFragment);
+                } else {
+                    navController.navigate(R.id.action_eventDetailsFragment4_to_feedMainFragment);
+                }
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -78,8 +89,10 @@ public class EventDetailsFragment extends Fragment {
         constant = new Constant();
 
         EventModel model = (EventModel) getArguments().getSerializable("eventDetails");
+
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection(constant.getUsers())
                 .document(FirebaseAuth.getInstance().getUid());
+
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -105,17 +118,35 @@ public class EventDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(view);
+
+        String from = getArguments().getString("from");
+
+        if (from.equals("event")) {
+//            Coming from event
+            flag = 0;
+            navController = Navigation.findNavController(view);
+        } else if (from.equals("myevent")) {
+//            Coming from my event section
+            flag = 1;
+            navController = Navigation.findNavController(getActivity(), R.id.fragment_profile);
+        } else if (from.equals("find")){
+//            Coming from find section
+            flag = 2;
+            navController = Navigation.findNavController(getActivity(), R.id.find_fragment);
+        } else {
+//            Coming from feed
+            flag = 3;
+            navController = Navigation.findNavController(getActivity(), R.id.fragment_feed);
+        }
 
         eventModel = (EventModel) getArguments().getSerializable("eventDetails");
 
         binding.tvEventTitle.setText(eventModel.getEventTitle());
         binding.tvEventDescription.setText(eventModel.getEventDescription());
-        binding.tvEventDate.setText(eventModel.getEventDate());
         binding.tvEventVenue.setText(eventModel.getEventVenue());
-        binding.tvEventTime.setText(eventModel.getEventTime());
+        binding.tvEventDate.setText(dateFormat.format(new Date(Long.parseLong(eventModel.getEventDateStamp().toString()))));
+        binding.tvEventTime.setText(timeFormat.format(new Date(Long.parseLong(eventModel.getEventTimeStamp().toString()))));
         Glide.with(getContext()).load(eventModel.getEventPoster()).into(binding.ivImage);
-
 
         initTagSet();
         initTagRecycler();
@@ -147,7 +178,7 @@ public class EventDetailsFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getContext(), "Event Added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Event added to wishlist", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {
@@ -158,13 +189,12 @@ public class EventDetailsFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getContext(), "Event Removed", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Event removed from wishlist", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
             }
         });
-
     }
 
     private void initTagSet() {

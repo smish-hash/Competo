@@ -39,7 +39,7 @@ public class ProfileMainFragment extends Fragment {
 
     private FragmentProfileMainBinding binding;
     // tab titles
-    private String[] profileTabTitles = new String[]{"About", "Wishlist", "Interests", "Updates"};
+    private String[] profileTabTitles = new String[]{"About", "Wishlist", "Updates"};
 
     private List<String> mDataSet;
 
@@ -195,8 +195,6 @@ public class ProfileMainFragment extends Fragment {
                 case 1:
                     return new ProfileMyeventsFragment();
                 case 2:
-                    return new ProfileInterestsFragment();
-                case 3:
                     return new ProfileUpdatesFragment();
             }
             return new ProfileAboutFragment();
