@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -103,7 +105,7 @@ public class EventDetailsFragment extends Fragment {
                         if (myEvents != null) {
                             for (String event : myEvents) {
                                 if (event.equals(model.getEventID())) {
-                                    binding.btnAddToMyEvents.setText("Remove from my events");
+                                    binding.btnAddToMyEvents.setText("Remove from wishlist");
                                     eventPresentFlag = 1;
                                 }
                             }
@@ -164,6 +166,21 @@ public class EventDetailsFragment extends Fragment {
         binding.btnEventFindPal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (flag == 0) {
+                    EventFragment eventFragment = (EventFragment) navHostFragment.getParentFragment();
+                    eventFragment.onFindTeamMate();
+                } else if (flag == 1) {
+                    ProfileFragment profileFragment = (ProfileFragment) navHostFragment.getParentFragment();
+                    profileFragment.findTeamMate();
+                } else if (flag == 2) {
+                    FindFragment findFragment = (FindFragment) navHostFragment.getParentFragment();
+                    findFragment.findTeamMate();
+                } else if (flag == 3) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    feedFragment.findTeamMate();
+                }
+
             }
         });
 
@@ -179,6 +196,7 @@ public class EventDetailsFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getContext(), "Event added to wishlist", Toast.LENGTH_SHORT).show();
+                                    binding.btnAddToMyEvents.setText("Remove from wishlist");
                                 }
                             });
                 } else {
@@ -190,6 +208,7 @@ public class EventDetailsFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getContext(), "Event removed from wishlist", Toast.LENGTH_SHORT).show();
+                                    binding.btnAddToMyEvents.setText("Add to wishlist");
                                 }
                             });
                 }

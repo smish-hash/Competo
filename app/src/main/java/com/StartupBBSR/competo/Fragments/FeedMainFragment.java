@@ -11,6 +11,7 @@ import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentFeedMainBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,9 +22,14 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
+import androidx.viewpager2.widget.ViewPager2;
 
 
 public class FeedMainFragment extends Fragment {
@@ -55,6 +61,15 @@ public class FeedMainFragment extends Fragment {
 
         initData();
 
+        binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                feedFragment.onClickViewAllEvents();
+            }
+        });
+
         return view;
     }
 
@@ -71,6 +86,7 @@ public class FeedMainFragment extends Fragment {
     }
 
     private void initRecycler() {
+
         binding.unpcomingEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.unpcomingEventsRecyclerView.setHasFixedSize(true);
         adapter = new EventFragmentAdapter(getContext(), options);
