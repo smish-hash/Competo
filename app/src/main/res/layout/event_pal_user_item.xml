@@ -82,7 +82,8 @@
                     android:layout_marginEnd="@dimen/grid_3x"
                     android:layout_marginBottom="8dp"
                     android:ellipsize="end"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:maxLines="1"
                     android:text="Satyajit Mishra"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -94,7 +95,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventPal_UserSkillRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="96dp"
                     android:layout_marginStart="@dimen/grid_3x"
                     android:layout_marginEnd="@dimen/grid_3x"
                     android:layout_marginBottom="8dp"

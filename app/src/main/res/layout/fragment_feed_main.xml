@@ -29,7 +29,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cvPoster"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_marginStart="@dimen/grid_4x"
             android:layout_marginTop="@dimen/grid_3x"
             android:layout_marginEnd="@dimen/grid_4x"
@@ -47,7 +47,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
+<!--        <TextView
             android:id="@+id/tvFeatured"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -71,11 +71,7 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFeatured" >
-
-
-
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toBottomOf="@+id/tvFeatured"/>-->
 
         <TextView
             android:id="@+id/tvUpcomingEvents"
@@ -85,11 +81,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/grid_4x"
+            android:layout_marginTop="56dp"
             android:layout_marginStart="@dimen/grid_4x"
             android:fontFamily="sans-serif"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvFeatured" />
+            app:layout_constraintTop_toBottomOf="@+id/cvPoster" />
 
         <TextView
             android:id="@+id/tvViewAllUpcomingEvents"
