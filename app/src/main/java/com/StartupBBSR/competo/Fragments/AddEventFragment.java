@@ -436,6 +436,7 @@ public class AddEventFragment extends Fragment {
         String venue = binding.VenueET.getText().toString();
         String link = binding.linkET.getText().toString();
         List<String> eventTags = new ArrayList<>();
+
         Long dateStamp, timeStamp;
 
         if (eventDateStamp != null && eventTimeStamp != null) {
@@ -488,6 +489,7 @@ public class AddEventFragment extends Fragment {
 
         if (statusFlag == 0) {
 //            Save as draft
+
             EventModel eventModel = new EventModel(image, title, description, venue, dateStamp, timeStamp, link, eventTags, organizerID, draftEventid);
 
             eventDraftCollectionReference.document(draftEventid).set(eventModel)

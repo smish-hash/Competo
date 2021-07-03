@@ -41,6 +41,7 @@ public class FindUserAdapter extends FirestoreRecyclerAdapter<EventPalModel, Fin
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull EventPalModel model) {
         holder.name.setText(model.getName());
+
         if (model.getPhoto() != null)
             Glide.with(context).load(model.getPhoto()).into(holder.image);
         else

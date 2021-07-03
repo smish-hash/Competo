@@ -7,6 +7,7 @@
     android:background="@color/main_background"
     tools:context=".Fragments.FindMainFragment">
 
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/findSearch"
         android:layout_width="0dp"

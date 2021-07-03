@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.StartupBBSR.competo.Activity.ChatDetailActivity;
@@ -51,9 +52,6 @@ public class EventPalFragment extends Fragment {
     public static final String TAG = "sheet";
 
     private FragmentEventPalBinding binding;
-
-    //    For Skill sets
-    private List<String> mSkillDataSet;
 
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
@@ -137,7 +135,6 @@ public class EventPalFragment extends Fragment {
 
         adapter = new EventPalUserAdapter(getContext(), options);
         adapter.setOnItemClickListener(new EventPalUserAdapter.OnItemClickListener() {
-
             @Override
             public void onButtonClick(DocumentSnapshot snapshot) {
                 EventPalModel model = snapshot.toObject(EventPalModel.class);
