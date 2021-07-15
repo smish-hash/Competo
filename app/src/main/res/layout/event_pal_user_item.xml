@@ -7,7 +7,7 @@
     android:background="?selectableItemBackground"
     android:foreground="?selectableItemBackground"
     app:cardBackgroundColor="@color/text_gray"
-    app:cardCornerRadius="30dp"
+    app:cardCornerRadius="20dp"
     app:cardUseCompatPadding="true">
 
     <ImageView
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSendMessage"
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="wrap_content"
@@ -41,17 +41,17 @@
                     android:background="@drawable/eventpal_button_round"
                     android:text="Message Request"
                     android:textAllCaps="false"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/btnBottomSheet"
-                    android:layout_width="56dp"
+                    android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginBottom="8dp"
                     android:contentDescription="User Profile"
-                    android:paddingTop="@dimen/grid_1x"
                     android:src="@drawable/ic_upperarrow"
                     app:layout_constraintBottom_toTopOf="@+id/tvEventPalUserName"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -84,8 +84,7 @@
                     android:layout_marginEnd="@dimen/grid_3x"
                     android:layout_marginBottom="8dp"
                     android:ellipsize="end"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/palanquin_semibold"
                     android:maxLines="1"
                     android:text="Satyajit Mishra"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -107,7 +106,6 @@
                     tools:listitem="@layout/interest_chip_item" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </FrameLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
