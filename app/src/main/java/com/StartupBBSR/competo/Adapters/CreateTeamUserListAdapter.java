@@ -41,7 +41,8 @@ public class CreateTeamUserListAdapter extends FirestoreRecyclerAdapter<EventPal
         else
             Glide.with(context).load(R.drawable.ic_baseline_person_24).into(holder.image);
 
-        model.setSelected(false);
+//        model.setSelected(false);
+        holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(model.isSelected());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

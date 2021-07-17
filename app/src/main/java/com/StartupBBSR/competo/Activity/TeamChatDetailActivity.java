@@ -1,9 +1,11 @@
 package com.StartupBBSR.competo.Activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.StartupBBSR.competo.Adapters.TeamChatAdapter;
+import com.StartupBBSR.competo.Fragments.AddTeamBottomSheetDialog;
+import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.TeamMessageModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -31,6 +35,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +47,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TeamChatDetailActivity extends AppCompatActivity {
+public class TeamChatDetailActivity extends AppCompatActivity implements AddTeamBottomSheetDialog.AddMemberBottomSheetListener {
 
     private ActivityTeamChatDetailBinding binding;
 
@@ -59,10 +65,14 @@ public class TeamChatDetailActivity extends AppCompatActivity {
     private TeamChatAdapter adapter;
 
     private CollectionReference collectionReference;
+    private DocumentReference teamReference;
 
     private List<String> memberNameList = new ArrayList<>();
     private ArrayAdapter<String> memberNameListAdapter;
     private ListView memberNameListView;
+
+
+    private AddTeamBottomSheetDialog addTeamBottomSheetDialog;
 
     public static final String TAG = "teamChat";
 
@@ -91,6 +101,8 @@ public class TeamChatDetailActivity extends AppCompatActivity {
                 .document(teamID)
                 .collection(constant.getTeamMessages());
 
+        teamReference = firestoreDB.collection(constant.getTeams()).document(teamID);
+
         DocumentReference documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -117,6 +129,7 @@ public class TeamChatDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +175,7 @@ public class TeamChatDetailActivity extends AppCompatActivity {
                         return true;
 
                     case 1:
-                        Toast.makeText(TeamChatDetailActivity.this, "Add", Toast.LENGTH_SHORT).show();
+                        addMembers();
                         return true;
                     default:
                         return false;
@@ -174,6 +187,7 @@ public class TeamChatDetailActivity extends AppCompatActivity {
         initRecyclerview();
         getMembers();
     }
+
 
     private void initData() {
         Query query = collectionReference.orderBy("timestamp");
@@ -225,6 +239,10 @@ public class TeamChatDetailActivity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                ProgressDialog dialog = new ProgressDialog(TeamChatDetailActivity.this);
+                dialog.setMessage("Exiting...");
+                dialog.show();
+
                 DocumentReference connectionRef = firestoreDB.collection(constant.getChatConnections()).document(userID);
 
                 connectionRef.update(constant.getTeamConnections(), FieldValue.arrayRemove(teamID))
@@ -237,6 +255,7 @@ public class TeamChatDetailActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Toast.makeText(TeamChatDetailActivity.this, "Exit Successful", Toast.LENGTH_SHORT).show();
+                                                dialog.dismiss();
                                                 finish();
                                             }
                                         });
@@ -244,6 +263,7 @@ public class TeamChatDetailActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
                         Toast.makeText(TeamChatDetailActivity.this, "Exit Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -254,8 +274,29 @@ public class TeamChatDetailActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         }).show();
+    }
 
+    private void addMembers() {
+        ProgressDialog dialog = new ProgressDialog(TeamChatDetailActivity.this);
+        dialog.setMessage("Loading");
+        dialog.show();
+        firestoreDB.collection(constant.getTeams()).document(teamID)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot = task.getResult();
+                List<String> membersIDs = (List<String>) snapshot.get("teamMembers");
+                Log.d(TAG, "onComplete: " + membersIDs);
+                dialog.dismiss();
+                if (membersIDs.size() < 6) {
+                    addTeamBottomSheetDialog = new AddTeamBottomSheetDialog(TeamChatDetailActivity.this, membersIDs);
+                    addTeamBottomSheetDialog.show(getSupportFragmentManager(), "AddMemberBottomSheet");
+                } else {
+                    Toast.makeText(TeamChatDetailActivity.this, "Cannot add more members", Toast.LENGTH_SHORT).show();
+                }
 
+            }
+        });
     }
 
     @Override
@@ -271,6 +312,18 @@ public class TeamChatDetailActivity extends AppCompatActivity {
         super.onStop();
         if (adapter != null) {
             adapter.stopListening();
+        }
+    }
+
+    @Override
+    public void onAddMembersButtonClicked(List<EventPalModel> selectedMembers) {
+        CollectionReference teamCollectionRef = firestoreDB.collection(constant.getChatConnections());
+        for (EventPalModel model: selectedMembers){
+//            Updating team members list
+            teamReference.update("teamMembers", FieldValue.arrayUnion(model.getUserID()));
+//            Updating chat connection
+            teamCollectionRef.document(model.getUserID()).update(constant.getTeamConnections(), FieldValue.arrayUnion(teamID));
+            Toast.makeText(TeamChatDetailActivity.this, "Team Updated", Toast.LENGTH_SHORT).show();
         }
     }
 }

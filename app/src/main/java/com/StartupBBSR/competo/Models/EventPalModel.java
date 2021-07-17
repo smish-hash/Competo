@@ -10,7 +10,7 @@ public class EventPalModel implements Serializable {
     private List<String> Chips;
     private String UserID;
     private String lastMessage;
-    private boolean selected;
+    private boolean selected = false;
 
     public EventPalModel() {
     }
