@@ -124,10 +124,20 @@ public class ChatDetailActivity extends AppCompatActivity {
 
     private void initRecyclerview() {
         RecyclerView chatRecyclerView = binding.chatRecyclerView;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        chatRecyclerView.setHasFixedSize(true);
+//        chatRecyclerView.setHasFixedSize(true);
         chatAdapter = new ChatAdapter(options, this);
         chatRecyclerView.setAdapter(chatAdapter);
+
+        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                // TODO: 7/18/2021 implement something here?
+            }
+        });
     }
 
     @Override
