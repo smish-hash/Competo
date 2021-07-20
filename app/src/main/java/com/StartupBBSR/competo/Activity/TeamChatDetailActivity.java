@@ -39,7 +39,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -134,6 +136,30 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                DocumentReference docRef2 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
+                docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                int value = Integer.parseInt(document.getString("messagenumber"));
+
+                                value++;
+
+                                Map<String, Object> city = new HashMap<>();
+
+                                city.put("messagenumber", String.valueOf(value));
+
+                                DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
+                                docRef3.set(city);
+                            }
+                        }
+                    }
+                });
+
                 if (!binding.etMessage.getText().toString().equals("")) {
 
                     String message = binding.etMessage.getText().toString().trim();

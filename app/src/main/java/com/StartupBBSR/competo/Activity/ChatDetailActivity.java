@@ -2,6 +2,7 @@ package com.StartupBBSR.competo.Activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.StartupBBSR.competo.Adapters.ChatAdapter;
@@ -11,15 +12,21 @@ import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivityChatDetailBinding;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,8 +84,35 @@ public class ChatDetailActivity extends AppCompatActivity {
                 .collection(constant.getMessages());
 
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
+
+
+
             @Override
             public void onClick(View view) {
+
+                DocumentReference docRef2 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
+                docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                int value = Integer.parseInt(document.getString("messagenumber"));
+
+                                value++;
+
+                                Map<String, Object> city = new HashMap<>();
+
+                                city.put("messagenumber", String.valueOf(value));
+
+                                DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
+                                docRef3.set(city);
+                            }
+                        }
+                    }
+                });
+
                 if (!binding.etMessage.getText().toString().equals("")) {
                     String message = binding.etMessage.getText().toString().trim();
                     messageModel = new MessageModel(senderID, message);
@@ -107,6 +141,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                             });
                 }
             }
+
         });
 
 

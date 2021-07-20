@@ -87,4 +87,10 @@ dependencies {
 //Firebase cloud messaging
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
+//firebase firestore kotlin
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+//authorisation kotlin
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
 }
