@@ -107,13 +107,13 @@ public class OnboardingActivity extends AppCompatActivity {
 
                 switch (tab.getPosition()) {
                     case 0:
-                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_blue));
+                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.main_background));
                         break;
                     case 1:
-                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_pink));
+                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.main_background));
                         break;
                     case 2:
-                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_green));
+                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.main_background));
                         break;
                 }
             }
