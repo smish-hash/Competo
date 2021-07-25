@@ -25,7 +25,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>si
         </activity>
         <activity android:name=".Activity.MainActivity" />
 
@@ -44,7 +44,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".alarmmanager.alarmmanager"/>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
