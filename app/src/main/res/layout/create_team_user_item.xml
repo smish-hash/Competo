@@ -12,6 +12,7 @@
         android:backgroundTint="@color/faded_light_blue"
         app:cardCornerRadius="15dp"
         app:cardElevation="5dp"
+        android:outlineProvider="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

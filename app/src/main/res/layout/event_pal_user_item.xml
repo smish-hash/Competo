@@ -42,6 +42,8 @@
                     android:text="Message Request"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
+                    android:elevation="0dp"
+                    android:outlineProvider="none"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

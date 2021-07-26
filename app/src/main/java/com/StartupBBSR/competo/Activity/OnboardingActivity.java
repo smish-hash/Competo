@@ -105,7 +105,7 @@ public class OnboardingActivity extends AppCompatActivity {
                     binding.btnOnboardingGetstarted.setAnimation(getstartedbtnAnim);
                 }
 
-                switch (tab.getPosition()) {
+                /*switch (tab.getPosition()) {
                     case 0:
                         binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_blue));
                         break;
@@ -115,7 +115,7 @@ public class OnboardingActivity extends AppCompatActivity {
                     case 2:
                         binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_green));
                         break;
-                }
+                }*/
             }
 
             @Override

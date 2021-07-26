@@ -36,7 +36,7 @@
     <ConstraintSet android:id="@+id/end">
         <Constraint
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="350dp"
+            android:layout_width="330dp"
             android:layout_height="350dp"
             android:layout_marginEnd="@dimen/grid_3x"
             android:layout_marginStart="@dimen/grid_3x"
@@ -47,7 +47,7 @@
         <Constraint
             android:id="@+id/cardView3"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="350dp"
+            android:layout_width="360dp"
             android:layout_height="150dp"
             android:layout_marginEnd="@dimen/grid_3x"
             android:layout_marginStart="@dimen/grid_3x"
