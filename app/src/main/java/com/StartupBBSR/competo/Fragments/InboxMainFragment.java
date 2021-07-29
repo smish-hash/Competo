@@ -105,8 +105,11 @@ public class InboxMainFragment extends Fragment {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     chatUsers = (List<String>) documentSnapshot.get("Connections");
                     Log.d(TAG, "onComplete: " + chatUsers);
+
                     if (chatUsers != null){
                         initData();
+                    } else {
+                        Toast.makeText(getContext(), "No messages", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -129,6 +132,8 @@ public class InboxMainFragment extends Fragment {
                             binding.inboxRefreshLayout.setRefreshing(false);
                             if (chatUsers != null){
                                 initData();
+                            } else {
+                                Toast.makeText(getContext(), "No Messages", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -159,7 +164,8 @@ public class InboxMainFragment extends Fragment {
                             for (DocumentSnapshot document : task.getResult()) {
                                 count++;
                             }
-                            if (count!=0){
+
+                            if (count != 0){
                                 binding.tvMessageRequest.setText(count + " Message Request(s)");
                                 binding.tvMessageRequest.setVisibility(View.VISIBLE);
                             } else {

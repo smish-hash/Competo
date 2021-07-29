@@ -63,6 +63,7 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         binding = TeamAddMemberBottomsheetLayoutBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
@@ -129,7 +130,7 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 }

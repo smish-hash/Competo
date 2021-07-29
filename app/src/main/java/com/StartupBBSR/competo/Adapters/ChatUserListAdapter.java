@@ -18,12 +18,16 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,8 +37,8 @@ public class ChatUserListAdapter extends FirestoreRecyclerAdapter<EventPalModel,
 
     private InboxItemBinding binding;
     private Context context;
-    private DocumentReference documentReference;
     private Constant constants = new Constant();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yy KK:mm a", Locale.US);
 
     public ChatUserListAdapter(@NonNull FirestoreRecyclerOptions<EventPalModel> options, Context context) {
         super(options);
@@ -44,18 +48,22 @@ public class ChatUserListAdapter extends FirestoreRecyclerAdapter<EventPalModel,
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull EventPalModel model) {
         holder.name.setText(model.getName());
-        // TODO: 6/7/2021 implement last message
-        if (model.getPhoto() != null)
-            Glide.with(context).load(Uri.parse(model.getPhoto())).into(holder.image);
-        else
-            Glide.with(context).load(R.drawable.ic_baseline_person_24).into(holder.image);
 
+        if (model.getPhoto() != null) {
+            Glide.with(context).load(Uri.parse(model.getPhoto())).into(holder.image);
+        } else {
+            Glide.with(context).load(R.drawable.ic_baseline_person_24).into(holder.image);
+        }
+
+//        TODO: 6/7/2021 implement last message
 //        Showing last message
         FirebaseFirestore.getInstance().collection(constants.getChats())
-                .document(FirebaseAuth.getInstance().getUid() + model.getUserID())
+                .document(FirebaseAuth.getInstance().getUid())
                 .collection(constants.getMessages())
-                .orderBy("timestamp")
-                .limitToLast(1)
+                .document(model.getUserID())
+                .collection(constants.getMessages())
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(1)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -65,6 +73,8 @@ public class ChatUserListAdapter extends FirestoreRecyclerAdapter<EventPalModel,
 
                         for (QueryDocumentSnapshot queryDocumentSnapshot : value) {
                             holder.lastMessage.setText(queryDocumentSnapshot.getString("message"));
+                            holder.lastMessageTime.setText(simpleDateFormat
+                                    .format(new Date(Long.parseLong(queryDocumentSnapshot.get("timestamp").toString()))));
                         }
                     }
                 });
@@ -92,7 +102,7 @@ public class ChatUserListAdapter extends FirestoreRecyclerAdapter<EventPalModel,
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image;
-        private TextView name, lastMessage;
+        private TextView name, lastMessage, lastMessageTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +110,7 @@ public class ChatUserListAdapter extends FirestoreRecyclerAdapter<EventPalModel,
             name = binding.tvConveUsername;
             lastMessage = binding.tvConveLastMsg;
             image = binding.ivConveProfile;
+            lastMessageTime = binding.tvUserLastMessageTime;
         }
     }
 }

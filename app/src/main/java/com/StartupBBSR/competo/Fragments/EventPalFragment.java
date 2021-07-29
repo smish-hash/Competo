@@ -33,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 import java.util.List;
 
@@ -139,63 +141,31 @@ public class EventPalFragment extends Fragment {
             public void onButtonClick(DocumentSnapshot snapshot) {
                 EventPalModel model = snapshot.toObject(EventPalModel.class);
 
-                String senderRoom = userID + model.getUserID();
-                String receiverRoom = model.getUserID() + userID;
-
-                firestoreDB.collection(constant.getChats())
-                        .document(senderRoom)
-                        .collection(constant.getMessages())
-                        .limit(1)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (task.getResult().isEmpty()) {
-//                                        Create New Request
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                        AlertlayoutrequestBinding alertlayoutrequestBinding = AlertlayoutrequestBinding.inflate(getLayoutInflater());
-                                        View alertView = alertlayoutrequestBinding.getRoot();
-                                        builder.setView(alertView);
-                                        builder.setTitle("Connect with " + model.getName())
-                                                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        if (!alertlayoutrequestBinding.input.getText().toString().isEmpty()) {
-                                                            String requestMesssage = alertlayoutrequestBinding.input.getText().toString().trim();
-                                                            RequestModel requestModel = new RequestModel(userID, requestMesssage, new Date().getTime());
-
-                                                            firestoreDB.collection(constant.getRequests())
-                                                                    .document(model.getUserID())
-                                                                    .collection(constant.getRequests())
-                                                                    .document(userID)
-                                                                    .set(requestModel)
-                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                        @Override
-                                                                        public void onSuccess(Void aVoid) {
-                                                                            Toast.makeText(getContext(), "Request Sent", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-
-                                                        }
-                                                    }
-                                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                            }
-                                        }).show();
-                                    } else {
+                firestoreDB.collection(constant.getChatConnections()).document(userID)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot connectionListSnapshot = task.getResult();
+                            List<String> connectionList = (List<String>) connectionListSnapshot.get("Connections");
+                            if (connectionList != null) {
+                                if (!connectionList.contains(model.getUserID())) {
+//                                    Create new request
+                                    showCreateRequestDialog(model);
+                                } else {
 //                                    Chat already present
-                                        Intent intent = new Intent(getContext(), ChatDetailActivity.class);
-                                        intent.putExtra("receiverID", model.getUserID());
-                                        intent.putExtra("receiverName", model.getName());
-                                        intent.putExtra("receiverPhoto", model.getPhoto());
-                                        startActivity(intent);
-                                    }
+                                    Intent intent = new Intent(getContext(), ChatDetailActivity.class);
+                                    intent.putExtra("receiverID", model.getUserID());
+                                    intent.putExtra("receiverName", model.getName());
+                                    intent.putExtra("receiverPhoto", model.getPhoto());
+                                    startActivity(intent);
                                 }
+                            } else {
+                                showCreateRequestDialog(model);
                             }
-                        });
+                        }
+                    }
+                });
             }
 
             @Override
@@ -221,11 +191,48 @@ public class EventPalFragment extends Fragment {
 
                 }
             }
-
         });
+
         recyclerView.setAdapter(adapter);
 //        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
         return view;
+    }
+
+    private void showCreateRequestDialog(EventPalModel model) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertlayoutrequestBinding alertlayoutrequestBinding = AlertlayoutrequestBinding.inflate(getLayoutInflater());
+        View alertView = alertlayoutrequestBinding.getRoot();
+        builder.setView(alertView);
+        builder.setTitle("Connect with " + model.getName())
+                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if (!alertlayoutrequestBinding.input.getText().toString().isEmpty()) {
+
+                            String requestMesssage = alertlayoutrequestBinding.input.getText().toString().trim();
+                            RequestModel requestModel = new RequestModel(userID, requestMesssage, new Date().getTime());
+
+                            firestoreDB.collection(constant.getRequests())
+                                    .document(model.getUserID())
+                                    .collection(constant.getRequests())
+                                    .document(userID)
+                                    .set(requestModel)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(getContext(), "Request Sent", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).show();
     }
 
 

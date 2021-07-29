@@ -6,8 +6,7 @@
     android:layout_margin="@dimen/grid_2x"
     android:background="@drawable/receiver_text_bg"
     android:maxWidth="300dp"
-    android:maxHeight="350dp"
-    android:minHeight="30dp"
+    android:minHeight="40dp"
     android:padding="@dimen/grid_1x">
 
     <TextView
@@ -17,8 +16,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:text="Sender Name"
-        android:fontFamily="sans-serif-medium"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +29,7 @@
         android:layout_marginEnd="@dimen/grid_1x"
         android:layout_marginBottom="@dimen/grid_1x"
         android:autoLink="all"
+        android:textColor="@color/text_dark_gray"
         android:inputType="textNoSuggestions|textMultiLine|textLongMessage|textAutoCorrect|textAutoComplete|textCapSentences"
         android:maxWidth="270dp"
         android:minWidth="50dp"
@@ -41,14 +40,15 @@
 
     <TextView
         android:id="@+id/tv_receiver_text_time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/grid_1x"
         android:fontFamily="sans-serif-condensed"
         android:text="12:36 PM"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

@@ -40,7 +40,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.SearchView
+                <!--<androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -54,7 +54,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivTeamImage"
                     app:queryBackground="@color/faded_light_blue"
-                    app:queryHint="Search" />
+                    app:queryHint="Search" />-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/createTeamRecyclerView"
@@ -66,7 +66,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchView"
+                    app:layout_constraintTop_toBottomOf="@+id/TILTeamName"
                     tools:listitem="@layout/create_team_user_item" />
 
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

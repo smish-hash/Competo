@@ -42,8 +42,9 @@ public class MessageRequestFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestoreDB;
+    private String userID;
 
-    private CollectionReference collectionReference;
+    private CollectionReference collectionReference, connectionRef;
 
     private MessageRequestAdapter adapter;
     private FirestoreRecyclerOptions<RequestModel> options;
@@ -70,12 +71,15 @@ public class MessageRequestFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
+        userID = firebaseAuth.getUid();
 
         constant = new Constant();
 
         collectionReference = firestoreDB.collection(constant.getRequests())
-                .document(firebaseAuth.getUid())
+                .document(userID)
                 .collection(constant.getRequests());
+
+        connectionRef = firestoreDB.collection(constant.getChatConnections());
 
         binding.requestLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,20 +117,24 @@ public class MessageRequestFragment extends Fragment {
                 String senderID = requestModel.getSenderID();
                 Long timestamp = requestModel.getTimestamp();
 
-                MessageModel messageModel = new MessageModel(senderID, message, timestamp);
+                MessageModel messageModel = new MessageModel(senderID, userID, message, timestamp);
+                messageModel.setSeen(false);
 
-                String senderRoom = senderID + firebaseAuth.getUid();
-                String receiverRoom = firebaseAuth.getUid() + senderID;
+                binding.progressBar.setVisibility(View.VISIBLE);
 
                 firestoreDB.collection(constant.getChats())
-                        .document(senderRoom)
+                        .document(userID)
+                        .collection(constant.getMessages())
+                        .document(senderID)
                         .collection(constant.getMessages())
                         .add(messageModel)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 firestoreDB.collection(constant.getChats())
-                                        .document(receiverRoom)
+                                        .document(senderID)
+                                        .collection(constant.getMessages())
+                                        .document(userID)
                                         .collection(constant.getMessages())
                                         .add(messageModel)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -134,9 +142,7 @@ public class MessageRequestFragment extends Fragment {
                                             public void onSuccess(DocumentReference documentReference) {
 
 //                                                Update Connection
-
-                                                CollectionReference connectionRef = firestoreDB.collection(constant.getChatConnections());
-                                                connectionRef.document(firebaseAuth.getUid())
+                                                connectionRef.document(userID)
                                                         .update("Connections", FieldValue.arrayUnion(senderID))
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
@@ -146,7 +152,9 @@ public class MessageRequestFragment extends Fragment {
                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                             @Override
                                                                             public void onSuccess(Void aVoid) {
-
+                                                                                snapshot.getReference().delete();
+                                                                                Toast.makeText(getContext(), "Request moved to Inbox", Toast.LENGTH_SHORT).show();
+                                                                                binding.progressBar.setVisibility(View.GONE);
                                                                             }
                                                                         });
                                                             }
@@ -154,13 +162,7 @@ public class MessageRequestFragment extends Fragment {
                                             }
                                         });
                             }
-                        }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        snapshot.getReference().delete();
-                        Toast.makeText(getContext(), "Request moved to inbox", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        });
 
             }
 

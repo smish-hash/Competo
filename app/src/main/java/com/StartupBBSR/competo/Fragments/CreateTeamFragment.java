@@ -176,7 +176,7 @@ public class CreateTeamFragment extends Fragment {
         });
 
 
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        /*binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -187,7 +187,7 @@ public class CreateTeamFragment extends Fragment {
                 search(newText);
                 return false;
             }
-        });
+        });*/
 
         return view;
     }
@@ -334,7 +334,7 @@ public class CreateTeamFragment extends Fragment {
     }
 
 
-    private void search(String newText) {
+    /*private void search(String newText) {
         Query teamUserSearchQuery = collectionReference.orderBy(constant.getUserNameField())
                 .whereGreaterThanOrEqualTo(constant.getUserNameField(), newText);
 
@@ -343,7 +343,7 @@ public class CreateTeamFragment extends Fragment {
                 .build();
 
         initRecyclerView();
-    }
+    }*/
 
     private void pickImage() {
         Intent intent = new Intent();

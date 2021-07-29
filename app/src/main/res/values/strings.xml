@@ -8,6 +8,7 @@
 
     <string name="inbox">Inbox</string>
     <string name="event_pal">Event Pal</string>
+    <string name="team_finder">Team Finder</string>
     <string name="events">Events</string>
     <string name="feed">Feed</string>
     <string name="user_activity">User Activity</string>

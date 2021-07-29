@@ -20,20 +20,37 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="16dp">
 
             <TextView
                 android:id="@+id/chat_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/grid_1x"
                 android:fontFamily="sans-serif-medium"
                 android:text="Name"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/chat_user_status"
                 app:layout_constraintStart_toEndOf="@+id/chat_user_image"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/chat_user_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginBottom="@dimen/grid_1x"
+                android:fontFamily="sans-serif-medium"
+                android:text="Online"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/chat_user_image"
+                app:layout_constraintTop_toBottomOf="@+id/chat_user_name" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/chat_user_image"
@@ -64,8 +81,9 @@
         <EditText
             android:id="@+id/et_message"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="@dimen/grid_1x"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2x"
+            android:maxLength="300"
             android:background="@drawable/rounded_tv_background"
             android:ems="10"
             android:hint="Enter Message"
@@ -95,6 +113,7 @@
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scrollbars="vertical"
         android:layout_marginStart="@dimen/grid_1x"
         android:layout_marginTop="@dimen/grid_2x"
         android:layout_marginEnd="@dimen/grid_1x"

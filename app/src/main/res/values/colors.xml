@@ -30,6 +30,7 @@
     <color name="ui_light_blue">#33B5E5</color>
     <color name="ui_blue">#007BFF</color>
     <color name="text_gray">#90999e</color>
+    <color name="text_dark_gray">#474545</color>
 
 
     <color name="main_accent_1">#264757</color>

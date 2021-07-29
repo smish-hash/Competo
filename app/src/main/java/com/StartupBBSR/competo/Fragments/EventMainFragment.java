@@ -1,10 +1,13 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
@@ -28,6 +31,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class EventMainFragment extends Fragment implements EventFilterBottomSheetDialog.BottomSheetListener {
 
@@ -125,12 +130,19 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("eventDetails", model);
                 bundle.putString("from", "event");
+
+//                hidekeyboard();
                 navController.navigate(R.id.action_eventMainFragment_to_eventDetailsFragment, bundle);
             }
         });
 
         binding.eventRecyclerView.setAdapter(adapter);
         adapter.startListening();
+    }
+
+    private void hidekeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
     }
 
     private void initData() {

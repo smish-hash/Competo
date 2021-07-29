@@ -4,51 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/grid_3x"
+    android:padding="@dimen/grid_2x"
     android:layout_margin="@dimen/grid_1x"
+    android:background="?attr/selectableItemBackground"
     tools:context=".Fragments.ConversationsFragment">
 
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/grid_2x"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_conveProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_conveProfile"
+        app:layout_constraintTop_toTopOf="@+id/iv_conveProfile">
+
+        <TextView
+            android:id="@+id/tv_conveUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/palanquin_semibold"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_conveLastMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:text="Last Message"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+            
+            <TextView
+                android:id="@+id/tv_user_last_message_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginStart="@dimen/grid_1x"
+                android:text="29-jul 09:45 AM" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_conveProfile"
-        android:layout_width="55dp"
-        android:layout_height="46dp"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:src="@drawable/ic_baseline_person_24"
         app:civ_border_color="@color/ui_blue"
         app:civ_border_width="1dp"
-        android:src="@drawable/ic_baseline_person_24"
         app:civ_circle_background_color="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_conveUsername"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="Name"
-        android:textColor="@color/black"
-        android:textSize="17sp"
-        android:fontFamily="@font/palanquin_semibold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_conveProfile"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_conveLastMsg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="@dimen/grid_1x"
-        android:fontFamily="sans-serif"
-        android:text="Last Message"
-        android:textSize="12sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_conveProfile"
-        app:layout_constraintTop_toBottomOf="@+id/tv_conveUsername" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

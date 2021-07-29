@@ -1,15 +1,18 @@
 package com.StartupBBSR.competo.Models;
 
 public class MessageModel {
-    String message, senderID;
+    String message, senderID, receiverID;
     Long timestamp;
+
+    private Boolean isSeen;
 
 
     public MessageModel() {
     }
 
-    public MessageModel(String senderID, String message, Long timestamp) {
+    public MessageModel(String senderID, String receiverID, String message, Long timestamp) {
         this.senderID = senderID;
+        this.receiverID = receiverID;
         this.message = message;
         this.timestamp = timestamp;
     }
@@ -17,6 +20,14 @@ public class MessageModel {
     public MessageModel(String senderID, String message) {
         this.senderID = senderID;
         this.message = message;
+    }
+
+    public Boolean getSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(Boolean seen) {
+        isSeen = seen;
     }
 
     public String getMessage() {
@@ -41,5 +52,13 @@ public class MessageModel {
 
     public void setSenderID(String senderID) {
         this.senderID = senderID;
+    }
+
+    public String getReceiverID() {
+        return receiverID;
+    }
+
+    public void setReceiverID(String receiverID) {
+        this.receiverID = receiverID;
     }
 }

@@ -12,37 +12,33 @@ import com.StartupBBSR.competo.databinding.SenderTeamTextItemBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TeamChatAdapter extends FirestoreRecyclerAdapter<TeamMessageModel, RecyclerView.ViewHolder> {
+public class TeamChatAdapter extends RecyclerView.Adapter {
 
     private ReceiverTeamTextItemBinding receiverTeamTextItemBinding;
     private SenderTeamTextItemBinding senderTeamTextItemBinding;
     private Context context;
+    private FirebaseUser fUser;
 
     private int SENDER_VIEW_TYPE = 1, RECEIVER_VIEW_TYPE = 2;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yy KK:mm a", Locale.US);
 
-    public TeamChatAdapter(@NonNull FirestoreRecyclerOptions<TeamMessageModel> options, Context context) {
-        super(options);
+    private List<TeamMessageModel> mMessage;
+
+    public TeamChatAdapter(Context context, List<TeamMessageModel> mMessage) {
         this.context = context;
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull TeamMessageModel model) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("KK:mm a");
-        if (holder.getClass() == SenderViewHolder.class) {
-            senderTeamTextItemBinding.tvSenderText.setText(model.getMessage());
-            senderTeamTextItemBinding.tvSenderTextTime.setText(simpleDateFormat.format(new Date(Long.parseLong(model.getTimestamp().toString()))));
-        } else {
-            receiverTeamTextItemBinding.tvSenderName.setText(model.getSenderName());
-            receiverTeamTextItemBinding.tvReceiverText.setText(model.getMessage());
-            receiverTeamTextItemBinding.tvReceiverTextTime.setText(simpleDateFormat.format(new Date(Long.parseLong(model.getTimestamp().toString()))));
-        }
+        this.mMessage = mMessage;
     }
 
     @NonNull
@@ -58,12 +54,41 @@ public class TeamChatAdapter extends FirestoreRecyclerAdapter<TeamMessageModel, 
     }
 
     @Override
+    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+
+        holder.setIsRecyclable(false);
+
+        final TeamMessageModel teamMessageModel = mMessage.get(position);
+
+        if (holder.getClass() == SenderViewHolder.class) {
+            senderTeamTextItemBinding.tvSenderText.setText(teamMessageModel.getMessage());
+            senderTeamTextItemBinding.tvSenderTextTime.setText(simpleDateFormat.format(new Date(Long.parseLong(teamMessageModel.getTimestamp().toString()))));
+        } else {
+            receiverTeamTextItemBinding.tvSenderName.setText(teamMessageModel.getSenderName());
+            receiverTeamTextItemBinding.tvReceiverText.setText(teamMessageModel.getMessage());
+            receiverTeamTextItemBinding.tvReceiverTextTime.setText(simpleDateFormat.format(new Date(Long.parseLong(teamMessageModel.getTimestamp().toString()))));
+        }
+    }
+
+    @Override
     public int getItemViewType(int position) {
-        if (getItem(position).getSenderID().equals(FirebaseAuth.getInstance().getUid())) {
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (mMessage.get(position).getSenderID().equals(fUser.getUid())) {
             return SENDER_VIEW_TYPE;
         } else {
             return RECEIVER_VIEW_TYPE;
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMessage.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     public class ReceiverViewHolder extends RecyclerView.ViewHolder {

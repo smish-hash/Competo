@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,7 +23,6 @@ import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivityTeamChatDetailBinding;
 import com.StartupBBSR.competo.databinding.ViewmembersAlertLayoutBinding;
 import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,9 +31,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +46,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,11 +66,17 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
     private FirebaseFirestore firestoreDB;
     private String userID, userName;
 
-    private FirestoreRecyclerOptions<TeamMessageModel> options;
-    private TeamChatAdapter adapter;
+    private final int limit = 15;
+    private DocumentSnapshot lastVisible;
+    private boolean isScrolling = false;
+    private boolean isLastItemReached = false;
+
+    private TeamChatAdapter teamChatAdapter;
+    private RecyclerView recyclerView;
+    private List<TeamMessageModel> mMessage;
 
     private CollectionReference collectionReference;
-    private DocumentReference teamReference;
+    private DocumentReference teamReference, documentReference;
 
     private List<String> memberNameList = new ArrayList<>();
     private ArrayAdapter<String> memberNameListAdapter;
@@ -94,8 +105,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         teamCreatorID = getIntent().getStringExtra("teamCreatorID");
         teamMembers = getIntent().getStringArrayListExtra("teamMembers");
 
-        binding.teamName.setText(teamName);
-        Glide.with(TeamChatDetailActivity.this).load(Uri.parse(teamImage)).into(binding.teamImage);
+        updateTeamInfo(teamName, teamImage);
 
         collectionReference = firestoreDB.collection(constant.getTeamChats())
                 .document(teamID)
@@ -103,7 +113,9 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
         teamReference = firestoreDB.collection(constant.getTeams()).document(teamID);
 
-        DocumentReference documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
+
+        documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
+
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -130,6 +142,10 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             }
         });
 
+        getTeamUpdates();
+
+        status("Online");
+
 
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +165,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
+//                                    Message sent
                                 }
                             });
                 }
@@ -158,9 +174,9 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
 
 //        Setting the menu.
-        if (teamCreatorID.equals(userID)) {
+        /*if (teamCreatorID.equals(userID)) {
             binding.toolbar2.getMenu().add(Menu.NONE, 1, Menu.NONE, "Add Members");
-        }
+        }*/
 
         binding.toolbar2.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -174,21 +190,54 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                         exitTeam();
                         return true;
 
-                    case 1:
+                    /*case 1:
                         addMembers();
-                        return true;
+                        return true;*/
                     default:
                         return false;
                 }
             }
         });
 
-        initData();
-        initRecyclerview();
+        /*initData();
+        initRecyclerview();*/
+        initNewRecycler();
         getMembers();
     }
 
+    private void updateTeamInfo(String teamName, String teamImage) {
 
+        binding.teamName.setText(teamName);
+
+        if (teamImage != null){
+            Glide.with(getApplicationContext()).load(Uri.parse(teamImage)).into(binding.teamImage);
+        } else {
+            Glide.with(getApplicationContext())
+                    .load(R.drawable.ic_baseline_person_24)
+                    .into(binding.teamImage);
+        }
+
+    }
+
+    private void getTeamUpdates() {
+        teamReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    return;
+                }
+
+                String teamName = value.getString("teamName");
+                String teamImage = value.getString("teamImage");
+                teamMembers = (List<String>) value.get("teamMembers");
+
+                updateTeamInfo(teamName, teamImage);
+            }
+        });
+    }
+
+
+/*
     private void initData() {
         Query query = collectionReference.orderBy("timestamp");
         options = new FirestoreRecyclerOptions.Builder<TeamMessageModel>()
@@ -202,6 +251,85 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         chatRecyclerView.setHasFixedSize(true);
         adapter = new TeamChatAdapter(options, this);
         chatRecyclerView.setAdapter(adapter);
+    }
+*/
+
+    private void initNewRecycler() {
+        recyclerView = binding.teamChatRecyclerView;
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(false);
+        linearLayoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private void readMessage() {
+        mMessage = new ArrayList<>();
+
+        collectionReference.orderBy("timestamp", Query.Direction.DESCENDING).limit(limit)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mMessage.clear();
+
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    TeamMessageModel model = snapshot.toObject(TeamMessageModel.class);
+                    mMessage.add(model);
+
+                    teamChatAdapter = new TeamChatAdapter(TeamChatDetailActivity.this, mMessage);
+                    recyclerView.setAdapter(teamChatAdapter);
+
+//                Pagination
+                    lastVisible = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() - 1);
+                    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                                isScrolling = true;
+                            }
+
+                        }
+
+                        @Override
+                        public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            LinearLayoutManager linearLayoutManager = ((LinearLayoutManager) recyclerView.getLayoutManager());
+                            int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+                            int visibleItemCount = linearLayoutManager.getChildCount();
+                            int totalItemCount = linearLayoutManager.getItemCount();
+
+                            if (isScrolling && (firstVisibleItemPosition + visibleItemCount == totalItemCount) && !isLastItemReached) {
+                                isScrolling = false;
+                                Query nextQuery = collectionReference.orderBy("timestamp", Query.Direction.DESCENDING).startAfter(lastVisible).limit(limit);
+                                nextQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> t) {
+                                        if (t.isSuccessful()) {
+                                            for (DocumentSnapshot d : t.getResult()) {
+                                                TeamMessageModel messageModel = d.toObject(TeamMessageModel.class);
+                                                mMessage.add(messageModel);
+                                            }
+
+                                            teamChatAdapter.notifyDataSetChanged();
+
+                                            if (t.getResult().size() - 1 >= 0) {
+                                                lastVisible = t.getResult().getDocuments().get(t.getResult().size() - 1);
+                                            }
+
+                                            if (t.getResult().size() < limit) {
+                                                isLastItemReached = true;
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    };
+                    recyclerView.addOnScrollListener(onScrollListener);
+                }
+            }
+        });
     }
 
     private void getMembers() {
@@ -280,6 +408,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         ProgressDialog dialog = new ProgressDialog(TeamChatDetailActivity.this);
         dialog.setMessage("Loading");
         dialog.show();
+
         firestoreDB.collection(constant.getTeams()).document(teamID)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -288,6 +417,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                 List<String> membersIDs = (List<String>) snapshot.get("teamMembers");
                 Log.d(TAG, "onComplete: " + membersIDs);
                 dialog.dismiss();
+
                 if (membersIDs.size() < 6) {
                     addTeamBottomSheetDialog = new AddTeamBottomSheetDialog(TeamChatDetailActivity.this, membersIDs);
                     addTeamBottomSheetDialog.show(getSupportFragmentManager(), "AddMemberBottomSheet");
@@ -302,23 +432,42 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
     @Override
     protected void onStart() {
         super.onStart();
-        if (adapter != null) {
-            adapter.startListening();
-        }
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("error", "onEvent: ", error);
+                    return;
+                }
+
+                readMessage();
+            }
+        });
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (adapter != null) {
-            adapter.stopListening();
-        }
+    protected void onPause() {
+        super.onPause();
+        status("Offline");
+        Log.d("status", "onPauseChat: Offline");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("Online");
+        Log.d("status", "onResumeChat: Online");
+    }
+
+    private void status(String status) {
+        documentReference.update("status", status);
     }
 
     @Override
     public void onAddMembersButtonClicked(List<EventPalModel> selectedMembers) {
         CollectionReference teamCollectionRef = firestoreDB.collection(constant.getChatConnections());
-        for (EventPalModel model: selectedMembers){
+        for (EventPalModel model : selectedMembers) {
 //            Updating team members list
             teamReference.update("teamMembers", FieldValue.arrayUnion(model.getUserID()));
 //            Updating chat connection

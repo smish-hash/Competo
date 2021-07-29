@@ -85,10 +85,12 @@ public class ProfileMyeventsFragment extends Fragment {
     }
 
     private void initData() {
-        Query query = collectionReference.whereIn(constant.getEventIDField(), myEvents);
+        Query query = collectionReference.whereIn(constant.getEventIDField(), myEvents).orderBy("eventDateStamp");
+
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
                 .build();
+
         initRecyclerView();
     }
 

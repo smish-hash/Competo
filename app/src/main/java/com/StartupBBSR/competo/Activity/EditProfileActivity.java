@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,6 +66,10 @@ public class EditProfileActivity extends AppCompatActivity {
     private Uri profileImageUri, downloadUri;
     private UploadTask uploadTask;
 
+    private FirebaseUser firebaseUser;
+
+    public static final String TAG = "deleteacc";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +85,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
 //        Get data from Main Activity via get Intent
         userModel = (UserModel) getIntent().getSerializableExtra(constant.getUserModelObject());
+
+        firebaseUser = firebaseAuth.getCurrentUser();
 
 
         activityEditProfileBinding.BioTV.setOnTouchListener(new View.OnTouchListener() {
@@ -295,37 +304,34 @@ public class EditProfileActivity extends AppCompatActivity {
                 activityEditProfileBinding.uploadingProgressBar.setVisibility(View.VISIBLE);
                 activityEditProfileBinding.btnSaveProfile.setVisibility(View.GONE);
 
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseDB.collection(constant.getChatConnections()).document(userId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            firebaseDB.collection(constant.getUsers()).document(userId)
-                                    .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(EditProfileActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(EditProfileActivity.this, "Process Failed:\nlogout and try again", Toast.LENGTH_SHORT).show();
-                                    activityEditProfileBinding.uploadingProgressBar.setVisibility(View.GONE);
-                                    activityEditProfileBinding.btnSaveProfile.setVisibility(View.VISIBLE);
-                                }
-                            });
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditProfileActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        activityEditProfileBinding.uploadingProgressBar.setVisibility(View.GONE);
-                        activityEditProfileBinding.btnSaveProfile.setVisibility(View.VISIBLE);
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onClick: User Connection deleted");
+                        firebaseDB.collection(constant.getUsers()).document(userId)
+                                .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                firebaseUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(EditProfileActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull @NotNull Exception e) {
+                                Toast.makeText(EditProfileActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                activityEditProfileBinding.uploadingProgressBar.setVisibility(View.GONE);
+                                activityEditProfileBinding.btnSaveProfile.setVisibility(View.VISIBLE);
+                            }
+                        });
+
                     }
                 });
             }
@@ -338,6 +344,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
     }
 
 

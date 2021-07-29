@@ -13,8 +13,7 @@
         android:layout_marginBottom="@dimen/grid_2x"
         android:background="@drawable/sender_text_bg"
         android:maxWidth="300dp"
-        android:maxHeight="350dp"
-        android:minHeight="30dp"
+        android:minHeight="40dp"
         android:padding="@dimen/grid_1x">
 
         <TextView

@@ -105,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userid = firebaseAuth.getUid();
         constant = new Constant();
         userModel = new UserModel();
+
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
+        status("Online");
 
         getUserData();
 
@@ -250,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logout() {
+        onPause();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
@@ -291,5 +294,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 load(imgurl).
                 apply(RequestOptions.bitmapTransform(new BlurTransformation(radius, sampling)))
                 .into(imageView);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("Offline");
+        Log.d("status", "onPause: Offline");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("Online");
+        Log.d("status", "onResume: Online");
+    }
+
+    private void status(String status) {
+        documentReference.update("status", status);
     }
 }
