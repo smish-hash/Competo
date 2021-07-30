@@ -309,9 +309,10 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "onClick: User Connection deleted");
                         firebaseDB.collection(constant.getUsers()).document(userId)
-                                .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                            public void onSuccess(Void unused) {
+                                Log.d(TAG, "onClick: User Data deleted");
                                 firebaseUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
