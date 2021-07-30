@@ -63,7 +63,6 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         binding = TeamAddMemberBottomsheetLayoutBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 

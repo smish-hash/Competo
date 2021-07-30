@@ -41,6 +41,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -113,9 +115,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
         teamReference = firestoreDB.collection(constant.getTeams()).document(teamID);
 
-
         documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
-
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -145,7 +145,6 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         getTeamUpdates();
 
         status("Online");
-
 
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +237,9 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
 
 /*
+=======
+
+>>>>>>> 7a78d6751741877d074c1733914e8093e72f5657
     private void initData() {
         Query query = collectionReference.orderBy("timestamp");
         options = new FirestoreRecyclerOptions.Builder<TeamMessageModel>()
@@ -408,7 +410,6 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         ProgressDialog dialog = new ProgressDialog(TeamChatDetailActivity.this);
         dialog.setMessage("Loading");
         dialog.show();
-
         firestoreDB.collection(constant.getTeams()).document(teamID)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -417,6 +418,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                 List<String> membersIDs = (List<String>) snapshot.get("teamMembers");
                 Log.d(TAG, "onComplete: " + membersIDs);
                 dialog.dismiss();
+
 
                 if (membersIDs.size() < 6) {
                     addTeamBottomSheetDialog = new AddTeamBottomSheetDialog(TeamChatDetailActivity.this, membersIDs);

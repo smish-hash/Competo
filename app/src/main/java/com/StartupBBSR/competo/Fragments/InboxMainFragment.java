@@ -132,6 +132,7 @@ public class InboxMainFragment extends Fragment {
                             binding.inboxRefreshLayout.setRefreshing(false);
                             if (chatUsers != null){
                                 initData();
+
                             } else {
                                 Toast.makeText(getContext(), "No Messages", Toast.LENGTH_SHORT).show();
                             }
