@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/grid_3x"
+                android:layout_margin="@dimen/grid_1x"
                 android:backgroundTint="@color/white"
                 android:text="Explore"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/iron_man" />
+                android:src="@drawable/teamos_cover" />
 
         </androidx.cardview.widget.CardView>
 
