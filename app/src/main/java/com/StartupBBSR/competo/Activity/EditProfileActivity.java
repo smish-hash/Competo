@@ -52,6 +52,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     private FirebaseAuth firebaseAuth;
+
     private FirebaseFirestore firebaseDB;
     private FirebaseStorage firebaseStorage;
 
@@ -332,7 +333,6 @@ public class EditProfileActivity extends AppCompatActivity {
                                 activityEditProfileBinding.btnSaveProfile.setVisibility(View.VISIBLE);
                             }
                         });
-
                     }
                 });
             }
