@@ -328,6 +328,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                     Log.e("error", "onEvent: ", error);
                     return;
                 }
+
                 readMessage(senderID, receiverID);
             }
         });

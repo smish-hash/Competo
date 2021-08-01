@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/iron_man" />
+                android:src="@drawable/teamos_cover_doc" />
 
         </androidx.cardview.widget.CardView>
 

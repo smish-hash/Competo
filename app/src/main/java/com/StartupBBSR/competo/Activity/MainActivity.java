@@ -243,8 +243,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }).show();
         }
-        else if (id == R.id.menu_settings)
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+
+        /*else if (id == R.id.menu_settings)
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();*/
+
         else if (id == R.id.menu_addEvent)
             startActivity(new Intent(MainActivity.this, ManageEventActivity.class));
 
