@@ -99,7 +99,7 @@ public class alarmmanager extends BroadcastReceiver {
 
                                                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "chatnotification")
                                                                                         .setAutoCancel(true)
-                                                                                        .setSmallIcon(R.drawable.teamos_logo)
+                                                                                        .setSmallIcon(R.drawable.ic_baseline_settings_24)
                                                                                         .setContentTitle("New Notification")
                                                                                         .setContentText("You have " + noti + " new notifications")
                                                                                         .setContentIntent(pendingintent)
