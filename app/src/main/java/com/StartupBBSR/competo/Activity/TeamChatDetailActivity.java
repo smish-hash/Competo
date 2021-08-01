@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -41,11 +40,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,7 +77,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
     private List<TeamMessageModel> mMessage;
 
     private CollectionReference collectionReference;
-    private DocumentReference teamReference, documentReference;
+    private DocumentReference teamReference, documentReference, userMessageNumberRef;
 
     private List<String> memberNameList = new ArrayList<>();
     private ArrayAdapter<String> memberNameListAdapter;
@@ -128,6 +127,9 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             }
         });
 
+//        Message Number reference
+        userMessageNumberRef = firestoreDB.collection(constant.getMessageNumber()).document(userID);
+
 //        Loading the creator name into the toolbar
         DocumentReference adminDocRef = firestoreDB.collection(constant.getUsers()).document(teamCreatorID);
         adminDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -150,6 +152,28 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             @Override
             public void onClick(View view) {
                 if (!binding.etMessage.getText().toString().equals("")) {
+
+//                    Notification
+                    userMessageNumberRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    int value = Integer.parseInt(document.getString(constant.getMessageNumber()));
+
+                                    value++;
+
+                                    Map<String, Object> city = new HashMap<>();
+
+                                    city.put("messagenumber", String.valueOf(value));
+
+//                                    DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
+                                    userMessageNumberRef.set(city);
+                                }
+                            }
+                        }
+                    });
 
                     String message = binding.etMessage.getText().toString().trim();
                     String messageID = collectionReference.document().getId();
@@ -208,7 +232,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
         binding.teamName.setText(teamName);
 
-        if (teamImage != null){
+        if (teamImage != null) {
             Glide.with(getApplicationContext()).load(Uri.parse(teamImage)).into(binding.teamImage);
         } else {
             Glide.with(getApplicationContext())

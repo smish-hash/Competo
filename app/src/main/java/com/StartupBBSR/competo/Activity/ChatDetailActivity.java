@@ -32,7 +32,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,7 +70,7 @@ public class ChatDetailActivity extends AppCompatActivity {
     private String senderID, receiverID, receiverName, receiverPhoto;
 
     private CollectionReference collectionReference;
-    private DocumentReference receiverRef, userRef;
+    private DocumentReference receiverRef, userRef, userMessageNumberRef;
     private CollectionReference seenRef1, seenRef2;
 
     @Override
@@ -89,6 +91,8 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         updateReceiverInfo(receiverName, receiverPhoto);
 
+        userMessageNumberRef = firestoreDB.collection(constant.getMessageNumber()).document(senderID);
+
         userRef = firestoreDB.collection(constant.getUsers()).document(senderID);
         receiverRef = firestoreDB.collection(constant.getUsers()).document(receiverID);
         getReceiverUpdates();
@@ -104,7 +108,31 @@ public class ChatDetailActivity extends AppCompatActivity {
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (!binding.etMessage.getText().toString().equals("")) {
+
+//                    Notification
+
+                    userMessageNumberRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    int value = Integer.parseInt(document.getString(constant.getMessageNumber()));
+
+                                    value++;
+
+                                    Map<String, Object> city = new HashMap<>();
+
+                                    city.put("messagenumber", String.valueOf(value));
+
+//                                    DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
+                                    userMessageNumberRef.set(city);
+                                }
+                            }
+                        }
+                    });
 
                     String message = binding.etMessage.getText().toString().trim();
                     Long timestamp = new Date().getTime();

@@ -18,6 +18,9 @@ public class Constant {
     String TeamChats = "TeamChats", TeamMessages = "TeamMessages";
     String TeamConnections = "TeamConnection";
 
+//    Notofication
+    String messageNumber = "messagenumber";
+
     String eventOrganizerID = "eventOrganizerID";
     String eventIDField = "eventID";
 
@@ -171,5 +174,9 @@ public class Constant {
 
     public String getTeamConnections() {
         return TeamConnections;
+    }
+
+    public String getMessageNumber() {
+        return messageNumber;
     }
 }
