@@ -81,6 +81,7 @@ public class ManageEventMainFragment extends Fragment {
 
     private void init() {
         binding.manageEventViewPager.setAdapter(new ManageEventViewPagerAdapter(this));
+        binding.manageEventViewPager.setUserInputEnabled(false);
 
         new TabLayoutMediator(binding.manageEventTabLayout,
                 binding.manageEventViewPager, ((tab, position) ->

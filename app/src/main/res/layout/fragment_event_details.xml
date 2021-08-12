@@ -29,10 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:textColor="#33B5E5"
             android:background="@drawable/event_detail_button_round"
             android:text="Register"
             android:textAllCaps="false"
+            android:textColor="@color/ui_light_blue"
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -41,10 +41,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:textColor="#33B5E5"
             android:background="@drawable/event_detail_button_round"
             android:text="Find a TeamMate"
             android:textAllCaps="false"
+            android:textColor="@color/ui_light_blue"
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -53,11 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:textColor="#33B5E5"
-            android:padding="@dimen/grid_1x"
             android:background="@drawable/event_detail_button_round"
+            android:padding="@dimen/grid_1x"
             android:text="Add to wishlist"
             android:textAllCaps="false"
+            android:textColor="@color/ui_light_blue"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -161,8 +161,8 @@
                     android:layout_marginTop="@dimen/grid_1x"
                     android:background="@drawable/rounded_tv_background"
                     android:backgroundTint="@color/main_accent_2"
-                    android:minHeight="135dp"
                     android:maxLength="500"
+                    android:minHeight="135dp"
                     android:padding="@dimen/grid_2x"
                     android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
                     android:textColor="@color/white" />

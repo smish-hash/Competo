@@ -184,13 +184,27 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                     teamMessageModel = new TeamMessageModel(message, messageID, senderID, senderName, messageTime);
                     binding.etMessage.setText("");
 
+//                    Progress bar
+
+                    binding.btnSendChat.setVisibility(View.INVISIBLE);
+                    binding.sendMessageProgressBar.setVisibility(View.VISIBLE);
+
                     collectionReference.document(messageID).set(teamMessageModel)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
 //                                    Message sent
+                                    binding.btnSendChat.setVisibility(View.VISIBLE);
+                                    binding.sendMessageProgressBar.setVisibility(View.GONE);
                                 }
-                            });
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Toast.makeText(TeamChatDetailActivity.this, "Could not send message", Toast.LENGTH_SHORT).show();
+                            binding.btnSendChat.setVisibility(View.VISIBLE);
+                            binding.sendMessageProgressBar.setVisibility(View.GONE);
+                        }
+                    });
                 }
             }
         });

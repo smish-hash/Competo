@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Adapters.NewChatAdapter;
 import com.StartupBBSR.competo.Models.MessageModel;
@@ -13,6 +14,7 @@ import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivityChatDetailBinding;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -141,6 +143,10 @@ public class ChatDetailActivity extends AppCompatActivity {
                     messageModel.setSeen(false);
 
                     binding.etMessage.setText("");
+                    
+//                    Show progress bar
+                    binding.btnSendChat.setVisibility(View.INVISIBLE);
+                    binding.sendMessageProgressBar.setVisibility(View.VISIBLE);
 
                     firestoreDB.collection(constant.getChats())
                             .document(senderID)
@@ -161,10 +167,26 @@ public class ChatDetailActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(DocumentReference documentReference) {
 //                                                    Message sent
+                                                    binding.btnSendChat.setVisibility(View.VISIBLE);
+                                                    binding.sendMessageProgressBar.setVisibility(View.GONE);
                                                 }
-                                            });
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull @NotNull Exception e) {
+                                            Toast.makeText(ChatDetailActivity.this, "Could not deliver message", Toast.LENGTH_SHORT).show();
+                                            binding.btnSendChat.setVisibility(View.VISIBLE);
+                                            binding.sendMessageProgressBar.setVisibility(View.GONE);
+                                        }
+                                    });
                                 }
-                            });
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Toast.makeText(ChatDetailActivity.this, "Could not send message", Toast.LENGTH_SHORT).show();
+                            binding.btnSendChat.setVisibility(View.VISIBLE);
+                            binding.sendMessageProgressBar.setVisibility(View.GONE);
+                        }
+                    });
                 }
             }
         });
