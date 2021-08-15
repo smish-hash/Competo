@@ -38,7 +38,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,6 +65,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
     private int temp_flag = 0;
     private String btn_clicked = "";
+
+    private DocumentSnapshot documentSnapshot;
 
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 123;
@@ -265,6 +270,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -273,6 +279,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 //                            Sign in success
                             Log.d("googlesignin", "signInWithCredential: success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+
                             loginWithCredential(user);
                         } else {
                             Toast.makeText(getApplicationContext(), "SignInWithCredential: failed", Toast.LENGTH_SHORT)
@@ -299,43 +306,59 @@ import androidx.appcompat.app.AppCompatDelegate;
                 .document(firebaseAuth.getCurrentUser().getUid());
 
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put(constant.getUserNameField(), user.getDisplayName());
-        userInfo.put(constant.getUserPhoneField(), user.getPhoneNumber());
-        userInfo.put(constant.getUserEmailField(), user.getEmail());
-        userInfo.put(constant.getUserPhotoField(), user.getPhotoUrl().toString());
-        userInfo.put(constant.getUserPhotoField(), null);
-        userInfo.put(constant.getUserBioField(), null);
-        userInfo.put(constant.getUserLinkedinField(), null);
-        userInfo.put(constant.getUserInterestedChipsField(), null);
-        userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
-        userInfo.put(constant.getUserMyEventField(), null);
+
+//        To check if user already exists
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+//                        User exists with this account
+                        Toast.makeText(SignUpActivity.this, "User already exists with this account, Please go to Log in page", Toast.LENGTH_SHORT).show();
+                    } else {
+//                        Create account
+                        userInfo.put(constant.getUserNameField(), user.getDisplayName());
+                        userInfo.put(constant.getUserPhoneField(), user.getPhoneNumber());
+                        userInfo.put(constant.getUserEmailField(), user.getEmail());
+                        userInfo.put(constant.getUserPhotoField(), user.getPhotoUrl().toString());
+                        userInfo.put(constant.getUserPhotoField(), null);
+                        userInfo.put(constant.getUserBioField(), null);
+                        userInfo.put(constant.getUserLinkedinField(), null);
+                        userInfo.put(constant.getUserInterestedChipsField(), null);
+                        userInfo.put(constant.getUserIdField(), firebaseAuth.getUid());
+                        userInfo.put(constant.getUserMyEventField(), null);
 
 
 //        Now we check the role selected
-        if (temp_flag == 0) {
-            userInfo.put(constant.getUserisUserField(), "1");
-            userInfo.put(constant.getUserisOrganizerField(), "0");
-        } else {
-            userInfo.put(constant.getUserisOrganizerField(), "1");
-            userInfo.put(constant.getUserisUserField(), "0");
-        }
+                        if (temp_flag == 0) {
+                            userInfo.put(constant.getUserisUserField(), "1");
+                            userInfo.put(constant.getUserisOrganizerField(), "0");
+                        } else {
+                            userInfo.put(constant.getUserisOrganizerField(), "1");
+                            userInfo.put(constant.getUserisUserField(), "0");
+                        }
 
-        documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
+                        documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 //                Update connection to null
-                CollectionReference connectionRef = firebaseDB.collection(constant.getChatConnections());
-                connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null, null));
+                                CollectionReference connectionRef = firebaseDB.collection(constant.getChatConnections());
+                                connectionRef.document(firebaseAuth.getUid()).set(new ChatConnectionModel(null, null));
+                            }
+                        });
+
+                        if (temp_flag == 0)
+                            Toast.makeText(SignUpActivity.this, "User Mode", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(SignUpActivity.this, "Organizer Mode", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+                }
             }
         });
-
-        if (temp_flag == 0)
-            Toast.makeText(this, "User Mode", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "Organizer Mode", Toast.LENGTH_SHORT).show();
-
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
 
     }
 
