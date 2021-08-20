@@ -107,7 +107,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
             btnSendMessageRequestEventPal = binding.btnSendMessage;
 
 
-            binding.btnBottomSheet.setOnClickListener(new View.OnClickListener() {
+          /*  binding.btnBottomSheet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
@@ -117,7 +117,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
                         }
                     }
                 }
-            });
+            });*/
 
             btnSendMessageRequestEventPal.setOnClickListener(new View.OnClickListener() {
                 @Override
