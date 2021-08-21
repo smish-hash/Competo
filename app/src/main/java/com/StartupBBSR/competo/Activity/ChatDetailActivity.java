@@ -111,7 +111,7 @@ public class ChatDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!binding.etMessage.getText().toString().equals("")) {
+                if (!binding.etMessage.getText().toString().trim().equals("")) {
 
 //                    Notification
 

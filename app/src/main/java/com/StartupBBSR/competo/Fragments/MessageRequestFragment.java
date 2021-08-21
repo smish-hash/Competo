@@ -24,6 +24,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -88,10 +91,34 @@ public class MessageRequestFragment extends Fragment {
             }
         });
 
+        checkRequestCount();
         initData();
         initRecyclerView();
 
         return view;
+    }
+
+    private void checkRequestCount() {
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int count = 0;
+
+                    for (DocumentSnapshot document : task.getResult()) {
+                        count++;
+                    }
+
+                    if (count != 0){
+                        binding.tvNoRequests.setVisibility(View.GONE);
+                        binding.requestRecyclerView.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.requestRecyclerView.setVisibility(View.GONE);
+                        binding.tvNoRequests.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -155,6 +182,7 @@ public class MessageRequestFragment extends Fragment {
                                                                                 snapshot.getReference().delete();
                                                                                 Toast.makeText(getContext(), "Request moved to Inbox", Toast.LENGTH_SHORT).show();
                                                                                 binding.progressBar.setVisibility(View.GONE);
+                                                                                checkRequestCount();
                                                                             }
                                                                         });
                                                             }
@@ -170,6 +198,7 @@ public class MessageRequestFragment extends Fragment {
             public void onRejectButtonClick(DocumentSnapshot snapshot) {
                 snapshot.getReference().delete();
                 Toast.makeText(getContext(), "Request Deleted", Toast.LENGTH_SHORT).show();
+                checkRequestCount();
             }
         });
         recyclerView.setAdapter(adapter);

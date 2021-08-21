@@ -43,6 +43,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private UserModel userModel;
 
     private static final String TAG = "test";
+    private static final String testTAG = "empty";
 
     private Fragment fragment;
     private TeamFragment teamFragment;
@@ -88,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private PendingIntent pendingIntent;
 
+    private AlertDialog.Builder builder1;
+    private AlertDialog.Builder builder2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -98,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
+
+        builder1 = new AlertDialog.Builder(MainActivity.this);
+        builder2 = new AlertDialog.Builder(MainActivity.this);
 
 
         //chat notification channel
@@ -143,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
         status("Online");
 
-        getUserData();
+//        getUserData();
 
         homeFragment = new HomeFragment();
         findFragment = new FindFragment();
@@ -204,11 +213,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
 //        Get Data when this activity starts
         getUserData();
+        Log.d(testTAG, "onStart: ");
     }
 
     private void getUserData() {
 //      get realtime data and store it in a class
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        Log.d(testTAG, "getUserData: ");
+        documentReference.addSnapshotListener(MainActivity.this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -224,10 +235,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NotNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot alertSnapshot = task.getResult();
+                    int temp = 0;
+                    if (alertSnapshot.getString(constant.getUserPhotoField()) == null || alertSnapshot.getString(constant.getUserBioField()) == null) {
+                        Log.d(testTAG, "onCompleteAlert: Photo or bio null: " + alertSnapshot.getString(constant.getUserPhotoField()) + ", " + alertSnapshot.getString(constant.getUserBioField()));
+
+                        builder1.setTitle("Tell us a bit about yourself");
+                        builder1.setMessage("Let others know a bit about you\nAdd a photo and a bio to continue");
+                        builder1.setIcon(R.drawable.ic_baseline_settings_24);
+                        builder1.setCancelable(false);
+                        builder1.setPositiveButton("Go to my profile", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class).putExtra(constant.getUserModelObject(), userModel);
+                                startActivity(intent);
+                            }
+                        }).show();
+
+                        temp = 1;
+                    }
+
+                    if (temp != 1 && (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()) == null) {
+                        Log.d(testTAG, "onCompleteAlert: Chips null: " + (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()));
+                        builder2.setTitle("Add your skills");
+                        builder2.setMessage("Add the skills most relevant to you\nTap on the 'Add skills' button in the profile page");
+                        builder2.setIcon(R.drawable.ic_baseline_settings_24);
+                        builder2.setCancelable(false);
+                        builder2.setPositiveButton("Add skills", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                loadFragment(profileFragment);
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+                    }
+                }
+            }
+        });
     }
 
     private void saveDataToClass() {
         getIntent().putExtra(constant.getUserModelObject(), userModel);
+
         userModel.setUserName(documentSnapshot.getString(constant.getUserNameField()));
         userModel.setUserEmail(documentSnapshot.getString(constant.getUserEmailField()));
         userModel.setUserPhoto(documentSnapshot.getString(constant.getUserPhotoField()));

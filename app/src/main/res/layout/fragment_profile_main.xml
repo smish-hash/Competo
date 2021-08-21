@@ -12,14 +12,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/btnEditInterests"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_3x"
+            android:layout_marginBottom="@dimen/grid_2x"
+            android:visibility="invisible"
             android:src="@drawable/ic_baseline_edit_24"
-            app:layout_constraintBottom_toBottomOf="@+id/interestChipRecyclerView"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/interestChipRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+        <TextView
+            android:id="@+id/btnEditInterests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_3x"
+            android:layout_marginBottom="@dimen/grid_2x"
+            android:text="+ Add skills"
+            android:textColor="@color/ui_light_blue"
+            app:layout_constraintBottom_toTopOf="@+id/interestChipRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -147,10 +160,10 @@
             android:id="@+id/interestChipRecyclerView"
             android:layout_width="0dp"
             android:layout_height="135dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="@dimen/grid_2x"
+            android:layout_marginStart="@dimen/grid_4x"
+            android:layout_marginEnd="@dimen/grid_4x"
             android:layout_marginTop="@dimen/grid_2x"
-            app:layout_constraintEnd_toStartOf="@+id/btnEditInterests"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_gotolinkedin"
             tools:listitem="@layout/interest_chip_item" />

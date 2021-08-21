@@ -186,17 +186,17 @@ public class EditProfileActivity extends AppCompatActivity {
         checkEmptyField(activityEditProfileBinding.etName);
         checkEmptyField(activityEditProfileBinding.BioTV);
         checkEmptyField(activityEditProfileBinding.etPhone);
-        checkEmptyField(activityEditProfileBinding.etLinkedIn);
+//        checkEmptyField(activityEditProfileBinding.etLinkedIn);
 
-        if (flag == 4) {
+        if (flag == 3) {
             updateUser();
         } else {
-            Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fill all required fields", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void checkEmptyField(EditText et) {
-        if (et.getText().toString().isEmpty())
+        if (et.getText().toString().trim().isEmpty())
             flag--;
         else
             flag++;
@@ -218,7 +218,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 //                Higher the number, higher the quality
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 85, baos);
                 byte[] data = baos.toByteArray();
 
                 uploadTask = storageReference.putBytes(data);

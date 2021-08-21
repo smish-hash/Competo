@@ -1,7 +1,7 @@
 package com.StartupBBSR.competo.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import com.StartupBBSR.competo.Adapters.OnboardingAdapter;
 import com.StartupBBSR.competo.Models.OnboardingModel;
@@ -34,6 +33,10 @@ public class OnboardingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //        Disable night mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         binding = ActivityOnboardingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -65,8 +68,6 @@ public class OnboardingActivity extends AppCompatActivity {
         binding.viewpager.setAdapter(adapter);
         binding.viewpager.setPageTransformer(new ViewPagerTransformer());
 
-//        Set tabindicators
-//        new TabLayoutMediator(binding.tabIndicator, binding.viewpager, ((tab, position1) -> tab.setText(String.valueOf(position1)))).attach();
         new TabLayoutMediator(binding.tabIndicator, binding.viewpager, ((tab, position1) -> tab.setIcon(R.drawable.tabindicator_selector))).attach();
 
         binding.btnOnboardingNext.setOnClickListener(new View.OnClickListener() {
@@ -104,18 +105,6 @@ public class OnboardingActivity extends AppCompatActivity {
                     binding.btnOnboardingGetstarted.setVisibility(View.VISIBLE);
                     binding.btnOnboardingGetstarted.setAnimation(getstartedbtnAnim);
                 }
-
-                /*switch (tab.getPosition()) {
-                    case 0:
-                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_blue));
-                        break;
-                    case 1:
-                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_pink));
-                        break;
-                    case 2:
-                        binding.onboardingCV.setBackgroundTintList(ContextCompat.getColorStateList(OnboardingActivity.this, R.color.onboarding_green));
-                        break;
-                }*/
             }
 
             @Override
