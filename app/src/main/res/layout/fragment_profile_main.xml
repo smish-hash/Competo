@@ -1,183 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_refresh_layout"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
-    tools:context=".Fragments.ProfileMainFragment">
+    android:layout_width="match_parent"
+    app:cardCornerRadius="15dp"
+    android:layout_margin="15dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/profile_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#EBEEF5"
+        tools:context=".Fragments.ProfileMainFragment">
 
-        <!--<ImageView
-            android:id="@+id/btnEditInterests"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/grid_3x"
-            android:layout_marginBottom="@dimen/grid_2x"
-            android:visibility="invisible"
-            android:src="@drawable/ic_baseline_edit_24"
-            app:layout_constraintBottom_toTopOf="@+id/interestChipRecyclerView"
-            app:layout_constraintEnd_toEndOf="parent"/>-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/btnEditInterests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/grid_3x"
-            android:layout_marginBottom="@dimen/grid_2x"
-            android:text="+ Add skills"
-            android:textColor="@color/ui_light_blue"
-            app:layout_constraintBottom_toTopOf="@+id/interestChipRecyclerView"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/grid_3x"
-            android:layout_marginTop="@dimen/grid_3x"
-            android:layout_marginRight="@dimen/grid_3x"
-            android:layout_marginBottom="@dimen/grid_3x"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView">
-
-
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/profile_tablayout"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/main_background"
-                android:fillViewport="true"
-                app:tabIndicatorColor="@color/white"
-                app:tabTextAppearance="@style/ProfileCustomTabText"
-                app:tabTextColor="@color/white">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="About" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wishlist" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Updates" />
-
-            </com.google.android.material.tabs.TabLayout>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/profileViewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/image_rel_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_2x"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Edit Profile"
+                android:textColor="@color/black"
+                android:background="@drawable/profile_edit_button"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toBottomOf="@id/profile_brief"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
             <ImageView
-                android:id="@+id/btn_edit_profile"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnEditInterests"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/profile_image"
-                android:layout_alignBottom="@id/profile_image"
-                android:src="@drawable/ic_baseline_edit_24" />
+                app:tint = "@color/black"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:src="@drawable/ic_baseline_edit_24"
+                app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditProfile">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/profile_tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background=" #EBEEF5"
+                    android:fillViewport="true"
+                    app:tabIndicatorColor="@color/black"
+                    app:tabTextAppearance="@style/ProfileCustomTabText"
+                    app:tabTextColor="@color/black">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wishlist" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Updates" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/profileViewPager"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/image_rel_layout"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- <ImageView
+                     android:id="@+id/btn_edit_profile"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignEnd="@id/profile_image"
+                     android:layout_alignBottom="@id/profile_image"
+                     android:src="@drawable/ic_baseline_edit_24"
+                     />-->
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/grid_3x"
+                    android:visibility="gone" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    app:cardCornerRadius="15dp">
+
+                    <ImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_baseline_person_24"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="1dp"
+                        app:civ_circle_background_color="@color/main_background" />
+
+
+                </androidx.cardview.widget.CardView>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/profile_brief"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/grid_3x"
-                android:visibility="gone" />
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:text="profile brief"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:paddingStart="@dimen/grid_2x"
-                android:paddingEnd="@dimen/grid_2x"
-                android:src="@drawable/ic_baseline_person_24"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="1dp"
-                app:civ_circle_background_color="@color/main_background" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/profile_brief"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1x"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_name" />
-
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="2"
-            android:maxWidth="@dimen/standard_width"
-            android:layout_marginTop="@dimen/grid_1x"
-            android:scrollHorizontally="true"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_rel_layout"
-            tools:text="Name" />
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="name"
+                android:textStyle="bold"
+                android:maxWidth="@dimen/standard_width"
+                android:layout_marginTop="15dp"
+                android:scrollHorizontally="true"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_rel_layout"
+                tools:text="Name" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/interestChipRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="135dp"
-            android:layout_marginStart="@dimen/grid_4x"
-            android:layout_marginEnd="@dimen/grid_4x"
-            android:layout_marginTop="@dimen/grid_2x"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_gotolinkedin"
-            tools:listitem="@layout/interest_chip_item" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/interestChipRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="135dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="@dimen/grid_2x"
+                android:layout_marginTop="@dimen/grid_2x"
+                app:layout_constraintLeft_toRightOf="@id/image_rel_layout"
+                app:layout_constraintTop_toTopOf="@id/image_rel_layout"
+                app:layout_constraintBottom_toBottomOf="@id/image_rel_layout"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:listitem="@layout/interest_chip_item" />
 
-        <ImageView
-            android:id="@+id/iv_gotolinkedin"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/grid_1x"
-            android:src="@drawable/linkedin_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_brief" />
+            <ImageView
+                android:id="@+id/iv_gotolinkedin"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/black"
+                android:src="@drawable/linkedin_logo"
+                app:layout_constraintStart_toEndOf = "@id/profile_name"
+                android:layout_marginLeft="20dp"
+                app:layout_constraintTop_toTopOf="@id/profile_name"
+                app:layout_constraintBottom_toBottomOf="@id/profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/image_rel_layout" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.cardview.widget.CardView>
+

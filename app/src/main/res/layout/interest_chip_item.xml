@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/grid_1x"
     android:layout_marginEnd="@dimen/grid_1x"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp">
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp">
 
     <TextView
         android:id="@+id/item_textView"
