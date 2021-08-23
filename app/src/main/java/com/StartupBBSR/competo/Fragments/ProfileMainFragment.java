@@ -56,6 +56,7 @@ public class ProfileMainFragment extends Fragment {
         View view = binding.getRoot();
 
         constant = new Constant();
+
         userModel = (UserModel) getActivity().getIntent().getSerializableExtra(constant.getUserModelObject());
 
         binding.btnEditProfile.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +101,12 @@ public class ProfileMainFragment extends Fragment {
                 loadData();
                 init();
                 initDataSet();
+
+                if (userModel.getUserLinkedin() == null || userModel.getUserLinkedin().isEmpty()) {
+                    binding.ivGotolinkedin.setVisibility(View.GONE);
+                } else
+                    binding.ivGotolinkedin.setVisibility(View.VISIBLE);
+
                 binding.profileRefreshLayout.setRefreshing(false);
             }
         });
@@ -118,16 +125,20 @@ public class ProfileMainFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
 
-        if (userModel.getUserLinkedin() == null) {
+        if (userModel.getUserLinkedin() == null || userModel.getUserLinkedin().isEmpty()) {
             binding.ivGotolinkedin.setVisibility(View.GONE);
-        }
+        } else
+            binding.ivGotolinkedin.setVisibility(View.VISIBLE);
 
         binding.ivGotolinkedin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri linkedinUri = Uri.parse(userModel.getUserLinkedin());
-                Intent intent = new Intent(Intent.ACTION_VIEW, linkedinUri);
-                startActivity(intent);
+                if (!userModel.getUserLinkedin().isEmpty()) {
+                    Uri linkedinUri = Uri.parse(userModel.getUserLinkedin());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, linkedinUri);
+                    startActivity(intent);
+
+                }
             }
         });
     }

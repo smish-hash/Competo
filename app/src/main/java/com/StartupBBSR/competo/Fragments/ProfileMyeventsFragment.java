@@ -75,7 +75,12 @@ public class ProfileMyeventsFragment extends Fragment {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     myEvents = (List<String>) documentSnapshot.get(constant.getUserMyEventField());
                     if (myEvents != null && myEvents.size() != 0) {
+                        binding.tvNoMyEvents.setVisibility(View.GONE);
+                        binding.myEventRecyclerView.setVisibility(View.VISIBLE);
                         initData();
+                    } else {
+                        binding.myEventRecyclerView.setVisibility(View.GONE);
+                        binding.tvNoMyEvents.setVisibility(View.VISIBLE);
                     }
                 }
             }

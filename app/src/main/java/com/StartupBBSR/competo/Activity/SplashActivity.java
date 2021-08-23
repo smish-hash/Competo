@@ -1,12 +1,15 @@
 package com.StartupBBSR.competo.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.TextView;
 
+import com.StartupBBSR.competo.BuildConfig;
 import com.StartupBBSR.competo.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -15,6 +18,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //        Disable night mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -28,8 +34,10 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
 
-        }, 500);
-        // TODO: 4/25/2021 make it 2000
+        }, 1000);
+
+        TextView versionTextView = findViewById(R.id.tvVersion);
+        versionTextView.setText("v" + BuildConfig.VERSION_NAME);
 
     }
 }

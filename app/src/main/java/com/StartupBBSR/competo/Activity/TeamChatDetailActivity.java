@@ -151,7 +151,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!binding.etMessage.getText().toString().equals("")) {
+                if (!binding.etMessage.getText().toString().trim().equals("")) {
 
 //                    Notification
                     userMessageNumberRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

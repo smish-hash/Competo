@@ -209,7 +209,7 @@ public class EventPalFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        if (!alertlayoutrequestBinding.input.getText().toString().isEmpty()) {
+                        if (!alertlayoutrequestBinding.input.getText().toString().trim().isEmpty()) {
 
                             String requestMesssage = alertlayoutrequestBinding.input.getText().toString().trim();
                             RequestModel requestModel = new RequestModel(userID, requestMesssage, new Date().getTime());

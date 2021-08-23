@@ -377,7 +377,7 @@ public class AddEventFragment extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 //                Higher the number, higher the quality
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
                 byte[] data = baos.toByteArray();
 
                 uploadTask = storageReference.putBytes(data);

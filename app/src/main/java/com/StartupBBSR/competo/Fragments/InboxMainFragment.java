@@ -108,8 +108,11 @@ public class InboxMainFragment extends Fragment {
 
                     if (chatUsers != null){
                         initData();
+                        binding.tvNoMessages.setVisibility(View.GONE);
+                        binding.chatListRecyclerView.setVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(getContext(), "No messages", Toast.LENGTH_SHORT).show();
+                        binding.chatListRecyclerView.setVisibility(View.GONE);
+                        binding.tvNoMessages.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -132,9 +135,11 @@ public class InboxMainFragment extends Fragment {
                             binding.inboxRefreshLayout.setRefreshing(false);
                             if (chatUsers != null){
                                 initData();
-
+                                binding.tvNoMessages.setVisibility(View.GONE);
+                                binding.chatListRecyclerView.setVisibility(View.VISIBLE);
                             } else {
-                                Toast.makeText(getContext(), "No Messages", Toast.LENGTH_SHORT).show();
+                                binding.chatListRecyclerView.setVisibility(View.GONE);
+                                binding.tvNoMessages.setVisibility(View.VISIBLE);
                             }
                         }
                     }

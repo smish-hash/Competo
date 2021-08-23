@@ -25,9 +25,26 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/grid_1x"
             tools:listitem="@layout/my_event_item"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/view5"
             app:layout_constraintEnd_toEndOf="@+id/view5"
             app:layout_constraintStart_toStartOf="@+id/view5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNoMyEvents"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:layout_marginEnd="@dimen/grid_3x"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:text="Events added to your \nwishlist would be displayed here"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -91,6 +91,11 @@ public class TeamMainFragment extends Fragment {
 //                    Log.d("team", "onComplete: " + teamList);
                     if (teamList != null && teamList.size() != 0) {
                         initData();
+                        binding.tvNoTeams.setVisibility(View.GONE);
+                        binding.teamRecyclerView.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.teamRecyclerView.setVisibility(View.GONE);
+                        binding.tvNoTeams.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -109,7 +114,12 @@ public class TeamMainFragment extends Fragment {
 //                    Log.d("team", "onComplete: " + teamList);
                             binding.teamRefreshLayout.setRefreshing(false);
                             if (teamList != null && teamList.size() != 0) {
+                                binding.tvNoTeams.setVisibility(View.GONE);
+                                binding.teamRecyclerView.setVisibility(View.VISIBLE);
                                 initData();
+                            } else {
+                                binding.teamRecyclerView.setVisibility(View.GONE);
+                                binding.tvNoTeams.setVisibility(View.VISIBLE);
                             }
                         }
                     }
