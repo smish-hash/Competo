@@ -65,7 +65,7 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
 
         holder.day.setText(day);
         holder.month.setText(month);
-        //  holder.title.setText(model.getEventTitle());
+        holder.title.setText(model.getEventTitle());
         Glide.with(context).load(model.getEventPoster()).into(holder.image);
     }
 
@@ -78,7 +78,7 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // title = binding.tvTitle;
+            title = binding.tvTitle;
             day = binding.tvDateDay;
             month = binding.tvDateMonth;
             image = binding.ivImage;
