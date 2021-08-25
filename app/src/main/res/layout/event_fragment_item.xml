@@ -1,87 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_margin="@dimen/grid_1x"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="180dp"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="@dimen/grid_1x"
-    android:orientation="vertical">-->
+    android:orientation="vertical">
 
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center"
-    app:cardCornerRadius="30dp"
-    android:layout_margin="10dp"
-    app:cardElevation="5dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.cardview.widget.CardView
+        android:layout_width="160dp"
+        android:layout_height="240dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/ivImage"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background_default"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:alpha="0.9"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="@dimen/grid_2x"
-            android:layout_marginEnd="@dimen/grid_2x"
-            android:background="@drawable/imageview_background_round"
-            android:elevation="@dimen/grid_1x"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tvDateDay"
+            <ImageView
+                android:id="@+id/ivImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/iron_man"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:alpha="0.9"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/grid_2x"
+                android:layout_marginEnd="@dimen/grid_2x"
+                android:background="@drawable/imageview_background_round"
+                android:elevation="@dimen/grid_1x"
                 android:gravity="center"
-                android:maxLines="1"
-                android:text="15"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tvDateMonth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textAllCaps="true"
-                android:text="DEC"
-                android:textStyle="bold" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvDateDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="15"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tvDateMonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:text="DEC"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- <TextView
-         android:id="@+id/tvTitle"
-         style="@style/TextAppearance.AppCompat.Small"
-         android:layout_width="140dp"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="@dimen/grid_1x"
-         android:ellipsize="end"
-         android:fontFamily="sans-serif-condensed-medium"
-         android:maxLines="2"
-         android:paddingBottom="@dimen/grid_1x"
-         android:text="Iron Man"
-         android:textColor="@color/white" />-->
+    </androidx.cardview.widget.CardView>
 
-    <!--</LinearLayout>-->
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/grid_1x"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/grid_1x"
+        android:text="Iron Man"
+        android:textColor="@color/white" />
+
+</LinearLayout>
