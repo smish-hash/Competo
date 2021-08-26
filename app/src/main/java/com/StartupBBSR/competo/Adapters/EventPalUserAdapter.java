@@ -85,7 +85,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         holder.About.setText(model.getBio());
         Glide.with(context).load(model.getPhoto()).into(holder.Image);
 
-        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         InterestChipAdapter adapter = new InterestChipAdapter(model.getChips());
         holder.recyclerView.setAdapter(adapter);
 
