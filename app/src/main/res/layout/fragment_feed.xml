@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_feed"
     android:name="androidx.navigation.fragment.NavHostFragment"
-    android:background="@color/main_background"
+    android:background="@color/main_background2"
     app:navGraph="@navigation/feed_nav_graph"
     app:defaultNavHost="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"

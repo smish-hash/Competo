@@ -149,8 +149,7 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-
-        <TextView
+          <TextView
             android:id="@+id/tvEventDescription"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="match_parent"
@@ -158,7 +157,7 @@
             android:layout_marginTop="@dimen/grid_1x"
             android:background="@drawable/rounded_tv_background"
             android:backgroundTint="@color/main_background2"
-            android:maxLength="183"
+            android:maxLength="184"
             android:minHeight="115dp"
             android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
             android:textColor="#707070" />

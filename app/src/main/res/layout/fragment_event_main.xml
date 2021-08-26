@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="@color/main_background2"
     tools:context=".Fragments.EventMainFragment">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:layout_marginEnd="@dimen/grid_3x"
         android:contentDescription="Filter Events"
         android:src="@drawable/ic_filter_icon"
-        app:tint = "@color/white"
+        app:tint = "@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchView" />
@@ -29,6 +29,7 @@
         app:queryBackground="@color/transparent"
         android:background="@drawable/btn_search_round"
         app:iconifiedByDefault="false"
+        android:elevation="@dimen/grid_4x"
         app:layout_constraintEnd_toStartOf="@+id/btnEventFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
