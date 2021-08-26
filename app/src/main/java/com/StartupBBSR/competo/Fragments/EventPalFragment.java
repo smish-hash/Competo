@@ -173,21 +173,21 @@ public class EventPalFragment extends Fragment {
 
                 View bottomSheet = itemView.findViewById(R.id.EventPalBottomSheet);
                 BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-                ImageView btnBottomSheet = itemView.findViewById(R.id.btnBottomSheet);
+               // ImageView btnBottomSheet = itemView.findViewById(R.id.btnBottomSheet);
 
                 if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
 
                     Log.d(TAG, "onButtonClick: STATE_COLLAPSED");
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.VISIBLE);
-                    btnBottomSheet.setImageResource(R.drawable.down_arrow);
+                   // btnBottomSheet.setImageResource(R.drawable.down_arrow);
 
                 } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
 
                     Log.d(TAG, "onButtonClick: STATE_EXPANDED");
                     itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.GONE);
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    btnBottomSheet.setImageResource(R.drawable.ic_upperarrow);
+                  //  btnBottomSheet.setImageResource(R.drawable.ic_upperarrow);
 
                 }
             }

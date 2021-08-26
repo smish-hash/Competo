@@ -85,7 +85,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         holder.About.setText(model.getBio());
         Glide.with(context).load(model.getPhoto()).into(holder.Image);
 
-        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         InterestChipAdapter adapter = new InterestChipAdapter(model.getChips());
         holder.recyclerView.setAdapter(adapter);
 
@@ -107,7 +107,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
             btnSendMessageRequestEventPal = binding.btnSendMessage;
 
 
-            binding.btnBottomSheet.setOnClickListener(new View.OnClickListener() {
+           /* binding.btnBottomSheet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
@@ -117,7 +117,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
                         }
                     }
                 }
-            });
+            });*/
 
             btnSendMessageRequestEventPal.setOnClickListener(new View.OnClickListener() {
                 @Override
