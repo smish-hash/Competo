@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventDetailsMotionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="@color/main_background2"
     app:layoutDescription="@xml/fragment_event_details_scene"
     tools:context=".Fragments.EventDetailsFragment">
 
@@ -17,7 +17,8 @@
         android:layout_marginTop="@dimen/grid_2x"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/grid_1x"
+        android:layout_marginBottom="30dp"
+        android:padding="@dimen/grid_2x"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,10 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
+            android:elevation="25dp"
             android:background="@drawable/event_detail_button_round"
             android:text="Register"
             android:textAllCaps="false"
-            android:textColor="@color/ui_light_blue"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -41,10 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
+            android:elevation="25dp"
             android:background="@drawable/event_detail_button_round"
             android:text="Find a TeamMate"
             android:textAllCaps="false"
-            android:textColor="@color/ui_light_blue"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -53,143 +56,134 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
+            android:elevation="25dp"
             android:background="@drawable/event_detail_button_round"
             android:padding="@dimen/grid_1x"
             android:text="Add to wishlist"
             android:textAllCaps="false"
-            android:textColor="@color/ui_light_blue"
+            android:textColor="@color/white"
             android:textSize="12sp" />
     </LinearLayout>
 
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/grid_3x"
+        android:orientation="vertical"
+        android:padding="@dimen/grid_2x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView3">
 
         <LinearLayout
-            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/grid_3x"
-            android:orientation="vertical"
-            android:padding="@dimen/grid_2x">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/grid_1x"
-                android:weightSum="3">
-
-                <TextView
-                    android:id="@+id/tvEventDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_1x"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_tv_background"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:text="24-SEP-21"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvEventVenue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_1x"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_tv_background"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:text="Raghunathpur"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvEventTime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_1x"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_tv_background"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:text="12:32 PM"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
+            android:orientation="horizontal"
+            android:padding="@dimen/grid_1x"
+            android:weightSum="3">
 
             <TextView
-                android:id="@+id/tvEventTitle"
-                android:layout_width="match_parent"
+                android:id="@+id/tvEventDate"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:text="Event Title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/about"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:text="About"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvEventDescription"
-                    style="@style/TextAppearance.AppCompat.Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_1x"
-                    android:background="@drawable/rounded_tv_background"
-                    android:backgroundTint="@color/main_accent_2"
-                    android:maxLength="500"
-                    android:minHeight="135dp"
-                    android:padding="@dimen/grid_2x"
-                    android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
-                    android:textColor="@color/white" />
-
-            </androidx.core.widget.NestedScrollView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/eventTagRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:paddingStart="@dimen/grid_2x"
+                android:layout_margin="@dimen/grid_1x"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_tv_background"
+                android:gravity="center"
                 android:paddingTop="@dimen/grid_2x"
-                android:paddingEnd="@dimen/grid_2x"
                 android:paddingBottom="@dimen/grid_2x"
-                tools:listitem="@layout/interest_chip_item" />
+                android:text="24-SEP-21"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvEventVenue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/grid_1x"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_tv_background"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:paddingTop="@dimen/grid_2x"
+                android:paddingBottom="@dimen/grid_2x"
+                android:text="Raghunathpur"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvEventTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/grid_1x"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_tv_background"
+                android:gravity="center"
+                android:paddingTop="@dimen/grid_2x"
+                android:paddingBottom="@dimen/grid_2x"
+                android:text="12:32 PM"
+                android:textColor="@color/black" />
 
         </LinearLayout>
-    </ScrollView>
+
+
+        <!--<TextView
+            android:id="@+id/tvEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="Event Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/white"
+            android:textStyle="bold" /> -->
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_2x"
+            android:text="About"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+          <TextView
+            android:id="@+id/tvEventDescription"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1x"
+            android:background="@drawable/rounded_tv_background"
+            android:backgroundTint="@color/main_background2"
+            android:maxLength="184"
+            android:minHeight="115dp"
+            android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
+            android:textColor="#707070" />
+
+
+        <!-- <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventTagRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/grid_2x"
+            android:paddingStart="@dimen/grid_2x"
+            android:paddingTop="@dimen/grid_2x"
+            android:paddingEnd="@dimen/grid_2x"
+            android:paddingBottom="@dimen/grid_2x"
+            tools:listitem="@layout/interest_chip_item" />-->
+
+    </LinearLayout>
+
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
-        android:layout_width="350dp"
-        android:layout_height="250dp"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
         android:layout_marginStart="@dimen/grid_3x"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="@dimen/grid_3x"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -202,7 +196,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-             />
+            />
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

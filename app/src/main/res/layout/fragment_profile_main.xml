@@ -14,7 +14,7 @@
         android:id="@+id/profile_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EBEEF5"
+        android:background="@color/white"
         tools:context=".Fragments.ProfileMainFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +60,7 @@
                     android:id="@+id/profile_tablayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background=" #EBEEF5"
+                    android:background="@color/white"
                     android:fillViewport="true"
                     app:tabIndicatorColor="@color/black"
                     app:tabTextAppearance="@style/ProfileCustomTabText"

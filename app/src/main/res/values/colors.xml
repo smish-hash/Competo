@@ -25,6 +25,7 @@
 
 
     <color name="main_background">#263238</color>
+    <color name="main_background2">#EBEEF5</color>
     <color name="accent_gray">#c4cbcc</color>
     <color name="accent_blue">#5991FB</color>
     <color name="ui_light_blue">#33B5E5</color>

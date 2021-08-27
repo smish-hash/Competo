@@ -143,7 +143,7 @@ public class EventDetailsFragment extends Fragment {
 
         eventModel = (EventModel) getArguments().getSerializable("eventDetails");
 
-        binding.tvEventTitle.setText(eventModel.getEventTitle());
+        //binding.tvEventTitle.setText(eventModel.getEventTitle());
         binding.tvEventDescription.setText(eventModel.getEventDescription());
         binding.tvEventVenue.setText(eventModel.getEventVenue());
         binding.tvEventDate.setText(dateFormat.format(new Date(Long.parseLong(eventModel.getEventDateStamp().toString()))));
@@ -219,14 +219,14 @@ public class EventDetailsFragment extends Fragment {
     private void initTagSet() {
         if (eventModel.getEventTags() != null) {
             mTagSet = eventModel.getEventTags();
-        } else
-            binding.eventTagRecyclerView.setVisibility(View.GONE);
+        }
+        //    binding.eventTagRecyclerView.setVisibility(View.GONE);
     }
 
     private void initTagRecycler() {
-        RecyclerView tagRecyclerView = binding.eventTagRecyclerView;
-        tagRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        // RecyclerView tagRecyclerView = binding.eventTagRecyclerView;
+        //  tagRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
         InterestChipAdapter adapter = new InterestChipAdapter(mTagSet);
-        tagRecyclerView.setAdapter(adapter);
+        //  tagRecyclerView.setAdapter(adapter);
     }
 }

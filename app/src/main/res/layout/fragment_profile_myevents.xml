@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/main_background"
+    android:background="@color/white"
     tools:context=".Fragments.ProfileMyeventsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/grid_2x"
         android:background="@drawable/button_round_shape"
-        android:backgroundTint="@color/main_accent_2"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
             android:layout_marginEnd="@dimen/grid_3x"
             android:textAlignment="center"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:visibility="gone"
             android:text="Events added to your \nwishlist would be displayed here"
             app:layout_constraintBottom_toBottomOf="parent"
