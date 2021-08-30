@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_accent_1"
+    android:background="#EBEEF5"
     tools:context=".Activity.ChatDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -12,7 +12,7 @@
         style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:backgroundTint="@color/main_background"
+        android:backgroundTint="@color/white"
         android:elevation="@dimen/grid_2x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
                 android:layout_marginTop="@dimen/grid_1x"
                 android:fontFamily="sans-serif-medium"
                 android:text="Name"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/chat_user_status"
                 app:layout_constraintStart_toEndOf="@+id/chat_user_image"
@@ -46,7 +46,7 @@
                 android:layout_marginBottom="@dimen/grid_1x"
                 android:fontFamily="sans-serif-medium"
                 android:text="Online"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/chat_user_image"
@@ -70,13 +70,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/main_accent_1"
-        android:elevation="@dimen/grid_2x"
+        android:layout_height="65dp"
+        android:background="#EBEEF5"
         android:padding="@dimen/grid_2x"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:elevation="10dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/et_message"
@@ -109,15 +126,22 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnSendChat"
-            android:layout_width="40dp"
-            android:layout_height="45dp"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:src="@drawable/ic_sendbutton_icon"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginRight="5dp"
+            app:civ_circle_background_color="@color/blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
@@ -127,7 +151,7 @@
         android:layout_marginStart="@dimen/grid_1x"
         android:layout_marginTop="@dimen/grid_2x"
         android:layout_marginEnd="@dimen/grid_1x"
-        android:background="@color/main_accent_1"
+        android:background="#EBEEF5"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
