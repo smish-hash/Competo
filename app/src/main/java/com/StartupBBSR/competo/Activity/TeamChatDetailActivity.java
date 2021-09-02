@@ -148,6 +148,17 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
         status("Online");
 
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (binding.sendMessageProgressBar.getVisibility() != View.VISIBLE) {
+                    finish();
+                } else {
+                    Toast.makeText(TeamChatDetailActivity.this, "Please wait", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

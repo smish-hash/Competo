@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/main_background">
+        android:background="@color/light_white">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
+            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/action_bar"
@@ -31,20 +31,55 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_bar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:elevation="@dimen/grid_1x"
-            app:menu="@menu/bottom_nav_menu"
-            android:background="@color/main_accent_2"
-            app:itemTextColor="@drawable/bottom_nav_selector"
-            app:itemIconTint="@drawable/bottom_nav_selector"/>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:backgroundTint="@color/white">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottom_nav_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:layout_marginEnd="@dimen/grid_3x"
+                    app:itemBackground="@null"
+                    app:elevation="0dp"
+                    app:itemIconTint="@drawable/bottom_nav_selector"
+                    app:itemRippleColor="@null"
+                    app:itemTextColor="@drawable/bottom_nav_selector"
+                    app:menu="@menu/bottom_nav_menu" />
 
 
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTeamFinder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_round_shape"
+                android:drawableTop="@drawable/ic_baseline_people_24"
+                android:elevation="@dimen/grid_3x"
+                android:fontFamily="sans-serif-condensed"
+                android:padding="@dimen/grid_2x"
+                android:text="Team Finder"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -59,7 +94,4 @@
         app:headerLayout="@layout/drawer_header">
 
     </com.google.android.material.navigation.NavigationView>
-
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

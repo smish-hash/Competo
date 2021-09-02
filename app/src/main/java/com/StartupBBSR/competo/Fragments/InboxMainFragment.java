@@ -91,13 +91,6 @@ public class InboxMainFragment extends Fragment {
         chatRef = firestoreDB.collection(constant.getChatConnections())
                 .document(userID);
 
-        binding.tvMessageRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_inboxMainFragment_to_messageRequestFragment);
-            }
-        });
-
         chatRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -118,13 +111,12 @@ public class InboxMainFragment extends Fragment {
             }
         });
 
-        getRequestCounts();
+//        getRequestCounts();
 
 
         binding.inboxRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getRequestCounts();
                 chatRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -154,32 +146,6 @@ public class InboxMainFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private void getRequestCounts() {
-        firestoreDB.collection(constant.getRequests())
-                .document(userID)
-                .collection(constant.getRequests())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            int count = 0;
-
-                            for (DocumentSnapshot document : task.getResult()) {
-                                count++;
-                            }
-
-                            if (count != 0){
-                                binding.tvMessageRequest.setText(count + " Message Request(s)");
-                                binding.tvMessageRequest.setVisibility(View.VISIBLE);
-                            } else {
-                                binding.tvMessageRequest.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                });
     }
 
     private void initData() {

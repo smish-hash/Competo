@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +71,7 @@ public class EventDetailsFragment extends Fragment {
                     navController.navigate(R.id.action_eventDetailsFragment_to_eventMainFragment);
                 else if (flag == 1) {
                     navController.navigate(R.id.action_eventDetailsFragment2_to_profileMainFragment);
-                } else if (flag == 2){
+                } else if (flag == 2) {
                     navController.navigate(R.id.action_eventDetailsFragment3_to_findMainFragment);
                 } else {
                     navController.navigate(R.id.action_eventDetailsFragment4_to_feedMainFragment);
@@ -131,7 +130,7 @@ public class EventDetailsFragment extends Fragment {
 //            Coming from my event section
             flag = 1;
             navController = Navigation.findNavController(getActivity(), R.id.fragment_profile);
-        } else if (from.equals("find")){
+        } else if (from.equals("find")) {
 //            Coming from find section
             flag = 2;
             navController = Navigation.findNavController(getActivity(), R.id.find_fragment);
@@ -143,7 +142,7 @@ public class EventDetailsFragment extends Fragment {
 
         eventModel = (EventModel) getArguments().getSerializable("eventDetails");
 
-        //binding.tvEventTitle.setText(eventModel.getEventTitle());
+        binding.tvEventTitle.setText(eventModel.getEventTitle());
         binding.tvEventDescription.setText(eventModel.getEventDescription());
         binding.tvEventVenue.setText(eventModel.getEventVenue());
         binding.tvEventDate.setText(dateFormat.format(new Date(Long.parseLong(eventModel.getEventDateStamp().toString()))));
@@ -224,9 +223,9 @@ public class EventDetailsFragment extends Fragment {
     }
 
     private void initTagRecycler() {
-        // RecyclerView tagRecyclerView = binding.eventTagRecyclerView;
-        //  tagRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+        RecyclerView tagRecyclerView = binding.eventTagRecyclerView;
+        tagRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
         InterestChipAdapter adapter = new InterestChipAdapter(mTagSet);
-        //  tagRecyclerView.setAdapter(adapter);
+        tagRecyclerView.setAdapter(adapter);
     }
 }

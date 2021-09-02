@@ -28,6 +28,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -97,8 +98,13 @@ public class FeedMainFragment extends Fragment {
 
     private void initRecycler() {
 
-        binding.unpcomingEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.unpcomingEventsRecyclerView.setHasFixedSize(true);
+        SnapHelper snapHelper = new LinearSnapHelper();
+
+        RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setHasFixedSize(true);
+        snapHelper.attachToRecyclerView(recyclerView);
+
         adapter = new EventFragmentAdapter(getContext(), options);
 
         adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {

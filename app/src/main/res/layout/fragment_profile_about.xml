@@ -7,39 +7,34 @@
     android:background="@color/white"
     tools:context=".Fragments.ProfileAboutFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/button_round_shape"
-        android:backgroundTint="@color/white"
-        android:layout_margin="@dimen/grid_2x"
+        android:layout_marginTop="@dimen/grid_2x"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/grid_2x"
+            android:background="@drawable/button_round_shape"
+            android:backgroundTint="@color/light_white">
 
             <TextView
                 android:id="@+id/tvProfileBio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_2x"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:layout_marginEnd="@dimen/grid_2x"
-                android:layout_marginBottom="@dimen/grid_2x"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-condensed"
-                android:padding="@dimen/grid_2x"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:autoLink="all"
+                android:fontFamily="sans-serif"
+                android:padding="@dimen/grid_3x"
                 android:textColor="@color/black" />
 
-        </ScrollView>
+        </LinearLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

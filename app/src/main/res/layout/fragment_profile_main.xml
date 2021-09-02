@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.cardview.widget.CardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    app:cardCornerRadius="15dp"
-    android:layout_margin="15dp">
+    app:cardCornerRadius="10dp"
+    android:layout_margin="@dimen/grid_2x">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/profile_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,39 +19,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEditProfile"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
-                android:text="Edit Profile"
-                android:textColor="@color/black"
-                android:background="@drawable/profile_edit_button"
-                android:layout_height="40dp"
-                app:layout_constraintTop_toBottomOf="@id/profile_brief"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+            <TextView
+                android:id="@+id/btnEditInterests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/grid_2x"
+                android:text="+ Add Skills"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:textColor="@color/ui_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView" />
 
             <ImageView
-                android:id="@+id/btnEditInterests"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:src="@drawable/ic_baseline_edit_24"
-                app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:id="@+id/iv_gotolinkedin"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/blue"
+                android:src="@drawable/linkedin_logo"
+                app:layout_constraintStart_toStartOf="@+id/profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_3x"
+                android:layout_marginRight="@dimen/grid_3x"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnEditProfile">
 
                 <com.google.android.material.tabs.TabLayout
@@ -62,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:fillViewport="true"
-                    app:tabIndicatorColor="@color/black"
+                    app:tabIndicatorColor="@color/ui_blue"
                     app:tabTextAppearance="@style/ProfileCustomTabText"
                     app:tabTextColor="@color/black">
 
@@ -86,9 +81,8 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/profileViewPager"
                     android:layout_width="match_parent"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/white"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
 
 
             </LinearLayout>
@@ -97,9 +91,9 @@
                 android:id="@+id/image_rel_layout"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="10dp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <!-- <ImageView
@@ -122,18 +116,15 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    app:cardCornerRadius="15dp">
+                    android:layout_height="135dp"
+                    app:cardCornerRadius="10dp">
 
                     <ImageView
                         android:id="@+id/profile_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_baseline_person_24"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="1dp"
-                        app:civ_circle_background_color="@color/main_background" />
+                        android:src="@drawable/ic_baseline_person_24" />
 
 
                 </androidx.cardview.widget.CardView>
@@ -142,64 +133,64 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/profile_brief"
-                android:layout_width="wrap_content"
+                android:id="@+id/profile_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/grid_3x"
+                android:layout_marginStart="@dimen/grid_2x"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginEnd="@dimen/grid_1x"
                 android:ellipsize="end"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="center"
-                android:text="profile brief"
                 android:maxLines="2"
+                android:scrollHorizontally="true"
+                android:text="Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/profile_name"
-                app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+                android:fontFamily="@font/palanquin_semibold"
+                app:layout_constraintEnd_toStartOf="@+id/btnEditInterests"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_rel_layout" />
 
             <TextView
-                android:id="@+id/profile_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/profile_brief"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="2"
-                android:text="name"
-                android:textStyle="bold"
-                android:maxWidth="@dimen/standard_width"
-                android:layout_marginTop="15dp"
+                android:fontFamily="sans-serif-condensed"
+                android:maxLines="1"
                 android:scrollHorizontally="true"
+                android:text="profile brief"
                 android:textColor="@color/black"
-                android:textSize="22sp"
-                android:layout_marginLeft="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_rel_layout"
-                tools:text="Name" />
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/iv_gotolinkedin" />
 
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_3x"
+                android:layout_marginRight="@dimen/grid_3x"
+                android:background="@drawable/profile_edit_button"
+                android:text="Edit Profile"
+                android:textAllCaps="false"
+                android:textColor="@color/text_dark_gray"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_brief" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/interestChipRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="135dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginEnd="@dimen/grid_2x"
-                android:layout_marginTop="@dimen/grid_2x"
                 app:layout_constraintLeft_toRightOf="@id/image_rel_layout"
-                app:layout_constraintTop_toTopOf="@id/image_rel_layout"
-                app:layout_constraintBottom_toBottomOf="@id/image_rel_layout"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image_rel_layout"
                 tools:listitem="@layout/interest_chip_item" />
-
-            <ImageView
-                android:id="@+id/iv_gotolinkedin"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/black"
-                android:src="@drawable/linkedin_logo"
-                app:layout_constraintStart_toEndOf = "@id/profile_name"
-                android:layout_marginLeft="20dp"
-                app:layout_constraintTop_toTopOf="@id/profile_name"
-                app:layout_constraintBottom_toBottomOf="@id/profile_name"
-                app:layout_constraintTop_toBottomOf="@+id/image_rel_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,28 +7,16 @@
     android:background="@color/white"
     tools:context=".Fragments.ProfileMyeventsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/view5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/grid_2x"
-        android:background="@drawable/button_round_shape"
-        android:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myEventRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="@dimen/grid_1x"
             tools:listitem="@layout/my_event_item"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/view5"
-            app:layout_constraintEnd_toEndOf="@+id/view5"
-            app:layout_constraintStart_toStartOf="@+id/view5"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -49,6 +37,3 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>

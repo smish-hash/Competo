@@ -34,7 +34,7 @@
         android:layout_marginBottom="@dimen/grid_1x"
         android:fontFamily="sans-serif-condensed"
         android:text="12:36 PM"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/guideline3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

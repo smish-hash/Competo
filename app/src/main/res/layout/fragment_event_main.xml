@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background2"
+    android:background="@color/light_white"
     tools:context=".Fragments.EventMainFragment">
 
     <ImageView
         android:id="@+id/btnEventFilter"
         android:layout_width="@dimen/grid_4x"
         android:layout_height="@dimen/grid_4x"
-        android:layout_marginEnd="@dimen/grid_3x"
+        android:layout_marginEnd="@dimen/grid_2x"
         android:contentDescription="Filter Events"
         android:src="@drawable/ic_filter_icon"
-        app:tint = "@color/black"
+        app:tint = "@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="@+id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchView" />
@@ -23,29 +23,28 @@
         android:id="@+id/searchView"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginStart="@dimen/grid_3x"
-        android:layout_marginTop="@dimen/grid_3x"
-        android:layout_marginEnd="@dimen/grid_3x"
+        android:layout_marginStart="@dimen/grid_2x"
+        android:layout_marginTop="@dimen/grid_2x"
+        android:layout_marginEnd="@dimen/grid_2x"
         app:queryBackground="@color/transparent"
         android:background="@drawable/btn_search_round"
         app:iconifiedByDefault="false"
-        android:elevation="@dimen/grid_4x"
+        android:elevation="@dimen/grid_1x"
         app:layout_constraintEnd_toStartOf="@+id/btnEventFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="Search" />
 
 
-<!--    todo recycler view to show events-->
     <androidx.recyclerview.widget.RecyclerView
-        tools:listitem="@layout/event_fragment_item"
-        android:padding="@dimen/grid_2x"
         android:id="@+id/eventRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/grid_1x"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        tools:listitem="@layout/event_fragment_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

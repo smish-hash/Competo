@@ -6,9 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?selectableItemBackground"
     android:foreground="?selectableItemBackground"
-    app:cardBackgroundColor="#EBEEF5"
-    app:cardCornerRadius="15dp"
-    android:layout_margin="15dp"
+    app:cardBackgroundColor="@color/chat_background_color"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="@dimen/grid_2x"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,32 +20,32 @@
             android:id="@+id/cardview4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="15dp"
-            android:elevation="10dp"
-            app:layout_constraintVertical_chainStyle="spread"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="@dimen/grid_3x"
+            android:elevation="@dimen/grid_2x"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/clayout">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/ivEventPalUserImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/iron_man" />
 
         </androidx.cardview.widget.CardView>
 
 
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/grid_3x"
+            android:layout_marginBottom="@dimen/grid_3x"
+            app:layout_constraintBottom_toTopOf="@+id/btnSendMessage"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardview4">
 
             <FrameLayout
@@ -57,86 +57,73 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnSendMessage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/eventpal_button_round"
-                        android:text="Message Request"
-                        app:layout_constraintTop_toBottomOf="@id/eventPal_UserSkillRecyclerView"
-                        android:textAllCaps="false"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:textColor="@color/blue"
-                        android:elevation="0dp"
-                        android:outlineProvider="none"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <!--   <ImageView
-                           android:id="@+id/btnBottomSheet"
-                           android:layout_width="36dp"
-                           android:layout_height="36dp"
-                           android:layout_marginBottom="@dimen/grid_2x"
-                           android:contentDescription="User Profile"
-                           android:src="@drawable/ic_upperarrow"
-                           android:layout_marginTop="@dimen/grid_2x"
-                           app:layout_constraintBottom_toTopOf="@+id/tvEventPalUserName"
-                           app:layout_constraintLeft_toLeftOf="parent"
-                           app:layout_constraintRight_toRightOf="parent"
-                           app:layout_constraintTop_toTopOf="parent" />-->
-
                     <TextView
                         android:id="@+id/tvEventPalUserAbout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="About Section"
-                        app:layout_constraintTop_toBottomOf="@id/tvEventPalUserName"
+                        android:layout_marginStart="@dimen/grid_3x"
+                        android:layout_marginTop="@dimen/grid_2x"
+                        android:layout_marginEnd="@dimen/grid_3x"
                         android:autoLink="all"
                         android:gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginBottom="15dp"
-                        android:textColorLink="#2A91D1"
+                        android:text="About Section"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/text_dark_gray"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@+id/eventPal_UserSkillRecyclerView"
+                        app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvEventPalUserName" />
 
                     <TextView
                         android:id="@+id/tvEventPalUserName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/grid_3x"
+                        android:layout_marginEnd="@dimen/grid_3x"
                         android:ellipsize="end"
-                        android:text="name"
-                        android:layout_marginLeft="10dp"
-                        app:layout_constraintVertical_chainStyle="spread"
                         android:fontFamily="@font/palanquin_semibold"
-                        android:maxLines="2"
                         android:gravity="center"
+                        android:maxLines="2"
+                        android:text="name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@color/black"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/tvEventPalUserAbout"
+                        app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="spread" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/eventPal_UserSkillRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="96dp"
+                        android:layout_marginStart="@dimen/grid_3x"
+                        android:layout_marginTop="@dimen/grid_2x"
+                        android:layout_marginEnd="@dimen/grid_3x"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvEventPalUserAbout"
-                        app:layout_constraintBottom_toTopOf="@+id/btnSendMessage"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        app:layout_constraintRight_toRightOf="parent"
                         tools:listitem="@layout/interest_chip_item" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </FrameLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSendMessage"
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="wrap_content"
+            android:background="@drawable/eventpal_button_round"
+            android:text="Message Request"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:layout_marginBottom="@dimen/grid_3x"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

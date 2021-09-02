@@ -8,29 +8,5 @@
         android:id="@+id/inboxMainFragment"
         android:name="com.StartupBBSR.competo.Fragments.InboxMainFragment"
         android:label="fragment_inbox_main"
-        tools:layout="@layout/fragment_inbox_main" >
-        <action
-            android:id="@+id/action_inboxMainFragment_to_messageRequestFragment"
-            app:destination="@id/messageRequestFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/inboxMainFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/messageRequestFragment"
-        android:name="com.StartupBBSR.competo.Fragments.MessageRequestFragment"
-        android:label="fragment_message_request"
-        tools:layout="@layout/fragment_message_request" >
-        <action
-            android:id="@+id/action_messageRequestFragment_to_inboxMainFragment"
-            app:destination="@id/inboxMainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/inboxMainFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_inbox_main" />
 </navigation>

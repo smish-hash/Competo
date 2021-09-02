@@ -107,6 +107,17 @@ public class ChatDetailActivity extends AppCompatActivity {
                 .document(receiverID)
                 .collection(constant.getMessages());
 
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (binding.sendMessageProgressBar.getVisibility() != View.VISIBLE) {
+                    finish();
+                } else {
+                    Toast.makeText(ChatDetailActivity.this, "Please wait", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         binding.btnSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

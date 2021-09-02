@@ -149,9 +149,6 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         Query query = collectionReference.orderBy("eventDateStamp")
                 .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime());
 
-        //        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
-//        Query query1 = collectionReference.whereArrayContainsAny("eventTags", )
-
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
                 .build();

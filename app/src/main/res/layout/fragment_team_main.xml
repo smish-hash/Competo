@@ -4,95 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
     tools:context=".Fragments.TeamMainFragment">
 
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/tvNoTeams"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_3x"
+        android:layout_marginEnd="@dimen/grid_3x"
+        android:fontFamily="sans-serif-condensed"
+        android:text="You are not a part of any team\n \nTap on the 'Create Team' button to create your own team"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/team_refresh_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/grid_3x"
-        android:background="@color/white"
-        android:elevation="0dp"
-        app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/teamRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/grid_1x"
+            android:layout_marginEnd="@dimen/grid_1x"
+            android:paddingTop="@dimen/grid_3x"
+            android:paddingBottom="@dimen/grid_3x"
+            android:visibility="visible"
+            tools:listitem="@layout/team_item" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="Your Teams"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/team_refresh_layout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/teamRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/grid_1x"
-                    android:layout_marginEnd="@dimen/grid_1x"
-                    android:visibility="visible"
-                    android:paddingTop="@dimen/grid_3x"
-                    android:paddingBottom="@dimen/grid_3x"
-                    tools:listitem="@layout/team_item" />
-
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            <TextView
-                android:id="@+id/tvNoTeams"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:textAlignment="center"
-                android:fontFamily="sans-serif-condensed"
-                android:text="You are not a part of any team\n \nTap on the 'Create Team' button to create your own team"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/btn_create_team_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/grid_3x"
-                android:backgroundTint="@color/ui_light_blue"
-                android:elevation="@dimen/grid_1x"
-                android:text="Create Team"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:icon="@drawable/ic_baseline_add_24"
-                app:iconTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:rippleColor="@color/background_blue" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_create_team_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/grid_3x"
+        android:backgroundTint="@color/ui_light_blue"
+        android:elevation="@dimen/grid_1x"
+        android:text="Create Team"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/background_blue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

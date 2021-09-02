@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/grid_2x"
     android:layout_margin="@dimen/grid_1x"
-    android:background="?attr/selectableItemBackground"
-    tools:context=".Fragments.ConversationsFragment">
+    android:background="?attr/selectableItemBackground">
 
 
     <LinearLayout
