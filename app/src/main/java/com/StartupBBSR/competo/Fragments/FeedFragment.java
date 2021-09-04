@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.databinding.FragmentFeedBinding;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,20 +31,13 @@ public class FeedFragment extends Fragment {
     }
 
     public void onClickViewAllEvents() {
-        HomeFragment homeFragment = (HomeFragment) getParentFragment();
-        homeFragment.viewAllEvents();
+        /*HomeFragment homeFragment = (HomeFragment) getParentFragment();
+        homeFragment.viewAllEvents();*/
     }
 
     public void findTeamMate() {
-        HomeFragment homeFragment = (HomeFragment) getParentFragment();
-        homeFragment.findTeamMate();
-    }
-
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        /*HomeFragment homeFragment = (HomeFragment) getParentFragment();
+        homeFragment.findTeamMate();*/
     }
 
 }

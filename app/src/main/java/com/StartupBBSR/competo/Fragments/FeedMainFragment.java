@@ -5,13 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.StartupBBSR.competo.Activity.MainActivity;
+import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentFeedMainBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,15 +23,12 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-import androidx.viewpager2.widget.ViewPager2;
 
 
 public class FeedMainFragment extends Fragment {
@@ -65,9 +63,10 @@ public class FeedMainFragment extends Fragment {
         binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.onClickViewAllEvents();
+                feedFragment.onClickViewAllEvents();*/
+                ((MainActivity)getActivity()).onViewAllEventsClick();
             }
         });
 
@@ -75,9 +74,10 @@ public class FeedMainFragment extends Fragment {
         binding.btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.findTeamMate();
+                feedFragment.findTeamMate();*/
+                ((MainActivity)getActivity()).onExploreClick();
             }
         });
 
@@ -87,7 +87,7 @@ public class FeedMainFragment extends Fragment {
     private void initData() {
         Query query = collectionReference.orderBy("eventDateStamp")
                 .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime())
-                .limit(6);
+                .limit(5);
 
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
@@ -118,6 +118,18 @@ public class FeedMainFragment extends Fragment {
                 navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
             }
         });
+
+/*        adapter = new EventFeedAdapter(getContext(), options);
+        adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot snapshot) {
+                EventModel model = snapshot.toObject(EventModel.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("eventDetails", model);
+                bundle.putString("from", "feed");
+                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
+            }
+        });*/
 
         binding.unpcomingEventsRecyclerView.setAdapter(adapter);
         adapter.startListening();

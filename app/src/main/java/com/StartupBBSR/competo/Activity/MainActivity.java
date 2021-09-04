@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
-                bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
+                bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
                 loadFragment(eventPalFragment);
             }
         });
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
             bottomNavigationView.getMenu().setGroupCheckable(0, true, true);
-            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_AUTO);
+            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
 
             switch (item.getItemId()) {
 
@@ -404,6 +405,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Blurred Background
             loadUsingGlide(imguri, ivprofilebackground, 25, 5);
         }
+    }
+
+    public void onViewAllEventsClick() {
+        bottomNavigationView.setSelectedItemId(R.id.eventFragment);
+        loadFragment(eventFragment);
+    }
+
+    public void onExploreClick() {
+        bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+        bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+        loadFragment(eventPalFragment);
     }
 
 

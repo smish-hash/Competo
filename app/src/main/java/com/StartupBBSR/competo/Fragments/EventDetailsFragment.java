@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.InterestChipAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
@@ -165,7 +166,7 @@ public class EventDetailsFragment extends Fragment {
         binding.btnEventFindPal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 if (flag == 0) {
                     EventFragment eventFragment = (EventFragment) navHostFragment.getParentFragment();
                     eventFragment.onFindTeamMate();
@@ -178,7 +179,8 @@ public class EventDetailsFragment extends Fragment {
                 } else if (flag == 3) {
                     FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
                     feedFragment.findTeamMate();
-                }
+                }*/
+                ((MainActivity)getActivity()).onExploreClick();
 
             }
         });
