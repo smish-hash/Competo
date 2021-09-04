@@ -7,80 +7,91 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/light_white">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/action_bar"
-            app:navGraph="@navigation/nav_graph" />
-
-        <include
-            android:id="@+id/action_bar"
-            layout="@layout/main_action_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout2"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/grid_5x"
+            android:background="@color/light_white">
 
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
+            <include
+                android:id="@+id/action_bar"
+                layout="@layout/main_action_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/action_bar"
+                app:navGraph="@navigation/nav_graph" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!--            <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+        <!--                android:id="@+id/coordinatorLayout2"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="90dp"-->
+        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent">-->
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/grid_5x"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/white">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_nav_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:backgroundTint="@color/white">
-
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/bottom_nav_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:layout_marginEnd="@dimen/grid_3x"
-                    app:itemBackground="@null"
-                    app:elevation="0dp"
-                    app:itemIconTint="@drawable/bottom_nav_selector"
-                    app:itemRippleColor="@null"
-                    app:itemTextColor="@drawable/bottom_nav_selector"
-                    app:menu="@menu/bottom_nav_menu" />
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:background="@color/white"
+                app:elevation="0dp"
+                app:itemBackground="@null"
+                app:itemIconTint="@drawable/bottom_nav_selector"
+                app:itemRippleColor="@null"
+                app:itemTextColor="@drawable/bottom_nav_selector"
+                app:menu="@menu/bottom_nav_menu" />
 
 
-            </com.google.android.material.bottomappbar.BottomAppBar>
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnTeamFinder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/button_round_shape"
-                android:drawableTop="@drawable/ic_baseline_people_24"
-                android:elevation="@dimen/grid_3x"
-                android:fontFamily="sans-serif-condensed"
-                android:padding="@dimen/grid_2x"
-                android:text="Team Finder"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTeamFinder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/button_round_shape"
+            android:drawableTop="@drawable/ic_baseline_people_24"
+            android:elevation="@dimen/grid_3x"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="@dimen/grid_2x"
+            android:text="Team Finder"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--            </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -88,10 +99,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/main_accent_1"
+        app:headerLayout="@layout/drawer_header"
         app:itemIconTint="@color/accent_gray"
         app:itemTextColor="@color/accent_gray"
-        app:menu="@menu/main_drawer_menu"
-        app:headerLayout="@layout/drawer_header">
+        app:menu="@menu/main_drawer_menu">
 
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
