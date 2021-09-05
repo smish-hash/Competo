@@ -6,18 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
-import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentFeedMainBinding;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -36,11 +41,13 @@ public class FeedMainFragment extends Fragment {
     private EventFragmentAdapter adapter;
 
     private FirebaseFirestore firestoreDB;
+    private FirebaseAuth firebaseAuth;
     private NavController navController;
 
     private Constant constant;
     private CollectionReference collectionReference;
     private FirestoreRecyclerOptions<EventModel> options;
+    private String userID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,9 +61,13 @@ public class FeedMainFragment extends Fragment {
         binding = FragmentFeedMainBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        firebaseAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
+        userID = firebaseAuth.getUid();
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
+
+        initGreetings();
 
         initData();
 
@@ -66,7 +77,7 @@ public class FeedMainFragment extends Fragment {
                 /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
                 feedFragment.onClickViewAllEvents();*/
-                ((MainActivity)getActivity()).onViewAllEventsClick();
+                ((MainActivity) getActivity()).onViewAllEventsClick();
             }
         });
 
@@ -77,11 +88,50 @@ public class FeedMainFragment extends Fragment {
                 /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
                 feedFragment.findTeamMate();*/
-                ((MainActivity)getActivity()).onExploreClick();
+                ((MainActivity) getActivity()).onExploreClick();
             }
         });
 
         return view;
+    }
+
+    private void initGreetings() {
+        DocumentReference documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot snapshot = task.getResult();
+                    String name = snapshot.getString(constant.getUserNameField());
+                    String img = snapshot.getString(constant.getUserPhotoField());
+                    if (img != null) {
+                        Glide.with(getContext()).load(img).into(binding.ivFeedImage);
+                    } else {
+                        Glide.with(getContext()).load(R.drawable.user).into(binding.ivFeedImage);
+                    }
+
+                    if (name.contains(" ")) {
+                        String[] names = name.split(" ");
+                        binding.tvFeedHello.setText("Hello! " + names[0]);
+                    } else {
+                        binding.tvFeedHello.setText("Hello! " + name);
+                    }
+                }
+            }
+        });
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 12) {
+            binding.tvFeedGreeting.setText("Good morning");
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            binding.tvFeedGreeting.setText("Good afternoon");
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            binding.tvFeedGreeting.setText("Good evening");
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            binding.tvFeedGreeting.setText("Good night");
+        }
     }
 
     private void initData() {
@@ -102,6 +152,7 @@ public class FeedMainFragment extends Fragment {
 
         RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         snapHelper.attachToRecyclerView(recyclerView);
 

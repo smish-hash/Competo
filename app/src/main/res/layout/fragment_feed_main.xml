@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:scrollbars="none"
     android:layout_height="match_parent"
     android:background="@color/chat_background_color"
     tools:context=".Fragments.FeedMainFragment">
@@ -12,19 +13,60 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/grid_3x">
 
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/grid_3x"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivFeedImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvFeedHello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/palanquin_semibold"
+            android:text="Hello! "
+            android:layout_margin="@dimen/grid_3x"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFeedGreeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/palanquin_semibold"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/text_dark_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFeedHello" />
+
         <TextView
             android:id="@+id/tvEventPal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/grid_3x"
-            android:layout_marginTop="@dimen/grid_3x"
+            android:layout_marginTop="@dimen/grid_4x"
             android:fontFamily="sans-serif"
             android:text="Team Finder"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
             android:textColor="@color/text_dark_gray"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tvFeedGreeting" />
 
         <TextView
             android:id="@+id/tvUpcomingEvents"
@@ -93,9 +135,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUpcomingEvents"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:itemCount="10"
             tools:listitem="@layout/event_fragment_item" />
 
