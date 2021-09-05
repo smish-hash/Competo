@@ -19,9 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.StartupBBSR.competo.Fragments.EventFragment;
+import com.StartupBBSR.competo.Fragments.EventPalFragment;
+import com.StartupBBSR.competo.Fragments.FeedFragment;
 import com.StartupBBSR.competo.Fragments.FindFragment;
 import com.StartupBBSR.competo.Fragments.HomeFragment;
+import com.StartupBBSR.competo.Fragments.InboxNewFragment;
 import com.StartupBBSR.competo.Fragments.ProfileFragment;
 import com.StartupBBSR.competo.Fragments.TeamFragment;
 import com.StartupBBSR.competo.Models.UserModel;
@@ -34,6 +39,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -86,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HomeFragment homeFragment;
     private FindFragment findFragment;
     private ProfileFragment profileFragment;
+
+    private EventFragment eventFragment;
+    private InboxNewFragment inboxNewFragment;
+    private EventPalFragment eventPalFragment;
 
     private AlarmManager alarmManager;
 
@@ -158,24 +168,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findFragment = new FindFragment();
         teamFragment = new TeamFragment();
         profileFragment = new ProfileFragment();
+        eventPalFragment = new EventPalFragment();
+
+        eventFragment = new EventFragment();
+        inboxNewFragment = new InboxNewFragment();
 
         navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
 
+        activityMainBinding.btnTeamFinder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+                bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+                loadFragment(eventPalFragment);
+            }
+        });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+
+            bottomNavigationView.getMenu().setGroupCheckable(0, true, true);
+            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+
             switch (item.getItemId()) {
-                case R.id.homeFragment:
-                    fragment = new HomeFragment();
+
+                case R.id.feedFragment:
+                    fragment = new FeedFragment();
                     loadFragment(fragment);
                     break;
 
-                case R.id.findFragment:
-                    fragment = findFragment;
+                case R.id.eventFragment:
+                    fragment = eventFragment;
                     loadFragment(fragment);
                     break;
 
-                case R.id.teamFragment:
-                    fragment = teamFragment;
+                case R.id.inboxNewFragment:
+                    fragment = inboxNewFragment;
                     loadFragment(fragment);
                     break;
 
@@ -377,6 +405,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Blurred Background
             loadUsingGlide(imguri, ivprofilebackground, 25, 5);
         }
+    }
+
+    public void onViewAllEventsClick() {
+        bottomNavigationView.setSelectedItemId(R.id.eventFragment);
+        loadFragment(eventFragment);
+    }
+
+    public void onExploreClick() {
+        bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+        bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+        loadFragment(eventPalFragment);
     }
 
 

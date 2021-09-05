@@ -52,20 +52,6 @@ public class MessageRequestFragment extends Fragment {
     private MessageRequestAdapter adapter;
     private FirestoreRecyclerOptions<RequestModel> options;
 
-    private NavController navController;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                navController.navigate(R.id.action_messageRequestFragment_to_inboxMainFragment);
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,13 +69,6 @@ public class MessageRequestFragment extends Fragment {
                 .collection(constant.getRequests());
 
         connectionRef = firestoreDB.collection(constant.getChatConnections());
-
-        binding.requestLL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_messageRequestFragment_to_inboxMainFragment);
-            }
-        });
 
         checkRequestCount();
         initData();
@@ -202,12 +181,6 @@ public class MessageRequestFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(view);
     }
 
     @Override

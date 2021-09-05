@@ -12,7 +12,7 @@
         android:layout_width="140dp"
         android:layout_height="190dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
+        app:cardElevation="@dimen/grid_1x">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -70,10 +70,11 @@
     <TextView
         android:layout_marginTop="@dimen/grid_2x"
         android:id="@+id/tvTitle"
-        android:layout_width="140dp"
+        android:layout_width="match_parent"
         android:layout_gravity="start"
-        android:textColor="@color/white"
-        android:paddingBottom="@dimen/grid_2x"
+        android:layout_marginStart="@dimen/grid_2x"
+        android:textColor="@color/black"
+        android:paddingBottom="@dimen/grid_1x"
         style="@style/TextAppearance.AppCompat.Small"
         android:maxLines="2"
         android:ellipsize="end"

@@ -13,7 +13,6 @@ import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentInterestChipBinding;
-import com.StartupBBSR.competo.databinding.MainActionBarBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
@@ -131,24 +130,24 @@ public class InterestChipFragment extends Fragment {
 
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
-            if (chip.isChecked()){
+            if (chip.isChecked()) {
                 count++;
             }
         }
 
-        if (count <= 20 && count >= 3){
+        if (count <= 7 && count >= 3) {
             selectedChips = new String[count];
             int index = 0;
             for (int i = 0; i < chipGroup.getChildCount(); i++) {
                 Chip chip = (Chip) chipGroup.getChildAt(i);
-                if (chip.isChecked()){
+                if (chip.isChecked()) {
                     selectedChips[index++] = chip.getText().toString();
                 }
             }
             saveData();
         } else {
-            if (count > 10)
-                Toast.makeText(getActivity(), "Cannot select more than 10 items", Toast.LENGTH_SHORT).show();
+            if (count > 7)
+                Toast.makeText(getActivity(), "Cannot select more than 7 items", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getActivity(), "Select at least 3 items", Toast.LENGTH_SHORT).show();
         }

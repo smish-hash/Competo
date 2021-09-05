@@ -4,142 +4,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
     tools:context=".Fragments.CreateTeamFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_3x"
+            android:elevation="@dimen/grid_2x"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!--<androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:layout_marginTop="@dimen/grid_3x"
+            android:layout_marginEnd="@dimen/grid_3x"
+            android:background="@drawable/btn_search_round"
+            android:backgroundTint="@color/faded_light_blue"
+            app:iconifiedByDefault="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivTeamImage"
+            app:queryBackground="@color/faded_light_blue"
+            app:queryHint="Search" />-->
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1x"
+            android:layout_marginStart="@dimen/grid_1x"
+            android:text="Create a team"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/createTeamRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/grid_3x"
-            android:background="@color/white"
-            app:cardCornerRadius="30dp"
+            android:layout_margin="@dimen/grid_2x"
+            android:paddingTop="@dimen/grid_2x"
+            android:paddingBottom="@dimen/grid_3x"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/TILTeamName"
+            tools:listitem="@layout/create_team_user_item" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/btn_create_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_3x"
+            android:alpha="0.9"
+            android:backgroundTint="@color/ui_light_blue"
+            android:drawableLeft="@drawable/ic_baseline_done_24"
+            android:text="Done"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/background_blue" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/TILTeamName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2x"
+            android:layout_marginEnd="@dimen/grid_3x"
+            app:hintEnabled="false"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTeamImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivTeamImage"
+            app:layout_constraintTop_toTopOf="@id/ivTeamImage">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTeamName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="45dp"
+                android:background="@drawable/edit_text_border_30"
+                android:hint="Give your team a name"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences|textPersonName|textNoSuggestions|textAutoComplete|textAutoCorrect"
+                android:maxLength="30"
+                android:maxLines="1"
+                android:padding="1dp"
+                android:textColorHint="@color/text_gray" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_2x"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="Create a team"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <!--<androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchView"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="@dimen/grid_3x"
-                    android:layout_marginTop="@dimen/grid_3x"
-                    android:layout_marginEnd="@dimen/grid_3x"
-                    android:background="@drawable/btn_search_round"
-                    android:backgroundTint="@color/faded_light_blue"
-                    app:iconifiedByDefault="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivTeamImage"
-                    app:queryBackground="@color/faded_light_blue"
-                    app:queryHint="Search" />-->
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/createTeamRecyclerView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/grid_2x"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_3x"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TILTeamName"
-                    tools:listitem="@layout/create_team_user_item" />
-
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:id="@+id/btn_create_team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_3x"
-                    android:drawableLeft="@drawable/ic_baseline_done_24"
-                    android:text="Done"
-                    android:alpha="0.9"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:backgroundTint="@color/ui_light_blue"
-                    app:rippleColor="@color/background_blue"
-                    app:iconTint="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/TILTeamName"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_2x"
-                    android:layout_marginEnd="@dimen/grid_3x"
-                    app:hintEnabled="false"
-                    app:layout_constraintBottom_toBottomOf="@+id/ivTeamImage"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivTeamImage"
-                    app:layout_constraintTop_toTopOf="@id/ivTeamImage">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTeamName"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/edit_text_border_30"
-                        android:hint="Give your team a name"
-                        android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textPersonName|textNoSuggestions|textAutoComplete|textAutoCorrect"
-                        android:maxLength="30"
-                        android:maxLines="1"
-                        android:padding="1dp"
-                        android:textColorHint="@color/text_gray" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivTeamImage"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginStart="@dimen/grid_3x"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_baseline_add_a_photo_24"
-                    app:civ_border_color="@color/main_background"
-                    app:civ_border_width="1dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_3x"
-                    android:elevation="@dimen/grid_2x"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivTeamImage"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="@dimen/grid_1x"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_baseline_add_a_photo_24"
+            app:civ_border_color="@color/main_background"
+            app:civ_border_width="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

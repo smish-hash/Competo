@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eventpal_nav_host_fragment"
+    android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
-    tools:context=".Fragments.EventPalFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/eventPalRecyclerView"
-        android:padding="@dimen/grid_1x"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/event_pal_user_item"
-        tools:itemCount="4"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/team_finder_nav_graph"
+    tools:context=".Fragments.EventPalFragment"/>

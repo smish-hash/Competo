@@ -4,42 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
     tools:context=".Fragments.MessageRequestFragment">
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/grid_2x"
-        android:id="@+id/requestLL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_baseline_keyboard_arrow_left_24"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="Requests"
-            android:layout_gravity="center"
-            android:textSize="18sp"/>
-
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/requestRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/requestLL"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/request_item_layout" />
 
     <TextView
@@ -48,16 +23,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginEnd="@dimen/grid_3x"
-        android:textAlignment="center"
-        android:textColor="@color/white"
         android:fontFamily="sans-serif-condensed"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAlignment="center"
         android:text="No requests"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/requestLL" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"

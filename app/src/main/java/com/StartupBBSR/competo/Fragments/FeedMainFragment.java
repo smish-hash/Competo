@@ -5,31 +5,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentFeedMainBinding;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-import androidx.viewpager2.widget.ViewPager2;
 
 
 public class FeedMainFragment extends Fragment {
@@ -37,11 +41,13 @@ public class FeedMainFragment extends Fragment {
     private EventFragmentAdapter adapter;
 
     private FirebaseFirestore firestoreDB;
+    private FirebaseAuth firebaseAuth;
     private NavController navController;
 
     private Constant constant;
     private CollectionReference collectionReference;
     private FirestoreRecyclerOptions<EventModel> options;
+    private String userID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,18 +61,23 @@ public class FeedMainFragment extends Fragment {
         binding = FragmentFeedMainBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        firebaseAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
+        userID = firebaseAuth.getUid();
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
+
+        initGreetings();
 
         initData();
 
         binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.onClickViewAllEvents();
+                feedFragment.onClickViewAllEvents();*/
+                ((MainActivity) getActivity()).onViewAllEventsClick();
             }
         });
 
@@ -74,19 +85,59 @@ public class FeedMainFragment extends Fragment {
         binding.btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.findTeamMate();
+                feedFragment.findTeamMate();*/
+                ((MainActivity) getActivity()).onExploreClick();
             }
         });
 
         return view;
     }
 
+    private void initGreetings() {
+        DocumentReference documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot snapshot = task.getResult();
+                    String name = snapshot.getString(constant.getUserNameField());
+                    String img = snapshot.getString(constant.getUserPhotoField());
+                    if (img != null) {
+                        Glide.with(getContext()).load(img).into(binding.ivFeedImage);
+                    } else {
+                        Glide.with(getContext()).load(R.drawable.user).into(binding.ivFeedImage);
+                    }
+
+                    if (name.contains(" ")) {
+                        String[] names = name.split(" ");
+                        binding.tvFeedHello.setText("Hello! " + names[0]);
+                    } else {
+                        binding.tvFeedHello.setText("Hello! " + name);
+                    }
+                }
+            }
+        });
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 12) {
+            binding.tvFeedGreeting.setText("Good morning");
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            binding.tvFeedGreeting.setText("Good afternoon");
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            binding.tvFeedGreeting.setText("Good evening");
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            binding.tvFeedGreeting.setText("Good night");
+        }
+    }
+
     private void initData() {
         Query query = collectionReference.orderBy("eventDateStamp")
                 .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime())
-                .limit(6);
+                .limit(5);
 
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
@@ -97,8 +148,14 @@ public class FeedMainFragment extends Fragment {
 
     private void initRecycler() {
 
-        binding.unpcomingEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.unpcomingEventsRecyclerView.setHasFixedSize(true);
+        SnapHelper snapHelper = new LinearSnapHelper();
+
+        RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+        snapHelper.attachToRecyclerView(recyclerView);
+
         adapter = new EventFragmentAdapter(getContext(), options);
 
         adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
@@ -112,6 +169,18 @@ public class FeedMainFragment extends Fragment {
                 navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
             }
         });
+
+/*        adapter = new EventFeedAdapter(getContext(), options);
+        adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot snapshot) {
+                EventModel model = snapshot.toObject(EventModel.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("eventDetails", model);
+                bundle.putString("from", "feed");
+                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
+            }
+        });*/
 
         binding.unpcomingEventsRecyclerView.setAdapter(adapter);
         adapter.startListening();

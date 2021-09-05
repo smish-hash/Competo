@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.StartupBBSR.competo.Models.EventModel;
-import com.StartupBBSR.competo.databinding.EventFragmentItemBinding;
+import com.StartupBBSR.competo.databinding.EventFeedItemBinding;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -21,9 +21,9 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, EventFragmentAdapter.ViewHolder> {
+public class EventFeedAdapter extends FirestoreRecyclerAdapter<EventModel, EventFeedAdapter.ViewHolder> {
+    private EventFeedItemBinding binding;
 
-    private EventFragmentItemBinding binding;
     private Context context;
 
 
@@ -32,30 +32,8 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
 
     public OnItemClickListener listener;
 
-    public interface OnItemClickListener {
-        void onItemClick(DocumentSnapshot snapshot);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    public EventFragmentAdapter(Context context, @NonNull FirestoreRecyclerOptions<EventModel> options) {
-        super(options);
-        this.context = context;
-    }
-
-    @NonNull
     @Override
-    public EventFragmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = EventFragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding.getRoot());
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull EventModel model) {
-//        String date = model.getEventDate();
-
+    protected void onBindViewHolder(@NonNull EventFeedAdapter.ViewHolder holder, int position, @NonNull EventModel model) {
         String day = "", month = "";
 
         if (model.getEventDateStamp() != null) {
@@ -66,25 +44,47 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
         holder.day.setText(day);
         holder.month.setText(month);
         holder.title.setText(model.getEventTitle());
+        holder.description.setText(model.getEventDescription());
         Glide.with(context).load(model.getEventPoster()).into(holder.image);
+    }
+
+    @NonNull
+    @Override
+    public EventFeedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        binding = EventFeedItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding.getRoot());
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot snapshot);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public EventFeedAdapter(Context context, @NonNull FirestoreRecyclerOptions<EventModel> options) {
+        super(options);
+        this.context = context;
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, day, month;
+        TextView title, day, month, description;
         ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = binding.tvTitle;
+            description = binding.tvDescription;
             day = binding.tvDateDay;
             month = binding.tvDateMonth;
             image = binding.ivImage;
 
 
-            image.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
@@ -97,6 +97,5 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
                 }
             });
         }
-
     }
 }

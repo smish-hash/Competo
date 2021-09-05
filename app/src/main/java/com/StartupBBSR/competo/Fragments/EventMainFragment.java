@@ -131,7 +131,6 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
                 bundle.putSerializable("eventDetails", model);
                 bundle.putString("from", "event");
 
-//                hidekeyboard();
                 navController.navigate(R.id.action_eventMainFragment_to_eventDetailsFragment, bundle);
             }
         });
@@ -140,17 +139,10 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         adapter.startListening();
     }
 
-    private void hidekeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-    }
 
     private void initData() {
         Query query = collectionReference.orderBy("eventDateStamp")
                 .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime());
-
-        //        Query query = collectionReference.orderBy("Name").whereArrayContains("Chips", "Coder");
-//        Query query1 = collectionReference.whereArrayContainsAny("eventTags", )
 
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
