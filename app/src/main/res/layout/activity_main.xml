@@ -73,7 +73,7 @@
             android:elevation="@dimen/grid_3x"
             android:fontFamily="sans-serif-condensed"
             android:padding="@dimen/grid_2x"
-            android:text="Team Finder"
+            android:text="@string/Team_finder"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="@color/chat_background_color"
     tools:context=".Activity.SplashActivity">
 
     <ImageView
@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="400dp"
         android:layout_margin="@dimen/grid_3x"
-        android:src="@drawable/teamos_logo"
+        android:src="@drawable/teamos_logo_removebg"
         android:contentDescription="App Logo"
         app:layout_constraintBottom_toTopOf="@id/textView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
         android:gravity="center"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:id="@+id/tvVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
