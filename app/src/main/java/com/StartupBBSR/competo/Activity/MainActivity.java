@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -19,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
@@ -41,6 +41,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -65,6 +73,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int MY_REQUEST_CODE = 132;
     private ActivityMainBinding activityMainBinding;
 
     Menu menu;
@@ -83,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Constant constant;
     private UserModel userModel;
+
+    private AppUpdateManager appUpdateManager;
 
     private static final String TAG = "test";
     private static final String testTAG = "empty";
@@ -142,6 +153,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         alarmManager.setRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP, systemtime, 5000, pendingIntent
         );
+
+
+//        In-app updates
+        appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
+        com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.updatePriority() >= 2
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+
+                try {
+                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
+                            AppUpdateType.IMMEDIATE,
+                            this,
+                            MY_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Create a listener to track request state updates.
+        InstallStateUpdatedListener listener = state -> {
+            if (state.installStatus() == InstallStatus.DOWNLOADING) {
+                long bytesDownloaded = state.bytesDownloaded();
+                long totalBytesToDownload = state.totalBytesToDownload();
+            }
+
+            if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                // After the update is downloaded, show a notification
+                // and request user confirmation to restart the app.
+                popupSnackbarForCompleteUpdate();
+            }
+        };
+        appUpdateManager.registerListener(listener);
+        appUpdateManager.unregisterListener(listener);
 
 
         drawerLayout = activityMainBinding.drawer;
@@ -234,6 +282,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
+    }
+
+    private void popupSnackbarForCompleteUpdate() {
+        Snackbar snackbar =
+                Snackbar.make(
+                        activityMainBinding.getRoot(),
+                        "An update has just been downloaded.",
+                        Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("RESTART", view -> appUpdateManager.completeUpdate());
+        snackbar.setActionTextColor(
+                getResources().getColor(R.color.ui_blue));
+        snackbar.show();
     }
 
     @Override
@@ -438,6 +498,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         status("Online");
         Log.d("status", "onResume: Online");
+
+
+        appUpdateManager
+                .getAppUpdateInfo()
+                .addOnSuccessListener(appUpdateInfo -> {
+                    // If the update is downloaded but not installed,
+                    // notify the user to complete the update.
+                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                        popupSnackbarForCompleteUpdate();
+                    }
+                });
     }
 
     private void status(String status) {
