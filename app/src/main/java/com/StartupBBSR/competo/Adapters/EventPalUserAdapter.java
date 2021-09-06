@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.databinding.EventPalUserItemBinding;
@@ -15,12 +19,6 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel, EventPalUserAdapter.ViewHolder> {
 
@@ -85,7 +83,7 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
         holder.About.setText(model.getBio());
         Glide.with(context).load(model.getPhoto()).into(holder.Image);
 
-        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        holder.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         InterestChipAdapter adapter = new InterestChipAdapter(model.getChips());
         holder.recyclerView.setAdapter(adapter);
 

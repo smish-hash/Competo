@@ -5,7 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+
 import com.StartupBBSR.competo.Activity.MainActivity;
+import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
@@ -24,21 +35,13 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
+import java.util.Random;
 
 
 public class FeedMainFragment extends Fragment {
     private FragmentFeedMainBinding binding;
     private EventFragmentAdapter adapter;
+    private EventFeedAdapter adapter1;
 
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
@@ -110,11 +113,16 @@ public class FeedMainFragment extends Fragment {
                         Glide.with(getContext()).load(R.drawable.user).into(binding.ivFeedImage);
                     }
 
+                    // Creating random greetings
+                    String[] greetings={"Hello","Hola","Namaste"};
+                    Random r=new Random();
+                    int randomNumber=r.nextInt(greetings.length);
+
                     if (name.contains(" ")) {
                         String[] names = name.split(" ");
-                        binding.tvFeedHello.setText("Hello! " + names[0]);
+                        binding.tvFeedHello.setText(greetings[randomNumber]+" " + names[0]+ "!");
                     } else {
-                        binding.tvFeedHello.setText("Hello! " + name);
+                        binding.tvFeedHello.setText(greetings[randomNumber]+" " + name + "!");
                     }
                 }
             }
@@ -124,13 +132,13 @@ public class FeedMainFragment extends Fragment {
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
         if (timeOfDay >= 0 && timeOfDay < 12) {
-            binding.tvFeedGreeting.setText("Good morning");
+            binding.tvFeedGreeting.setText("Good Morning");
         } else if (timeOfDay >= 12 && timeOfDay < 16) {
-            binding.tvFeedGreeting.setText("Good afternoon");
+            binding.tvFeedGreeting.setText("Good Afternoon");
         } else if (timeOfDay >= 16 && timeOfDay < 21) {
-            binding.tvFeedGreeting.setText("Good evening");
+            binding.tvFeedGreeting.setText("Good Evening");
         } else if (timeOfDay >= 21 && timeOfDay < 24) {
-            binding.tvFeedGreeting.setText("Good night");
+            binding.tvFeedGreeting.setText("Good Night");
         }
     }
 
@@ -151,18 +159,17 @@ public class FeedMainFragment extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
 
         RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        //recyclerView.setHasFixedSize(true);
         snapHelper.attachToRecyclerView(recyclerView);
 
-        adapter = new EventFragmentAdapter(getContext(), options);
 
+        adapter = new EventFragmentAdapter(getContext(), options);
         adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot snapshot) {
                 EventModel model = snapshot.toObject(EventModel.class);
-
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("eventDetails", model);
                 bundle.putString("from", "feed");
@@ -170,17 +177,18 @@ public class FeedMainFragment extends Fragment {
             }
         });
 
-/*        adapter = new EventFeedAdapter(getContext(), options);
-        adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot snapshot) {
-                EventModel model = snapshot.toObject(EventModel.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("eventDetails", model);
-                bundle.putString("from", "feed");
-                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
-            }
-        });*/
+//        adapter = new EventFeedAdapter(getContext(), options);
+//        adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(DocumentSnapshot snapshot) {
+//                EventModel model = snapshot.toObject(EventModel.class);
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("eventDetails", model);
+//                bundle.putString("from", "feed");
+//                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
+//            }
+//        });
 
         binding.unpcomingEventsRecyclerView.setAdapter(adapter);
         adapter.startListening();
