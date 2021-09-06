@@ -55,35 +55,34 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/button_round_shape"
-            android:backgroundTint="@color/light_white"
-            android:layout_marginTop="-64dp"
             android:layout_marginStart="@dimen/grid_2x"
             android:layout_marginEnd="@dimen/grid_2x"
+            android:layout_marginTop="@dimen/grid_2x"
             android:layout_marginBottom="@dimen/grid_3x"
+            android:background="@drawable/button_round_shape"
+            android:backgroundTint="@color/light_white"
+            app:layout_constraintBottom_toTopOf="@+id/btnSendMessage"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardview4"
-            app:layout_constraintBottom_toTopOf="@+id/btnSendMessage">
+            app:layout_constraintTop_toBottomOf="@id/cardview4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/grid_5x"
                 android:padding="@dimen/grid_2x">
 
                 <TextView
                     android:id="@+id/tvEventPalUserAbout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2x"
                     android:autoLink="all"
                     android:gravity="center"
-                    android:layout_marginTop="@dimen/grid_2x"
                     android:text="About Section"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/text_dark_gray"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEventPalUserName" />
 
                 <TextView
@@ -94,22 +93,22 @@
                     android:fontFamily="@font/palanquin_semibold"
                     android:gravity="center"
                     android:maxLines="2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:text="Name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toTopOf="@+id/tvEventPalUserAbout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--                <androidx.core.widget.NestedScrollView-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/grid_2x"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/tvEventPalUserAbout">-->
+                <!--                <androidx.core.widget.NestedScrollView-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/grid_2x"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/tvEventPalUserAbout">-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventPal_UserSkillRecyclerView"
@@ -122,7 +121,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvEventPalUserAbout"
                     tools:listitem="@layout/interest_chip_item" />
 
-<!--                </androidx.core.widget.NestedScrollView>-->
+                <!--                </androidx.core.widget.NestedScrollView>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
