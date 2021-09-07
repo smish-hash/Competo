@@ -1,29 +1,29 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentInboxNewBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class InboxNewFragment extends Fragment {
 
@@ -35,9 +35,22 @@ public class InboxNewFragment extends Fragment {
 
     private UserModel userModel;
     private Constant constant;
+    private TabLayout inbox_tablayout;
 
     //    Tab titles
     private String[] inboxTabTitles = new String[]{"Messages", "Groups", "Message Requests"};
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,8 +79,11 @@ public class InboxNewFragment extends Fragment {
     private void init() {
         binding.inboxViewPager.setAdapter(new InboxViewPagerFragmentAdapter(this));
         binding.inboxViewPager.setSaveEnabled(false);
+
         new TabLayoutMediator(binding.inboxTablayout, binding.inboxViewPager,
                 ((tab, position) -> tab.setText(inboxTabTitles[position]))).attach();
+
+//
     }
 
         private void getRequestCounts() {

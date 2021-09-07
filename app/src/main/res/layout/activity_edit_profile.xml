@@ -4,19 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="@color/light_white"
     tools:context=".Activity.EditProfileActivity">
+
+    <Button
+        android:id="@+id/btnSaveProfile"
+        android:layout_width="@dimen/standard_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/grid_3x"
+        android:background="@drawable/button_round_shape"
+        android:text="Save Changes"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/editProfileToolbar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/accent_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_white_24"
+        app:title="Edit Profile"
+        app:titleTextColor="@color/white" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/grid_2x"
-        android:fillViewport="true"
         android:layout_marginBottom="@dimen/grid_3x"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEditProfileBack">
+        app:layout_constraintTop_toBottomOf="@+id/editProfileToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,16 +50,16 @@
                 android:id="@+id/etName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/white"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:backgroundTint="@color/dark_grey"
                 android:ems="10"
                 android:hint="Enter Name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textMultiLine|textCapSentences|textAutoComplete|textAutoCorrect"
                 android:maxLines="2"
-                android:textColor="#FFFFFF"
-                android:textColorHint="@color/accent_gray"
+                android:textColor="@color/text_dark_gray"
+                android:textColorHint="@color/dark_grey"
                 app:layout_constraintBottom_toBottomOf="@+id/image_rel_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_rel_layout" />
@@ -44,16 +68,16 @@
                 android:id="@+id/etPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginEnd="@dimen/grid_3x"
                 android:backgroundTint="@color/accent_gray"
                 android:ems="10"
                 android:hint="Enter Phone Number"
                 android:imeOptions="actionNext"
                 android:inputType="phone"
-                android:textColor="@color/white"
-                android:textColorHint="@color/text_gray"
+                android:textColor="@color/text_dark_gray"
+                android:textColorHint="@color/text_dark_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -62,16 +86,16 @@
                 android:id="@+id/etLinkedIn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginEnd="@dimen/grid_3x"
                 android:backgroundTint="@color/accent_gray"
                 android:hint="Enter LinkedIn Address"
                 android:imeOptions="actionDone"
                 android:inputType="textUri"
                 android:maxLines="1"
-                android:textColor="@color/white"
-                android:textColorHint="@color/text_gray"
+                android:textColor="@color/text_dark_gray"
+                android:textColorHint="@color/dark_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView19" />
@@ -91,8 +115,8 @@
                 android:id="@+id/image_rel_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_3x"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -102,7 +126,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@id/profile_image"
                     android:layout_alignBottom="@id/profile_image"
-                    android:src="@drawable/ic_baseline_photo_camera_24" />
+                    android:src="@drawable/ic_baseline_photo_camera_24"
+                    app:tint="@color/text_dark_gray" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -117,7 +142,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/user"
-                    app:civ_border_color="#FF000000"
+                    app:civ_border_color="@color/text_dark_gray"
                     app:civ_border_width="1dp"
                     app:civ_circle_background_color="@color/white" />
 
@@ -131,7 +156,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="Bio"
-                android:textColor="@color/white"
+                android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +169,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Name"
-                android:textColor="@color/white"
+                android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/etName"
@@ -154,10 +179,10 @@
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginTop="24dp"
                 android:text="Phone"
-                android:textColor="@color/white"
+                android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,10 +192,10 @@
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginTop="24dp"
-                android:text="LinkedIn"
-                android:textColor="@color/white"
+                android:text="LinkedIn URL"
+                android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -184,6 +209,7 @@
                 android:layout_marginBottom="@dimen/grid_2x"
                 android:background="@color/accent_gray"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etLinkedIn" />
 
@@ -191,6 +217,7 @@
                 android:id="@+id/view1"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/grid_2x"
                 android:layout_marginBottom="@dimen/grid_3x"
                 android:background="@color/accent_gray"
@@ -201,6 +228,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeleteProfile"
                 style="?attr/materialButtonOutlinedStyle"
+                android:visibility="gone"
                 android:layout_width="@dimen/standard_width"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/grid_2x"
@@ -213,16 +241,16 @@
                 app:layout_constraintTop_toBottomOf="@id/view2"
                 app:rippleColor="#8DDD2C00"
                 app:strokeColor="#DD2C00"
-                app:strokeWidth="1dp" />
+                app:strokeWidth="5px" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/BioTIL"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginTop="3dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/grid_3x"
                 android:maxHeight="150dp"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -238,14 +266,14 @@
                     android:hint="Enter Bio"
                     android:imeOptions="actionNext"
                     android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textNoSuggestions"
-                    android:maxHeight="150dp"
+                    android:maxHeight="200dp"
                     android:maxLength="200"
                     android:maxLines="15"
                     android:overScrollMode="always"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/accent_gray" />
+                    android:textColor="@color/text_dark_gray"
+                    android:textColorHint="@color/dark_grey" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -253,28 +281,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btnSaveProfile"
-        android:layout_width="@dimen/standard_width"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/grid_3x"
-        android:background="@drawable/button_round_shape"
-        android:text="Save Changes"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
+    <!--<TextView
         android:id="@+id/tvEditProfileBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/grid_2x"
+        android:layout_marginTop="@dimen/grid_2x"
+        android:drawablePadding="@dimen/grid_2x"
         android:fontFamily="sans-serif-medium"
         android:text="Edit Profile"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="22sp"
-        app:drawableLeftCompat="@drawable/ic_baseline_keyboard_arrow_left_24"
+        app:drawableLeftCompat="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

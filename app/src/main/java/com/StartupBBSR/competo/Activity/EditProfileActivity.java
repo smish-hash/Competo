@@ -122,7 +122,14 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        activityEditProfileBinding.tvEditProfileBack.setOnClickListener(new View.OnClickListener() {
+        /*activityEditProfileBinding.tvEditProfileBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditProfileActivity.super.onBackPressed();
+            }
+        });*/
+
+        activityEditProfileBinding.editProfileToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditProfileActivity.super.onBackPressed();

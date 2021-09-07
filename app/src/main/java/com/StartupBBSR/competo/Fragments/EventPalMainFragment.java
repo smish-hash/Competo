@@ -5,39 +5,33 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+
 import com.StartupBBSR.competo.Activity.ChatDetailActivity;
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.RequestModel;
-import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.AlertlayoutrequestBinding;
-import com.StartupBBSR.competo.databinding.FragmentEventPalBinding;
 import com.StartupBBSR.competo.databinding.FragmentEventPalMainBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -77,7 +71,7 @@ public class EventPalMainFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-//                Do nothing on back pressed
+                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -119,8 +113,8 @@ public class EventPalMainFragment extends Fragment {
 
     private void search(String newText) {
         Query userSearchQuery = collectionReference
-                .orderBy("Name")
-                .whereGreaterThanOrEqualTo("Name", newText);
+                .orderBy(constant.getUserNameField())
+                .whereGreaterThanOrEqualTo(constant.getUserNameField(), newText);
 
         options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
                 .setQuery(userSearchQuery, EventPalModel.class)
@@ -142,7 +136,7 @@ public class EventPalMainFragment extends Fragment {
     private void initRecycler() {
         SnapHelper snapHelper = new LinearSnapHelper();
         RecyclerView recyclerView = binding.eventPalRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL   , false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);

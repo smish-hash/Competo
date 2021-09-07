@@ -68,12 +68,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/button_round_shape"
+            android:background="@drawable/bottom_nav_team_finder_button"
             android:drawableTop="@drawable/ic_baseline_people_24"
             android:elevation="@dimen/grid_3x"
             android:fontFamily="sans-serif-condensed"
             android:padding="@dimen/grid_2x"
-            android:text="Team Finder"
+            android:text="@string/Team_finder"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
@@ -85,11 +85,12 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/main_accent_1"
+        android:background="@color/chat_background_color"
         app:headerLayout="@layout/drawer_header"
-        app:itemIconTint="@color/accent_gray"
-        app:itemTextColor="@color/accent_gray"
+        app:itemIconTint="@color/text_dark_gray"
+        app:itemTextColor="@color/text_dark_gray"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:layout_gravity="start"
         app:menu="@menu/main_drawer_menu">
 
     </com.google.android.material.navigation.NavigationView>

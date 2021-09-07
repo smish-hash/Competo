@@ -1,12 +1,13 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
-import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
+import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -24,7 +25,9 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,7 +41,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 public class FeedMainFragment extends Fragment {
     private FragmentFeedMainBinding binding;
-    private EventFragmentAdapter adapter;
+    private EventFeedAdapter adapter;
 
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
@@ -48,12 +51,6 @@ public class FeedMainFragment extends Fragment {
     private CollectionReference collectionReference;
     private FirestoreRecyclerOptions<EventModel> options;
     private String userID;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,9 +64,16 @@ public class FeedMainFragment extends Fragment {
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
 
-        initGreetings();
 
+        initGreetings();
         initData();
+
+        binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).onProfileImageClick();
+            }
+        });
 
         binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,11 +114,16 @@ public class FeedMainFragment extends Fragment {
                         Glide.with(getContext()).load(R.drawable.user).into(binding.ivFeedImage);
                     }
 
+                    // Creating random greetings
+                    String[] greetings = {"Hello", "Hola", "Namaste"};
+                    Random r = new Random();
+                    int randomNumber = r.nextInt(greetings.length);
+
                     if (name.contains(" ")) {
                         String[] names = name.split(" ");
-                        binding.tvFeedHello.setText("Hello! " + names[0]);
+                        binding.tvFeedHello.setText(greetings[randomNumber] + " " + names[0] + "!");
                     } else {
-                        binding.tvFeedHello.setText("Hello! " + name);
+                        binding.tvFeedHello.setText(greetings[randomNumber] + " " + name + "!");
                     }
                 }
             }
@@ -124,20 +133,20 @@ public class FeedMainFragment extends Fragment {
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
         if (timeOfDay >= 0 && timeOfDay < 12) {
-            binding.tvFeedGreeting.setText("Good morning");
+            binding.tvFeedGreeting.setText("Good Morning");
         } else if (timeOfDay >= 12 && timeOfDay < 16) {
-            binding.tvFeedGreeting.setText("Good afternoon");
+            binding.tvFeedGreeting.setText("Good Afternoon");
         } else if (timeOfDay >= 16 && timeOfDay < 21) {
-            binding.tvFeedGreeting.setText("Good evening");
+            binding.tvFeedGreeting.setText("Good Evening");
         } else if (timeOfDay >= 21 && timeOfDay < 24) {
-            binding.tvFeedGreeting.setText("Good night");
+            binding.tvFeedGreeting.setText("Good Night");
         }
     }
 
     private void initData() {
         Query query = collectionReference.orderBy("eventDateStamp")
                 .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime())
-                .limit(5);
+                .limit(4);
 
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
@@ -151,14 +160,26 @@ public class FeedMainFragment extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
 
         RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         snapHelper.attachToRecyclerView(recyclerView);
 
-        adapter = new EventFragmentAdapter(getContext(), options);
 
+/*        adapter = new EventFragmentAdapter(getContext(), options);
         adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot snapshot) {
+                EventModel model = snapshot.toObject(EventModel.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("eventDetails", model);
+                bundle.putString("from", "feed");
+                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
+            }
+        });*/
+
+        adapter = new EventFeedAdapter(getContext(), options);
+        adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot snapshot) {
                 EventModel model = snapshot.toObject(EventModel.class);
@@ -169,18 +190,6 @@ public class FeedMainFragment extends Fragment {
                 navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
             }
         });
-
-/*        adapter = new EventFeedAdapter(getContext(), options);
-        adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot snapshot) {
-                EventModel model = snapshot.toObject(EventModel.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("eventDetails", model);
-                bundle.putString("from", "feed");
-                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
-            }
-        });*/
 
         binding.unpcomingEventsRecyclerView.setAdapter(adapter);
         adapter.startListening();

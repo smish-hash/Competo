@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/grid_3x"
         android:textColor="@color/black"
         android:fontFamily="sans-serif"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_left_24"
         android:drawableTint="@color/black"
         android:text="Select Skills"
