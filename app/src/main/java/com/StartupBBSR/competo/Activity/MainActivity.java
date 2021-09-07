@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FindFragment findFragment;
     private ProfileFragment profileFragment;
 
+    private FeedFragment feedFragment;
     private EventFragment eventFragment;
     private InboxNewFragment inboxNewFragment;
     private EventPalFragment eventPalFragment;
@@ -212,12 +213,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        getUserData();
 
-        homeFragment = new HomeFragment();
-        findFragment = new FindFragment();
+//        homeFragment = new HomeFragment();
+//        findFragment = new FindFragment();
         teamFragment = new TeamFragment();
         profileFragment = new ProfileFragment();
         eventPalFragment = new EventPalFragment();
 
+        feedFragment = new FeedFragment();
         eventFragment = new EventFragment();
         inboxNewFragment = new InboxNewFragment();
 
@@ -241,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (item.getItemId()) {
 
                 case R.id.feedFragment:
-                    fragment = new FeedFragment();
+                    fragment = feedFragment;
                     loadFragment(fragment);
                     break;
 
@@ -467,6 +469,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void onProfileImageClick() {
+        bottomNavigationView.setSelectedItemId(R.id.profileFragment);
+        loadFragment(profileFragment);
+    }
+
     public void onViewAllEventsClick() {
         bottomNavigationView.setSelectedItemId(R.id.eventFragment);
         loadFragment(eventFragment);
@@ -476,6 +483,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
         bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
         loadFragment(eventPalFragment);
+    }
+
+    public void onGoHomeOnBackPressed() {
+        bottomNavigationView.setSelectedItemId(R.id.feedFragment);
+        loadFragment(feedFragment);
     }
 
 

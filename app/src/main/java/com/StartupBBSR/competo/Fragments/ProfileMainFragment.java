@@ -1,5 +1,6 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Activity.EditProfileActivity;
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.InterestChipAdapter;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
@@ -24,6 +26,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -46,6 +49,18 @@ public class ProfileMainFragment extends Fragment {
     private Constant constant;
 
     private NavController navController;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

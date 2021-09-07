@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/light_white"
     tools:context=".Activity.OnboardingActivity">
 
     <androidx.cardview.widget.CardView
@@ -27,8 +27,8 @@
                 android:id="@+id/btnOnboardingNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:layout_marginBottom="@dimen/grid_3x"
                 android:background="@drawable/btn_next_background_border"
                 android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
                 android:drawableTint="@color/white"
@@ -42,8 +42,8 @@
                 android:id="@+id/btnOnboardingGetstarted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:layout_marginBottom="@dimen/grid_3x"
                 android:backgroundTint="@color/white"
                 android:text="Get Started"
                 android:textAllCaps="false"
@@ -56,7 +56,7 @@
                 android:id="@+id/viewpager"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="@dimen/grid_4x"
                 app:layout_constraintBottom_toTopOf="@+id/tabIndicator"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,14 +66,14 @@
                 android:id="@+id/tabIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="@dimen/grid_2x"
+                android:layout_marginBottom="@dimen/grid_3x"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:backgroundTint="@color/transparent"
                 app:tabBackground="@drawable/tabindicator_selector"
-                app:tabIndicatorColor="#001868A6"
-                app:tabRippleColor="#001868A6" />
+                app:tabIndicatorColor="@color/transparent"
+                app:tabRippleColor="@color/transparent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.activity.OnBackPressedCallback;
@@ -108,6 +109,18 @@ public class InterestChipFragment extends Fragment {
             chip.setCheckable(true);
             chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.chip_background_color)));
             chipGroup.addView(chip);
+        }
+
+        if (userModel.getUserChips() != null) {
+            List<String> userChips = userModel.getUserChips();
+            for (String s: userChips) {
+                for (int j = 0; j < chipGroup.getChildCount(); j++) {
+                    Chip chip = (Chip) chipGroup.getChildAt(j);
+                    if (chip.getText().toString().equals(s)) {
+                        chip.setChecked(true);
+                    }
+                }
+            }
         }
 
         binding.tvChipFragmentGoBack.setOnClickListener(new View.OnClickListener() {

@@ -32,10 +32,12 @@
                 android:fillViewport="true"
                 android:background="@color/transparent"
                 app:tabBackground="@drawable/selector_inboxtab"
-                app:tabRippleColor="@android:color/transparent"
-                app:tabIndicatorHeight="0dp"
+                app:tabIndicatorHeight="@dimen/grid_1x"
                 app:tabTextAppearance="@style/ProfileCustomTabText"
-                app:tabTextColor="@color/black">
+                app:tabIndicator="@color/transparent"
+                app:tabTextColor="@color/text_dark_gray"
+                app:tabSelectedTextColor="@color/white"
+                app:tabRippleColor="@null">
 
             </com.google.android.material.tabs.TabLayout>
 
@@ -43,6 +45,7 @@
                 android:id="@+id/inboxViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/grid_1x"
                 android:background="@color/white" />
 
 

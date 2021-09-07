@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/button_round_shape"
+            android:background="@drawable/bottom_nav_team_finder_button"
             android:drawableTop="@drawable/ic_baseline_people_24"
             android:elevation="@dimen/grid_3x"
             android:fontFamily="sans-serif-condensed"

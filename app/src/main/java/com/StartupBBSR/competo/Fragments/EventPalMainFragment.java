@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.StartupBBSR.competo.Activity.ChatDetailActivity;
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.RequestModel;
@@ -70,7 +71,7 @@ public class EventPalMainFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-//                Do nothing on back pressed
+                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

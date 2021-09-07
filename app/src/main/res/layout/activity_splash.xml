@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_margin="@dimen/grid_3x"
-        android:src="@drawable/teamos_logo_removebg"
+        android:src="@drawable/stamp_png"
         android:contentDescription="App Logo"
         app:layout_constraintBottom_toTopOf="@id/textView"
         app:layout_constraintEnd_toEndOf="parent"

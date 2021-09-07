@@ -1,5 +1,6 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
-import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,7 +42,6 @@ import androidx.recyclerview.widget.SnapHelper;
 public class FeedMainFragment extends Fragment {
     private FragmentFeedMainBinding binding;
     private EventFeedAdapter adapter;
-    private EventFeedAdapter adapter1;
 
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
@@ -51,12 +51,6 @@ public class FeedMainFragment extends Fragment {
     private CollectionReference collectionReference;
     private FirestoreRecyclerOptions<EventModel> options;
     private String userID;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,9 +64,16 @@ public class FeedMainFragment extends Fragment {
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
 
-        initGreetings();
 
+        initGreetings();
         initData();
+
+        binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).onProfileImageClick();
+            }
+        });
 
         binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +162,7 @@ public class FeedMainFragment extends Fragment {
         RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
         //recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        //recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         snapHelper.attachToRecyclerView(recyclerView);
 
 
