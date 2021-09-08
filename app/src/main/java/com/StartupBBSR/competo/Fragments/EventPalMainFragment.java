@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
@@ -26,6 +25,7 @@ import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.RequestModel;
 import com.StartupBBSR.competo.Utils.Constant;
+import com.StartupBBSR.competo.Utils.ScaleLayoutManager;
 import com.StartupBBSR.competo.databinding.AlertlayoutrequestBinding;
 import com.StartupBBSR.competo.databinding.FragmentEventPalMainBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -136,7 +136,7 @@ public class EventPalMainFragment extends Fragment {
     private void initRecycler() {
         SnapHelper snapHelper = new LinearSnapHelper();
         RecyclerView recyclerView = binding.eventPalRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL   , false));
+        recyclerView.setLayoutManager(new ScaleLayoutManager(getActivity(), ScaleLayoutManager.HORIZONTAL   , false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
