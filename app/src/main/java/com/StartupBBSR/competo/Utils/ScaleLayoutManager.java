@@ -13,7 +13,7 @@ public class ScaleLayoutManager extends LinearLayoutManager {
 
     private final float mShrinkAmount = 0.15f;
     private final float mShrinkDistance = 0.9f;
-    private final float factor=4;
+    private final float factor=2;
 
     public ScaleLayoutManager(Context context) {
         super(context);
