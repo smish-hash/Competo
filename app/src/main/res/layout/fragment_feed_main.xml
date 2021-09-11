@@ -95,14 +95,19 @@
             app:layout_constraintTop_toTopOf="@id/tvUpcomingEvents" />
 
 
-        <androidx.cardview.widget.CardView
+        <soup.neumorphism.NeumorphCardView
             android:id="@+id/cvPoster"
+            style="@style/Widget.Neumorph.CardView"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="@dimen/grid_3x"
-            android:layout_marginEnd="@dimen/grid_3x"
-            app:cardCornerRadius="10dp"
+            app:neumorph_shapeType="basin"
+            app:neumorph_shadowColorDark="@color/accent_gray"
+            app:neumorph_shadowElevation="6dp"
+            app:neumorph_inset="12dp"
+            app:neumorph_insetStart="12dp"
+            app:neumorph_insetEnd="12dp"
+            app:neumorph_insetTop="12dp"
+            app:neumorph_insetBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEventPal">
@@ -127,7 +132,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/teamos_cover_doc" />
 
-        </androidx.cardview.widget.CardView>
+        </soup.neumorphism.NeumorphCardView>
 
 
 
