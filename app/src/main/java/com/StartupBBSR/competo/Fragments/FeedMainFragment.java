@@ -1,10 +1,19 @@
 package com.StartupBBSR.competo.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
@@ -26,17 +35,6 @@ import com.google.firebase.firestore.Query;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 
 public class FeedMainFragment extends Fragment {
@@ -115,7 +113,7 @@ public class FeedMainFragment extends Fragment {
                     }
 
                     // Creating random greetings
-                    String[] greetings = {"Hello", "Hola", "Namaste"};
+                    String[] greetings = {"Hello", "Hola", "Namaste", "Bonjour", "Kon'nichiwa","Nǐ hǎo"};
                     Random r = new Random();
                     int randomNumber = r.nextInt(greetings.length);
 
@@ -136,10 +134,8 @@ public class FeedMainFragment extends Fragment {
             binding.tvFeedGreeting.setText("Good Morning");
         } else if (timeOfDay >= 12 && timeOfDay < 16) {
             binding.tvFeedGreeting.setText("Good Afternoon");
-        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+        } else if (timeOfDay >= 16 && timeOfDay < 24) {
             binding.tvFeedGreeting.setText("Good Evening");
-        } else if (timeOfDay >= 21 && timeOfDay < 24) {
-            binding.tvFeedGreeting.setText("Good Night");
         }
     }
 
