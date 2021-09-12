@@ -15,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/grid_2x"
-        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
         android:padding="@dimen/grid_2x"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,8 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:background="@drawable/event_detail_button_round"
             android:elevation="25dp"
+            android:background="@drawable/event_detail_button_round"
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:background="@drawable/event_detail_button_round"
             android:elevation="25dp"
+            android:background="@drawable/event_detail_button_round"
             android:text="Find a TeamMate"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:background="@drawable/event_detail_button_round"
             android:elevation="25dp"
+            android:background="@drawable/event_detail_button_round"
             android:padding="@dimen/grid_1x"
             android:text="Add to wishlist"
             android:textAllCaps="false"
@@ -66,121 +66,154 @@
     </LinearLayout>
 
 
-    <androidx.core.widget.NestedScrollView
+
+
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/grid_1x"
-        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/grid_3x"
+        android:orientation="vertical"
+        android:padding="@dimen/grid_2x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView3">
 
         <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/grid_3x"
-            android:orientation="vertical"
-            android:padding="@dimen/grid_2x">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <soup.neumorphism.NeumorphCardView
+                style="@style/Widget.Neumorph.CardView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/grid_1x"
-                android:padding="@dimen/grid_1x"
-                android:weightSum="3">
+                app:neumorph_shapeType="basin"
+                app:neumorph_shadowColorDark="@color/accent_gray"
+                app:neumorph_shadowElevation="4dp"
+                app:neumorph_backgroundColor="@color/white">
 
-                <TextView
-                    android:id="@+id/tvEventDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_1x"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_tv_background"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:text="24-SEP-21"
-                    android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvEventVenue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_1x"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_tv_background"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:text="Raghunathpur"
-                    android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/tvEventDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/grid_2x"
+                        android:paddingBottom="@dimen/grid_2x"
+                        android:text="24-SEP-21"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </soup.neumorphism.NeumorphCardView>
 
-                <TextView
-                    android:id="@+id/tvEventTime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/grid_1x"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_tv_background"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/grid_2x"
-                    android:paddingBottom="@dimen/grid_2x"
-                    android:text="12:32 PM"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/tvEventTitle"
-                android:layout_width="match_parent"
+            <soup.neumorphism.NeumorphCardView
+                style="@style/Widget.Neumorph.CardView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/palanquin_semibold"
-                android:maxLines="2"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:text="Event Title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/black" />
+                app:neumorph_shapeType="basin"
+                app:neumorph_shadowColorDark="@color/accent_gray"
+                app:neumorph_shadowElevation="4dp"
+                app:neumorph_backgroundColor="@color/white">
 
-            <TextView
-                android:id="@+id/about"
-                android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvEventVenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:paddingTop="@dimen/grid_2x"
+                        android:paddingBottom="@dimen/grid_2x"
+                        android:text="Raghuhpur"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </soup.neumorphism.NeumorphCardView>
+            <soup.neumorphism.NeumorphCardView
+                style="@style/Widget.Neumorph.CardView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:text="About"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/text_dark_gray" />
+                app:neumorph_shapeType="basin"
+                app:neumorph_shadowColorDark="@color/accent_gray"
+                app:neumorph_shadowElevation="4dp"
+                app:neumorph_backgroundColor="@color/white">
 
-            <TextView
-                android:id="@+id/tvEventDescription"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:background="@drawable/rounded_tv_background"
-                android:minHeight="135dp"
-                android:padding="@dimen/grid_3x"
-                android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
-                android:textColor="#707070" />
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content">
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/eventTagRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="135dp"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:paddingStart="@dimen/grid_2x"
-                android:paddingTop="@dimen/grid_2x"
-                android:paddingEnd="@dimen/grid_2x"
-                android:paddingBottom="@dimen/grid_2x"
-                tools:listitem="@layout/interest_chip_item" />
+                    <TextView
+                        android:id="@+id/tvEventTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/grid_2x"
+                        android:paddingBottom="@dimen/grid_2x"
+                        android:text="12:32 PM"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </soup.neumorphism.NeumorphCardView>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+
+        <!--<TextView
+            android:id="@+id/tvEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="Event Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/white"
+            android:textStyle="bold" /> -->
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_2x"
+            android:text="About"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/tvEventDescription"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1x"
+            android:background="@drawable/rounded_tv_background"
+            android:backgroundTint="@color/main_background2"
+            android:maxLength="350"
+            android:minHeight="115dp"
+            android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
+            android:textColor="#707070" />
+
+
+        <!-- <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventTagRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/grid_2x"
+            android:paddingStart="@dimen/grid_2x"
+            android:paddingTop="@dimen/grid_2x"
+            android:paddingEnd="@dimen/grid_2x"
+            android:paddingBottom="@dimen/grid_2x"
+            tools:listitem="@layout/interest_chip_item" />-->
+
+    </LinearLayout>
+
 
 
     <androidx.cardview.widget.CardView
@@ -190,8 +223,8 @@
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="@dimen/grid_3x"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="@dimen/grid_2x"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -200,7 +233,8 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

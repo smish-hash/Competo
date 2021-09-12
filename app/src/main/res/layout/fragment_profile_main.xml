@@ -30,15 +30,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView" />
 
-            <ImageView
-                android:id="@+id/iv_gotolinkedin"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/blue"
-                android:src="@drawable/linkedin_logo"
-                app:layout_constraintStart_toStartOf="@+id/profile_name"
-                app:layout_constraintTop_toBottomOf="@+id/profile_name" />
-
+            <!-- <ImageView
+                 android:id="@+id/iv_gotolinkedin"
+                 android:layout_width="24dp"
+                 android:layout_height="24dp"
+                 android:background="@color/blue"
+                 android:src="@drawable/linkedin_logo"
+                 app:layout_constraintStart_toStartOf="@+id/profile_name"
+                 app:layout_constraintTop_toBottomOf="@+id/profile_name" />-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -163,7 +162,7 @@
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/profile_name"
-                app:layout_constraintTop_toBottomOf="@+id/iv_gotolinkedin" />
+                app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -198,3 +197,5 @@
 
 </androidx.cardview.widget.CardView>
 
+
+    

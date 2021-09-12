@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/grid_2x"
             android:background="@drawable/button_round_shape"
-            android:backgroundTint="@color/light_white">
+            android:backgroundTint="@color/white">
 
             <TextView
                 android:id="@+id/tvProfileBio"
