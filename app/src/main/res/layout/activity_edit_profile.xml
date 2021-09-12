@@ -43,6 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editProfileToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -60,9 +61,10 @@
                 android:maxLines="2"
                 android:textColor="@color/text_dark_gray"
                 android:textColorHint="@color/dark_grey"
-                app:layout_constraintBottom_toBottomOf="@+id/image_rel_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_rel_layout" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView15"
+                app:layout_constraintBottom_toTopOf="@id/textView16"/>
 
             <EditText
                 android:id="@+id/etPhone"
@@ -78,9 +80,10 @@
                 android:inputType="phone"
                 android:textColor="@color/text_dark_gray"
                 android:textColorHint="@color/text_dark_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                app:layout_constraintTop_toBottomOf="@id/textView18"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView19"/>
 
             <EditText
                 android:id="@+id/etLinkedIn"
@@ -96,9 +99,10 @@
                 android:maxLines="1"
                 android:textColor="@color/text_dark_gray"
                 android:textColorHint="@color/dark_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <ProgressBar
                 android:id="@+id/uploadingProgressBar"
@@ -113,19 +117,19 @@
 
             <RelativeLayout
                 android:id="@+id/image_rel_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginTop="@dimen/grid_3x"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="10dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView15">
 
                 <ImageView
                     android:id="@+id/btn_edit_profileImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@id/profile_image"
-                    android:layout_alignBottom="@id/profile_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/ic_baseline_photo_camera_24"
                     app:tint="@color/text_dark_gray" />
 
@@ -139,8 +143,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@drawable/user"
                     app:civ_border_color="@color/text_dark_gray"
                     app:civ_border_width="1dp"
@@ -153,53 +157,53 @@
                 android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="Bio"
                 android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_rel_layout" />
+                app:layout_constraintLeft_toLeftOf="@id/BioTIL"
+                app:layout_constraintTop_toBottomOf="@id/etName"
+                app:layout_constraintBottom_toTopOf="@id/BioTIL"/>
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Name"
                 android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/etName"
-                app:layout_constraintStart_toEndOf="@+id/image_rel_layout" />
+                app:layout_constraintLeft_toLeftOf="@id/etName"
+                app:layout_constraintTop_toBottomOf="@id/image_rel_layout"
+                app:layout_constraintBottom_toTopOf="@id/etName"/>
 
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginTop="24dp"
                 android:text="Phone"
                 android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BioTIL" />
+                app:layout_constraintTop_toBottomOf="@id/BioTIL"
+                app:layout_constraintLeft_toLeftOf="@id/etPhone"
+                app:layout_constraintBottom_toTopOf="@id/etPhone"/>
 
             <TextView
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginTop="24dp"
                 android:text="LinkedIn URL"
                 android:textColor="@color/text_dark_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPhone" />
+                app:layout_constraintLeft_toLeftOf="@id/etLinkedIn"
+                app:layout_constraintTop_toBottomOf="@+id/etPhone"
+                app:layout_constraintBottom_toTopOf="@id/etLinkedIn"/>
 
             <View
                 android:id="@+id/view2"
@@ -253,9 +257,11 @@
                 android:layout_marginEnd="@dimen/grid_3x"
                 android:maxHeight="150dp"
                 app:hintEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16">
+
+                app:layout_constraintTop_toBottomOf="@id/textView16"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView18">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/BioTV"
