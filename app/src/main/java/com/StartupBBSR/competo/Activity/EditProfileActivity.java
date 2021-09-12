@@ -40,6 +40,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -193,6 +194,7 @@ public class EditProfileActivity extends AppCompatActivity {
         checkEmptyField(activityEditProfileBinding.etName);
         checkEmptyField(activityEditProfileBinding.BioTV);
         checkEmptyField(activityEditProfileBinding.etPhone);
+        checkphonenumber(activityEditProfileBinding.etPhone);
 //        checkEmptyField(activityEditProfileBinding.etLinkedIn);
 
         if (flag == 3) {
@@ -207,6 +209,19 @@ public class EditProfileActivity extends AppCompatActivity {
             flag--;
         else
             flag++;
+    }
+
+    private void checkphonenumber(EditText et)
+    {
+        if(Pattern.compile("^[1-9][0-9]{9}$").matcher(et.getText().toString()).find())
+        {
+
+        }
+        else
+        {
+            Toast.makeText(this,"please enter correct Phone Number",Toast.LENGTH_SHORT).show();
+            flag--;
+        }
     }
 
     private void updateUser() {
@@ -283,7 +298,9 @@ public class EditProfileActivity extends AppCompatActivity {
         Map<String, Object> userInfo = new HashMap<>();
 
         userInfo.put(constant.getUserNameField(), activityEditProfileBinding.etName.getText().toString().trim());
+
         userInfo.put(constant.getUserPhoneField(), activityEditProfileBinding.etPhone.getText().toString().trim());
+
         // userInfo.put(constant.getUserLinkedinField(), activityEditProfileBinding.etLinkedIn.getText().toString().trim());
         userInfo.put(constant.getUserBioField(), activityEditProfileBinding.BioTV.getText().toString().trim());
 
