@@ -110,7 +110,7 @@ public class ProfileMainFragment extends Fragment {
             binding.profileBrief.setText(Arrays.toString(tempData).replaceAll("\\[|\\]", ""));
         }
 
-        binding.profileRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*binding.profileRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadData();
@@ -124,7 +124,7 @@ public class ProfileMainFragment extends Fragment {
 
                 binding.profileRefreshLayout.setRefreshing(false);
             }
-        });
+        });*/
 
 
         return view;
@@ -140,7 +140,7 @@ public class ProfileMainFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
 
-        if (userModel.getUserLinkedin() == null || userModel.getUserLinkedin().isEmpty()) {
+       /* if (userModel.getUserLinkedin() == null || userModel.getUserLinkedin().isEmpty()) {
             binding.ivGotolinkedin.setVisibility(View.GONE);
         } else
             binding.ivGotolinkedin.setVisibility(View.VISIBLE);
@@ -155,7 +155,7 @@ public class ProfileMainFragment extends Fragment {
 
                 }
             }
-        });
+        });*/
     }
 
     private void loadData() {
