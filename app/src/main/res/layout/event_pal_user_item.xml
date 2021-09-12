@@ -60,7 +60,7 @@
             android:layout_marginTop="@dimen/grid_2x"
             android:layout_marginBottom="@dimen/grid_3x"
             android:background="@drawable/button_round_shape"
-            android:backgroundTint="@color/light_white"
+            android:backgroundTint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/btnSendMessage"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

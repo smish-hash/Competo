@@ -134,8 +134,6 @@
 
         </soup.neumorphism.NeumorphCardView>
 
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/unpcomingEventsRecyclerView"
                 android:layout_width="0dp"
