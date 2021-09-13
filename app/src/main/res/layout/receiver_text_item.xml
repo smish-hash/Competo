@@ -9,7 +9,6 @@
     android:minHeight="40dp"
     android:padding="@dimen/grid_1x">
 
-
     <TextView
         android:id="@+id/tv_receiver_text"
         android:layout_width="wrap_content"

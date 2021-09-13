@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -29,21 +30,11 @@
             android:text="Sent Message"
             android:textColor="@color/white"
             android:textColorLink="@color/onboarding_pink"
-            app:layout_constraintBottom_toTopOf="@+id/tv_sender_text_time"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_sender_text_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/grid_1x"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
@@ -52,7 +43,18 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/grid_3x" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_sender_text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/grid_2x"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:text="time"
+        android:textSize="11sp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/conlayout"/>
 
 </RelativeLayout>

@@ -49,8 +49,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/palanquin_semibold"
             android:layout_marginStart="@dimen/grid_3x"
+            android:text="good evening"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/text_dark_gray"
+            android:textColor="#808080"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFeedHello" />
 

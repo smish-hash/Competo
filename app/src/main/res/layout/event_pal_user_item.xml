@@ -44,13 +44,11 @@
 
             <ImageView
                 android:id="@+id/ivEventPalUserImage"
-                android:layout_width="250dp"
+                android:layout_width="230dp"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/iron_man" />
-
         </androidx.cardview.widget.CardView>
-
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
