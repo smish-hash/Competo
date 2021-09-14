@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:fillViewport="true"
-                    app:tabIndicatorColor="@color/ui_blue"
+                    app:tabIndicatorColor="@color/black"
                     app:tabTextAppearance="@style/ProfileCustomTabText"
                     app:tabTextColor="@color/black">
 
@@ -175,7 +175,7 @@
                 android:background="@drawable/profile_edit_button"
                 android:text="Edit Profile"
                 android:textAllCaps="false"
-                android:textColor="@color/text_dark_gray"
+                android:textColor="#707070"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_brief" />
