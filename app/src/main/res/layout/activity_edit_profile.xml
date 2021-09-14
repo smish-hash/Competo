@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_white"
+    android:background="#ECF0F3"
     tools:context=".Activity.EditProfileActivity">
 
     <Button
@@ -44,6 +44,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/name"
+            android:background="#ECF0F3"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -152,9 +153,6 @@
                     android:src="@drawable/ic_baseline_photo_camera_24"
                     app:tint="@color/light_white"/>
 
-
-
-
             </RelativeLayout>
 
             <TextView
@@ -165,7 +163,6 @@
                 android:text="Bio"
                 android:textColor="#707070"
                 android:textSize="15sp"
-                android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/BioTIL"
                 app:layout_constraintTop_toBottomOf="@id/etName"
                 app:layout_constraintBottom_toTopOf="@id/BioTIL"/>
@@ -178,7 +175,7 @@
                 android:text="Name"
                 android:textColor="#707070"
                 android:textSize="15sp"
-                android:textStyle="bold"
+
                 app:layout_constraintLeft_toLeftOf="@id/etName"
                 app:layout_constraintTop_toBottomOf="@id/image_rel_layout"
                 app:layout_constraintBottom_toTopOf="@id/etName"/>
@@ -191,7 +188,6 @@
                 android:text="Phone"
                 android:textColor="#707070"
                 android:textSize="15sp"
-                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/BioTIL"
                 app:layout_constraintLeft_toLeftOf="@id/etPhone"
                 app:layout_constraintBottom_toTopOf="@id/etPhone"/>
