@@ -19,36 +19,20 @@
         android:orientation="horizontal"
         android:layout_marginBottom="30dp"
         android:padding="@dimen/grid_2x"
-        app:neumorph_shadowColorDark="@color/accent_gray"
-        app:neumorph_shadowElevation="2dp"
-        app:neumorph_inset="12dp"
-        app:neumorph_insetStart="12dp"
-        app:neumorph_insetEnd="12dp"
-        app:neumorph_insetTop="12dp"
-        app:neumorph_insetBottom="12dp"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <soup.neumorphism.NeumorphButton
-            style="@style/Widget.Neumorph.Button"
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEventRegister"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
             android:elevation="25dp"
-            app:neumorph_shapeType="flat"
-            app:neumorph_backgroundColor="@color/ui_light_blue"
+            android:background="@drawable/event_detail_button_round"
             android:text="Register"
-            app:neumorph_shadowColorDark="@color/accent_gray"
-            app:neumorph_shadowElevation="3dp"
-            app:neumorph_inset="12dp"
-            app:neumorph_insetStart="12dp"
-            app:neumorph_insetEnd="12dp"
-            app:neumorph_insetTop="12dp"
-            app:neumorph_insetBottom="12dp"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="12sp" />
@@ -90,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/grid_3x"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="@dimen/grid_2x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
             android:weightSum="3">
 
             <soup.neumorphism.NeumorphCardView
@@ -109,7 +93,7 @@
                 app:neumorph_shapeType="pressed"
                 app:neumorph_shadowColorDark="@color/accent_gray"
                 app:neumorph_shadowElevation="4dp"
-                app:neumorph_backgroundColor="@color/white">
+                >
 
                 <LinearLayout
                     android:layout_width="80dp"
@@ -135,7 +119,7 @@
                 app:neumorph_shapeType="pressed"
                 app:neumorph_shadowColorDark="@color/accent_gray"
                 app:neumorph_shadowElevation="4dp"
-                app:neumorph_backgroundColor="@color/white">
+             >
 
                 <LinearLayout
                     android:layout_width="80dp"
@@ -162,7 +146,7 @@
                 app:neumorph_shapeType="pressed"
                 app:neumorph_shadowColorDark="@color/accent_gray"
                 app:neumorph_shadowElevation="4dp"
-                app:neumorph_backgroundColor="@color/white">
+                >
 
                 <LinearLayout
                     android:layout_width="80dp"
@@ -228,32 +212,23 @@
             android:paddingEnd="@dimen/grid_2x"
             android:paddingBottom="@dimen/grid_2x"
             tools:listitem="@layout/interest_chip_item" />-->
+
     </LinearLayout>
 
-    <soup.neumorphism.NeumorphCardView
-        android:id="@+id/cardView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:neumorph_shadowElevation="6dp"
-        app:neumorph_shapeType="pressed"
-        app:neumorph_inset="12dp"
-        app:neumorph_insetStart="12dp"
-        app:neumorph_insetEnd="12dp"
-        app:neumorph_insetTop="12dp"
-        app:neumorph_insetBottom="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
         android:layout_width="320dp"
         android:layout_height="200dp"
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
         android:layout_marginEnd="@dimen/grid_3x"
-        >
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ivImage"
@@ -261,9 +236,5 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
-
-    </soup.neumorphism.NeumorphCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 

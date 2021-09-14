@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/grid_3x"
             android:background="@drawable/eventpal_button_round"
-            android:elevation="0dp"
+            android:elevation="10dp"
             android:outlineProvider="none"
             android:text="Message Request"
             android:textAllCaps="false"
