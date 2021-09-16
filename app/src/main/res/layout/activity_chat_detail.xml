@@ -31,7 +31,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Name"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/chat_user_status"
                 app:layout_constraintStart_toEndOf="@+id/chat_user_image"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,21 +40,22 @@
                 android:id="@+id/chat_user_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="-7dp"
                 android:layout_marginBottom="@dimen/grid_1x"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif"
                 android:text="Online"
-                android:textColor="@color/black"
+                android:textColor="#12D365"
                 android:visibility="gone"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/chat_user_image"
                 app:layout_constraintTop_toBottomOf="@+id/chat_user_name" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="?selectableItemBackground"
                 android:backgroundTint="@color/transparent"
                 android:src="@drawable/ic_baseline_arrow_back_24"
@@ -64,8 +65,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/chat_user_image"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="@dimen/grid_1x"
                 android:src="@drawable/ic_baseline_person_24"
                 app:civ_border_color="@color/ui_blue"
@@ -105,6 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
                 <EditText
                     android:id="@+id/et_message"
                     android:layout_width="0dp"
@@ -112,17 +114,20 @@
                     android:layout_marginEnd="@dimen/grid_2x"
                     android:background="@drawable/rounded_tv_background"
                     android:ems="10"
-                    android:hint="Enter Message"
+                    android:hint="Type Something..."
                     android:inputType="textMultiLine|textLongMessage|textAutoComplete|textAutoCorrect|textCapSentences"
                     android:maxHeight="135dp"
                     android:maxLength="200"
-                    android:padding="@dimen/grid_2x"
+                    android:padding="12dp"
                     android:scrollbars="vertical"
                     android:textColor="@color/black"
+                    android:textColorHint="#adadad"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnSendChat"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/sendMessageProgressBar"
@@ -137,11 +142,11 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/btnSendChat"
                     android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_sendbutton_icon"
-                    app:civ_circle_background_color="@color/ui_blue"
+                    app:civ_circle_background_color="@color/ui_light_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

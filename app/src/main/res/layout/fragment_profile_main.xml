@@ -30,14 +30,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView" />
 
-            <!-- <ImageView
+             <ImageView
                  android:id="@+id/iv_gotolinkedin"
                  android:layout_width="24dp"
                  android:layout_height="24dp"
                  android:background="@color/blue"
+                 android:visibility="gone"
                  android:src="@drawable/linkedin_logo"
-                 app:layout_constraintStart_toStartOf="@+id/profile_name"
-                 app:layout_constraintTop_toBottomOf="@+id/profile_name" />-->
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="parent" />
 
             <LinearLayout
                 android:layout_width="0dp"

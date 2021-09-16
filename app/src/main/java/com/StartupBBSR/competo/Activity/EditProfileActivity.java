@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -117,9 +118,9 @@ public class EditProfileActivity extends AppCompatActivity {
         activityEditProfileBinding.btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!activityEditProfileBinding.etPhone.getText().toString().isEmpty())
-                    //    checkaddress();
-                    verifyInput();
+                if (!activityEditProfileBinding.etLinkedIn.getText().toString().isEmpty())
+                    checkaddress();
+                verifyInput();
             }
         });
 
@@ -148,7 +149,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setInitialData();
     }
 
-   /* private void checkaddress() {
+    private void checkaddress() {
         String address = activityEditProfileBinding.etLinkedIn.getText().toString();
         String maddress;
         if (address.contains("https://"))
@@ -156,13 +157,13 @@ public class EditProfileActivity extends AppCompatActivity {
         else
             maddress = "https://" + address;
         activityEditProfileBinding.etLinkedIn.setText(maddress);
-    }*/
+    }
 
     private void setInitialData() {
         activityEditProfileBinding.etName.setText(userModel.getUserName());
         activityEditProfileBinding.BioTV.setText(userModel.getUserBio());
         activityEditProfileBinding.etPhone.setText(userModel.getUserPhone());
-        // activityEditProfileBinding.etLinkedIn.setText(userModel.getUserLinkedin());
+        activityEditProfileBinding.etLinkedIn.setText(userModel.getUserLinkedin());
         if (userModel.getUserPhoto() != null)
             loadUsingGlide(userModel.getUserPhoto());
     }
@@ -210,7 +211,6 @@ public class EditProfileActivity extends AppCompatActivity {
         else
             flag++;
     }
-
     private void checkphonenumber(EditText et)
     {
         if(Pattern.compile("^[1-9][0-9]{9}$").matcher(et.getText().toString()).find())
@@ -298,10 +298,8 @@ public class EditProfileActivity extends AppCompatActivity {
         Map<String, Object> userInfo = new HashMap<>();
 
         userInfo.put(constant.getUserNameField(), activityEditProfileBinding.etName.getText().toString().trim());
-
         userInfo.put(constant.getUserPhoneField(), activityEditProfileBinding.etPhone.getText().toString().trim());
-
-        // userInfo.put(constant.getUserLinkedinField(), activityEditProfileBinding.etLinkedIn.getText().toString().trim());
+        userInfo.put(constant.getUserLinkedinField(), activityEditProfileBinding.etLinkedIn.getText().toString().trim());
         userInfo.put(constant.getUserBioField(), activityEditProfileBinding.BioTV.getText().toString().trim());
 
         if (downloadUri != null)
