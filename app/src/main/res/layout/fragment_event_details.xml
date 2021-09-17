@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +17,6 @@
     android:background="@color/main_background2"
     app:layoutDescription="@xml/fragment_event_details_scene"
     tools:context=".Fragments.EventDetailsFragment">
-
 
     <LinearLayout
         android:id="@+id/bottomBar"
@@ -29,7 +37,8 @@
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEventRegister"
@@ -73,9 +82,6 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-
-
-
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="350dp"
@@ -85,6 +91,7 @@
         android:padding="@dimen/grid_2x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
         app:layout_constraintTop_toBottomOf="@id/cardView3">
 
         <LinearLayout
@@ -235,13 +242,15 @@
         android:layout_width="320dp"
         android:layout_height="200dp"
         android:layout_marginStart="@dimen/grid_3x"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/grid_3x"
         app:cardCornerRadius="8dp"
         app:cardElevation="20dp"
+        app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ll">
 
         <ImageView
             android:id="@+id/ivImage"
@@ -249,6 +258,9 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 
 
