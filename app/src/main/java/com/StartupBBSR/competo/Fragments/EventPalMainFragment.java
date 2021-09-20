@@ -129,11 +129,21 @@ public class EventPalMainFragment extends Fragment {
                 mList.clear();
                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                     EventPalModel model = snapshot.toObject(EventPalModel.class);
-                    if (model.getName().toLowerCase().contains(newText.toLowerCase()))
-                        mList.add(model);
+                    if (!model.getUserID().equals(userID)) {
+                        if (model.getName().toLowerCase().contains(newText.toLowerCase()))
+                            mList.add(model);
+                    }
+
+                }
+                if (mList.size() == 0) {
+                    binding.eventPalRecyclerView.setVisibility(View.GONE);
+                    binding.tvnoUserFound.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvnoUserFound.setVisibility(View.GONE);
+                    binding.eventPalRecyclerView.setVisibility(View.VISIBLE);
+                    initRecycler();
                 }
 
-                initRecycler();
             }
         });
 
