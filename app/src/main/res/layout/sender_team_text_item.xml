@@ -11,7 +11,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/grid_2x"
         android:layout_marginTop="@dimen/grid_1x"
-        android:layout_marginBottom="@dimen/grid_2x"
         android:background="@drawable/sender_text_bg"
         android:maxWidth="300dp"
         android:minHeight="40dp"
@@ -22,11 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_1x"
-            android:layout_marginEnd="@dimen/grid_2x"
             android:autoLink="all"
             android:inputType="textNoSuggestions|textMultiLine|textLongMessage|textAutoCorrect|textCapSentences|textAutoComplete"
             android:maxWidth="270dp"
             android:minWidth="50dp"
+            android:paddingTop="@dimen/grid_1x"
+            android:paddingBottom="@dimen/grid_1x"
+            android:paddingEnd="@dimen/grid_1x"
+            android:paddingStart="@dimen/grid_2x"
             android:text="Sent Message"
             android:textColor="@color/white"
             android:textColorLink="@color/onboarding_pink"
@@ -35,13 +37,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/grid_3x" />
+            app:layout_constraintGuide_percent="0.90" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -50,11 +51,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/grid_2x"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/grid_1x"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/text_dark_gray"
         android:text="time"
         android:textSize="11sp"
-        android:layout_alignParentRight="true"
+        android:layout_marginEnd="@dimen/grid_2x"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/conlayout"/>
 
 </RelativeLayout>

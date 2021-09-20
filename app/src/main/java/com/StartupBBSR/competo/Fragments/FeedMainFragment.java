@@ -130,11 +130,11 @@ public class FeedMainFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if (timeOfDay >= 0 && timeOfDay < 12) {
+        if (timeOfDay >= 5 && timeOfDay < 12) {
             binding.tvFeedGreeting.setText("Good Morning");
-        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+        } else if (timeOfDay >= 12 && timeOfDay < 17) {
             binding.tvFeedGreeting.setText("Good Afternoon");
-        } else if (timeOfDay >= 16 && timeOfDay < 24) {
+        } else if (timeOfDay >= 17 && timeOfDay < 5) {
             binding.tvFeedGreeting.setText("Good Evening");
         }
     }

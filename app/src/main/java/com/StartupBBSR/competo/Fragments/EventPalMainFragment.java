@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -64,8 +65,7 @@ public class EventPalMainFragment extends Fragment {
     private FirestoreRecyclerOptions<EventPalModel> options;
 
     private EventPalModel eventPalModel;
-    private Query query1, query2;
-    private List<EventPalModel> mList;
+    private List<EventPalModel> mList, mSearchList;
 
     private NavController navController;
 
@@ -120,30 +120,33 @@ public class EventPalMainFragment extends Fragment {
     }
 
     private void search(String newText) {
-        Query userSearchQuery = collectionReference
+
+        mList = new ArrayList<>();
+
+        collectionReference.orderBy(constant.getUserNameField()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mList.clear();
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    EventPalModel model = snapshot.toObject(EventPalModel.class);
+                    if (model.getName().toLowerCase().contains(newText.toLowerCase()))
+                        mList.add(model);
+                }
+
+                initRecycler();
+            }
+        });
+
+        /*Query userSearchQuery = collectionReference
                 .orderBy(constant.getUserNameField())
                 .whereGreaterThanOrEqualTo(constant.getUserNameField(), newText);
 
         options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
                 .setQuery(userSearchQuery, EventPalModel.class)
-                .build();
-
-        initRecycler();
+                .build();*/
     }
 
     private void initData() {
-
-        /*query1 = collectionReference.orderBy(constant.getUserIdField())
-                .whereNotEqualTo(constant.getUserIdField(), userID);
-
-        query2 = collectionReference.orderBy(constant.getUserNameField());*/
-
-        /*Task task1 = query1.get();
-        Task task2 = query2.get();
-
-        options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
-                .setQuery(query1, EventPalModel.class)
-                .build();*/
 
         mList = new ArrayList<>();
 

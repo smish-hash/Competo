@@ -80,7 +80,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
 
 //    For motion layout
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0-beta02'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
 
 //Firebase inapp messaging
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
@@ -89,9 +89,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
     //neumorphism
-    dependencies {
-        implementation 'com.github.fornewid:neumorphism:0.3.0'
-    }
+    implementation 'com.github.fornewid:neumorphism:0.3.0'
     
 
 }
