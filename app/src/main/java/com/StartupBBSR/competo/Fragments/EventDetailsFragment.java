@@ -143,7 +143,7 @@ public class EventDetailsFragment extends Fragment {
 
         eventModel = (EventModel) getArguments().getSerializable("eventDetails");
 
-        binding.tvEventTitle.setText(eventModel.getEventTitle());
+      //  binding.tvEventTitle.setText(eventModel.getEventTitle());
         binding.tvEventDescription.setText(eventModel.getEventDescription());
         binding.tvEventVenue.setText(eventModel.getEventVenue());
         binding.tvEventDate.setText(dateFormat.format(new Date(Long.parseLong(eventModel.getEventDateStamp().toString()))));

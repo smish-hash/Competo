@@ -87,6 +87,11 @@ dependencies {
 
 //Firebase cloud messaging
     implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    //neumorphism
+    dependencies {
+        implementation 'com.github.fornewid:neumorphism:0.3.0'
+    }
     
 
 }
