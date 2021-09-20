@@ -10,18 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
 import com.StartupBBSR.competo.Activity.ChatDetailActivity;
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventPalUserAdapter;
+import com.StartupBBSR.competo.Adapters.NewEventPalAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.RequestModel;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -37,11 +29,24 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 public class EventPalMainFragment extends Fragment {
 
@@ -59,11 +64,14 @@ public class EventPalMainFragment extends Fragment {
     private FirestoreRecyclerOptions<EventPalModel> options;
 
     private EventPalModel eventPalModel;
-    private Query query;
+    private Query query1, query2;
+    private List<EventPalModel> mList;
 
     private NavController navController;
 
     private FragmentEventPalMainBinding binding;
+
+    private NewEventPalAdapter newEventPalAdapter;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -125,24 +133,78 @@ public class EventPalMainFragment extends Fragment {
 
     private void initData() {
 
-        query = collectionReference.orderBy(constant.getUserIdField())
+        /*query1 = collectionReference.orderBy(constant.getUserIdField())
                 .whereNotEqualTo(constant.getUserIdField(), userID);
 
+        query2 = collectionReference.orderBy(constant.getUserNameField());*/
+
+        /*Task task1 = query1.get();
+        Task task2 = query2.get();
+
         options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
-                .setQuery(query, EventPalModel.class)
-                .build();
+                .setQuery(query1, EventPalModel.class)
+                .build();*/
+
+        mList = new ArrayList<>();
+
+        collectionReference.orderBy(constant.getUserNameField()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mList.clear();
+
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    EventPalModel model = snapshot.toObject(EventPalModel.class);
+                    if (!model.getUserID().equals(userID))
+                        mList.add(model);
+                }
+                Collections.shuffle(mList);
+                initRecycler();
+            }
+        });
     }
 
     private void initRecycler() {
         SnapHelper snapHelper = new LinearSnapHelper();
         RecyclerView recyclerView = binding.eventPalRecyclerView;
-        recyclerView.setLayoutManager(new ScaleLayoutManager(getActivity(), ScaleLayoutManager.HORIZONTAL   , false));
+        recyclerView.setLayoutManager(new ScaleLayoutManager(getActivity(), ScaleLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(recyclerView);
 
+        newEventPalAdapter = new NewEventPalAdapter(getContext(), mList);
+        newEventPalAdapter.setOnItemClickListener(new NewEventPalAdapter.OnItemClickListener() {
+            @Override
+            public void onButtonClick(EventPalModel model) {
+                firestoreDB.collection(constant.getChatConnections()).document(userID)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot connectionListSnapshot = task.getResult();
+                            List<String> connectionList = (List<String>) connectionListSnapshot.get("Connections");
+                            if (connectionList != null) {
+                                if (!connectionList.contains(model.getUserID())) {
+//                                    Create new request
+                                    showCreateRequestDialog(model);
+                                } else {
+//                                    Chat already present
+                                    Intent intent = new Intent(getContext(), ChatDetailActivity.class);
+                                    intent.putExtra("receiverID", model.getUserID());
+                                    intent.putExtra("receiverName", model.getName());
+                                    intent.putExtra("receiverPhoto", model.getPhoto());
+                                    startActivity(intent);
+                                }
+                            } else {
+                                showCreateRequestDialog(model);
+                            }
+                        }
+                    }
+                });
+            }
+        });
 
-        adapter = new EventPalUserAdapter(getContext(), options);
+
+        /*adapter = new EventPalUserAdapter(getContext(), options);
         adapter.setOnItemClickListener(new EventPalUserAdapter.OnItemClickListener() {
             @Override
             public void onButtonClick(DocumentSnapshot snapshot) {
@@ -175,7 +237,7 @@ public class EventPalMainFragment extends Fragment {
                 });
             }
 
-            /*@Override
+            *//*@Override
             public void onBottomSheetToggleClick(View itemView, int position) {
 
                 View bottomSheet = itemView.findViewById(R.id.EventPalBottomSheet);
@@ -197,11 +259,11 @@ public class EventPalMainFragment extends Fragment {
                     //  btnBottomSheet.setImageResource(R.drawable.ic_upperarrow);
 
                 }
-            }*/
-        });
+            }*//*
+        });*/
 
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
+        recyclerView.setAdapter(newEventPalAdapter);
+//        adapter.startListening();
     }
 
     private void showCreateRequestDialog(EventPalModel model) {
@@ -244,12 +306,12 @@ public class EventPalMainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+//        adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+//        adapter.stopListening();
     }
 }
