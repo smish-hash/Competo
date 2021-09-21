@@ -5,16 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
@@ -35,6 +25,16 @@ import com.google.firebase.firestore.Query;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 
 public class FeedMainFragment extends Fragment {
@@ -102,6 +102,11 @@ public class FeedMainFragment extends Fragment {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 if (task.isSuccessful()) {
                     DocumentSnapshot snapshot = task.getResult();
                     String name = snapshot.getString(constant.getUserNameField());
@@ -113,7 +118,7 @@ public class FeedMainFragment extends Fragment {
                     }
 
                     // Creating random greetings
-                    String[] greetings = {"Hello", "Hola", "Namaste", "Bonjour", "Kon'nichiwa","Nǐ hǎo"};
+                    String[] greetings = {"Hello", "Hola", "Namaste", "Bonjour", "Kon'nichiwa", "Nǐ hǎo"};
                     Random r = new Random();
                     int randomNumber = r.nextInt(greetings.length);
 

@@ -167,7 +167,7 @@ public class EventPalMainFragment extends Fragment {
 
                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                     EventPalModel model = snapshot.toObject(EventPalModel.class);
-                    if (!model.getUserID().equals(userID))
+                    if (!model.getUserID().equals(userID) && model.getPhoto() != null)
                         mList.add(model);
                 }
                 Collections.shuffle(mList);

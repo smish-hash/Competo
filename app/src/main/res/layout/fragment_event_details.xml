@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventDetailsMotionLayout"
@@ -18,27 +11,226 @@
     app:layoutDescription="@xml/fragment_event_details_scene"
     tools:context=".Fragments.EventDetailsFragment">
 
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:layout_margin="@dimen/grid_1x"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_4x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:layout_marginBottom="@dimen/grid_4x"
+                android:orientation="vertical"
+                android:padding="@dimen/grid_2x"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView3">
+
+                <LinearLayout
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <soup.neumorphism.NeumorphCardView
+                        style="@style/Widget.Neumorph.CardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        app:neumorph_backgroundColor="#ecf0f3"
+                        app:neumorph_shadowColorDark="@color/accent_gray"
+                        app:neumorph_shadowElevation="4dp"
+                        app:neumorph_shapeType="pressed">
+
+                        <LinearLayout
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvEventDate"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:text="24-SEP-21"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </soup.neumorphism.NeumorphCardView>
+
+                    <soup.neumorphism.NeumorphCardView
+                        style="@style/Widget.Neumorph.CardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        app:neumorph_backgroundColor="#ecf0f3"
+                        app:neumorph_shadowColorDark="@color/accent_gray"
+                        app:neumorph_shadowElevation="4dp"
+                        app:neumorph_shapeType="pressed">
+
+                        <LinearLayout
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvEventVenue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:text="Raghuhpur"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </soup.neumorphism.NeumorphCardView>
+
+                    <soup.neumorphism.NeumorphCardView
+                        style="@style/Widget.Neumorph.CardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        app:neumorph_backgroundColor="#ecf0f3"
+                        app:neumorph_shadowColorDark="@color/accent_gray"
+                        app:neumorph_shadowElevation="4dp"
+                        app:neumorph_shapeType="pressed">
+
+                        <LinearLayout
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvEventTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:text="12:32 PM"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </soup.neumorphism.NeumorphCardView>
+
+                </LinearLayout>
+
+
+                <!-- <TextView
+                     android:id="@+id/tvEventTitle"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:maxLines="2"
+                     android:text="Event Title"
+                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                     android:textColor="@color/white"
+                     android:textStyle="bold" /> -->
+
+                <TextView
+                    android:id="@+id/about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="@dimen/grid_2x"
+                    android:text="About"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/tvEventDescription"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="@dimen/grid_1x"
+                    android:background="@drawable/rounded_tv_background"
+                    android:backgroundTint="@color/main_background2"
+                    android:lineHeight="20dp"
+                    android:maxLength="325"
+                    android:minHeight="115dp"
+                    android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
+                    android:textColor="#707070" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/eventTagRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="@dimen/grid_2x"
+                    android:paddingStart="@dimen/grid_2x"
+                    android:paddingTop="@dimen/grid_2x"
+                    android:paddingEnd="@dimen/grid_2x"
+                    android:paddingBottom="@dimen/grid_2x"
+                    android:visibility="gone"
+                    tools:listitem="@layout/interest_chip_item" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView3"
+                android:layout_width="320dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_4x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread">
+
+                <ImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
     <LinearLayout
         android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/grid_2x"
+        android:layout_marginBottom="@dimen/grid_4x"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginBottom="30dp"
         android:padding="@dimen/grid_2x"
-        app:neumorph_shadowColorDark="@color/accent_gray"
-        app:neumorph_shadowElevation="2dp"
-        app:neumorph_inset="12dp"
-        app:neumorph_insetStart="12dp"
-        app:neumorph_insetEnd="12dp"
-        app:neumorph_insetTop="12dp"
-        app:neumorph_insetBottom="12dp"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll">
+        app:neumorph_inset="12dp"
+        app:neumorph_insetBottom="12dp"
+        app:neumorph_insetEnd="12dp"
+        app:neumorph_insetStart="12dp"
+        app:neumorph_insetTop="12dp"
+        app:neumorph_shadowColorDark="@color/accent_gray"
+        app:neumorph_shadowElevation="2dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEventRegister"
@@ -46,22 +238,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:elevation="25dp"
             android:background="@drawable/event_detail_button_round"
-            app:neumorph_backgroundColor="@color/ui_light_blue"
+            android:padding="@dimen/grid_1x"
+            android:elevation="25dp"
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:neumorph_backgroundColor="@color/ui_light_blue" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEventFindPal"
             android:layout_width="0dp"
+            android:padding="@dimen/grid_1x"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:elevation="25dp"
             android:background="@drawable/event_detail_button_round"
+            android:elevation="25dp"
             android:text="Find a TeamMate"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -73,8 +267,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/grid_2x"
             android:layout_weight="1"
-            android:elevation="25dp"
             android:background="@drawable/event_detail_button_round"
+            android:elevation="25dp"
             android:padding="@dimen/grid_1x"
             android:text="Add to wishlist"
             android:textAllCaps="false"
@@ -82,185 +276,7 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_3x"
-        android:orientation="vertical"
-        android:padding="@dimen/grid_2x"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomBar"
-        app:layout_constraintTop_toBottomOf="@id/cardView3">
-
-        <LinearLayout
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:weightSum="3">
-
-            <soup.neumorphism.NeumorphCardView
-                style="@style/Widget.Neumorph.CardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:neumorph_shapeType="pressed"
-                android:layout_marginLeft="20dp"
-                app:neumorph_shadowColorDark="@color/accent_gray"
-                app:neumorph_shadowElevation="4dp"
-                app:neumorph_backgroundColor="#ecf0f3">
-
-                <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvEventDate"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
-                        android:text="24-SEP-21"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-            </soup.neumorphism.NeumorphCardView>
-
-            <soup.neumorphism.NeumorphCardView
-                style="@style/Widget.Neumorph.CardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                app:neumorph_shapeType="pressed"
-                app:neumorph_shadowColorDark="@color/accent_gray"
-                app:neumorph_shadowElevation="4dp"
-                app:neumorph_backgroundColor="#ecf0f3">
-
-                <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvEventVenue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="2"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
-                        android:text="Raghuhpur"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-            </soup.neumorphism.NeumorphCardView>
-            <soup.neumorphism.NeumorphCardView
-                style="@style/Widget.Neumorph.CardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:neumorph_shapeType="pressed"
-                android:layout_marginRight="3dp"
-                app:neumorph_shadowColorDark="@color/accent_gray"
-                app:neumorph_shadowElevation="4dp"
-                app:neumorph_backgroundColor="#ecf0f3">
-
-                <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvEventTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
-                        android:text="12:32 PM"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-            </soup.neumorphism.NeumorphCardView>
-
-        </LinearLayout>
-
-
-        <!-- <TextView
-             android:id="@+id/tvEventTitle"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:maxLines="2"
-             android:text="Event Title"
-             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-             android:textColor="@color/white"
-             android:textStyle="bold" /> -->
-
-        <TextView
-            android:id="@+id/about"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_2x"
-            android:layout_marginLeft="8dp"
-            android:text="About"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-
-        <TextView
-            android:id="@+id/tvEventDescription"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1x"
-            android:background="@drawable/rounded_tv_background"
-            android:backgroundTint="@color/main_background2"
-            android:layout_marginLeft="8dp"
-            android:maxLength="325"
-            android:minHeight="115dp"
-            android:lineHeight="20dp"
-            android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
-            android:textColor="#707070" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/eventTagRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/grid_2x"
-            android:paddingStart="@dimen/grid_2x"
-            android:paddingTop="@dimen/grid_2x"
-            android:paddingEnd="@dimen/grid_2x"
-            android:paddingBottom="@dimen/grid_2x"
-            tools:listitem="@layout/interest_chip_item" />
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView3"
-        android:layout_width="320dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="@dimen/grid_3x"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="@dimen/grid_3x"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="20dp"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ll">
-
-        <ImageView
-            android:id="@+id/ivImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-    </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
 
 

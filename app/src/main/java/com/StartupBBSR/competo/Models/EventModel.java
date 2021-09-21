@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class EventModel  implements Serializable {
-    private String eventPoster;
+    private String eventPoster, eventThumbnailPoster;
     private String eventTitle, eventDescription, eventVenue;
     private Long eventDateStamp, eventTimeStamp;
     private String eventLink;
@@ -19,8 +19,9 @@ public class EventModel  implements Serializable {
 //        Firebase needs empty constructor
     }
 
-    public EventModel(String eventPoster, String eventTitle, String eventDescription, String eventVenue, Long eventDateStamp, Long eventTimeStamp, String eventLink,List<String> eventTags, String eventOrganizerID, String eventID) {
+    public EventModel(String eventPoster,String eventThumbnailPoster, String eventTitle, String eventDescription, String eventVenue, Long eventDateStamp, Long eventTimeStamp, String eventLink,List<String> eventTags, String eventOrganizerID, String eventID) {
         this.eventPoster = eventPoster;
+        this.eventThumbnailPoster = eventThumbnailPoster;
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
         this.eventVenue = eventVenue;
@@ -37,6 +38,10 @@ public class EventModel  implements Serializable {
 
     public String getEventPoster() {
         return eventPoster;
+    }
+
+    public String getEventThumbnailPoster() {
+        return eventThumbnailPoster;
     }
 
     public String getEventTitle() {

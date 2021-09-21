@@ -71,7 +71,7 @@ public class AddEventFragment extends Fragment {
 
     private FragmentAddEventBinding binding;
 
-    private static final int REQUEST_PHOTO_CODE = 123;
+    private static final int REQUEST_MAIN_PHOTO_CODE = 121, REQUEST_THUMBNAIL_PHOTO_CODE = 123;
 
     private TagRecyclerAdapter adapter;
     private List<String> tagDataSet;
@@ -79,9 +79,9 @@ public class AddEventFragment extends Fragment {
 
     private Calendar calendar;
 
-    private String imageString;
-    private Uri eventImageUri, eventImageDownloadUri;
-    private UploadTask uploadTask;
+    private String mainImageString, thumbnailImageString;
+    private Uri eventMainImageUri, eventThumbnailImageUri, eventMainImageDownloadUri, eventThumbnailImageDownloadUri;
+    private UploadTask uploadTask, mainUploadTask, thumbnailUploadTask;
 
     private NavController navController;
 
@@ -98,12 +98,6 @@ public class AddEventFragment extends Fragment {
 
     private EventModel eventModel;
     private String liveEventid, draftEventid, eventid;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -151,7 +145,14 @@ public class AddEventFragment extends Fragment {
         binding.ivPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickImage();
+                pickImage(1);
+            }
+        });
+
+        binding.ivThumbnailPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImage(2);
             }
         });
 
@@ -178,6 +179,7 @@ public class AddEventFragment extends Fragment {
         binding.recyclerViewTags.setHasFixedSize(true);
 
         binding.ivPoster.setClipToOutline(true);
+        binding.ivThumbnailPoster.setClipToOutline(true);
 
         adapter = new TagRecyclerAdapter(tagDataSet);
         adapter.setOnTagClickListener(new TagRecyclerAdapter.OnTagClickListener() {
@@ -255,7 +257,6 @@ public class AddEventFragment extends Fragment {
 
         });
 
-
         textChangedListener(binding.TitleET, binding.TitleTIL);
         textChangedListener(binding.DescriptionET, binding.DescriptionTIL);
         textChangedListener(binding.VenueET, binding.VenueTIL);
@@ -332,8 +333,10 @@ public class AddEventFragment extends Fragment {
                 tagChipGroup.setVisibility(View.VISIBLE);
             }
 
-            imageString = eventModel.getEventPoster();
-            loadUsingGlide(imageString);
+            mainImageString = eventModel.getEventPoster();
+            thumbnailImageString = eventModel.getEventThumbnailPoster();
+            loadUsingGlide(mainImageString, 1);
+            loadUsingGlide(thumbnailImageString, 2);
 
         }
 
@@ -349,20 +352,26 @@ public class AddEventFragment extends Fragment {
                 checkEmptyField(binding.linkET, binding.linkTIL);
 
                 if (emptyFlag == 6) {
-                    if (eventImageUri == null && imageString != null) {
-                        imageFlag = 1;
-                        uploadEvent();
+                    if (binding.ivPoster.getDrawable() == null) {
+                        Toast.makeText(getContext(), "Main poster cannot be empty", Toast.LENGTH_SHORT).show();
                     } else {
-                        imageFlag = 0;
-                        updateInfo();
+                        if (eventMainImageUri == null && mainImageString != null) {
+                            imageFlag = 1;
+                            uploadEvent();
+                        } else {
+                            imageFlag = 0;
+                            if (eventThumbnailImageUri == null)
+                                updateInfo(1);
+                            else
+                                updateInfo(2);
+                        }
                     }
                 }
-
             }
         });
     }
 
-    private void updateInfo() {
+    private void updateInfo(int x) {
 
         binding.btnUploadEvent.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.VISIBLE);
@@ -370,54 +379,144 @@ public class AddEventFragment extends Fragment {
         StorageReference storageReference = firebaseStorage.getReference()
                 .child(constant.getEventPosters() + "/" + firestoreDB.collection(constant.getEvents()).get());
 
-        if (eventImageUri != null) {
-//            Compressing The Image
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), eventImageUri);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        StorageReference thumbnailStorageReference = firebaseStorage.getReference()
+                .child(constant.getEventThumbnailPosters() + "/" + firestoreDB.collection(constant.getEvents()).get());
+
+
+
+        if (eventMainImageUri != null) {
+            if (x == 1) {
+//            Compressing The Main Image
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), eventMainImageUri);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 //                Higher the number, higher the quality
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-                byte[] data = baos.toByteArray();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, baos);
+                    byte[] data = baos.toByteArray();
 
-                uploadTask = storageReference.putBytes(data);
+                    uploadTask = storageReference.putBytes(data);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getContext(), "Photo Uploaded", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), "Error Uploading Image:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    binding.btnUploadEvent.setVisibility(View.VISIBLE);
-                    binding.progressBar.setVisibility(View.GONE);
-                }
-            });
 
-            Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful())
-                        throw task.getException();
-
-                    return storageReference.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        eventImageDownloadUri = task.getResult();
-                        uploadEvent();
-
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getContext(), "Photo Uploaded", Toast.LENGTH_SHORT).show();
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error Uploading Image:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        binding.btnUploadEvent.setVisibility(View.VISIBLE);
+                        binding.progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+                Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful())
+                            throw task.getException();
+
+                        return storageReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            eventMainImageDownloadUri = task.getResult();
+                            uploadEvent();
+                        }
+                    }
+                });
+            } else {
+//            Compressing The Main Image and Thumbnail Image
+                try {
+                    Bitmap mainBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), eventMainImageUri);
+                    Bitmap thumbnailBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), eventThumbnailImageUri);
+                    ByteArrayOutputStream mainBaos = new ByteArrayOutputStream();
+                    ByteArrayOutputStream thumbnailBaos = new ByteArrayOutputStream();
+
+//                Higher the number, higher the quality
+                    mainBitmap.compress(Bitmap.CompressFormat.JPEG, 85, mainBaos);
+                    thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, 85, thumbnailBaos);
+
+                    byte[] mainData = mainBaos.toByteArray();
+                    byte[] thumbnailData = thumbnailBaos.toByteArray();
+
+                    mainUploadTask = storageReference.putBytes(mainData);
+                    thumbnailUploadTask = thumbnailStorageReference.putBytes(thumbnailData);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
+
+                mainUploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getContext(), "Photo Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error Uploading Image:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        binding.btnUploadEvent.setVisibility(View.VISIBLE);
+                        binding.progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+                thumbnailUploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getContext(), "Thumbnail Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error Uploading Image:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        binding.btnUploadEvent.setVisibility(View.VISIBLE);
+                        binding.progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+                Task<Uri> uriTask = mainUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful())
+                            throw task.getException();
+
+                        return storageReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            eventMainImageDownloadUri = task.getResult();
+//                            uploadEvent();
+                            Task<Uri> uriTask = thumbnailUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                                @Override
+                                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                    if (!task.isSuccessful())
+                                        throw task.getException();
+
+                                    return thumbnailStorageReference.getDownloadUrl();
+                                }
+                            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    if (task.isSuccessful()) {
+                                        eventThumbnailImageDownloadUri = task.getResult();
+                                        uploadEvent();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
 
         } else {
             uploadEvent();
@@ -430,7 +529,7 @@ public class AddEventFragment extends Fragment {
         binding.btnUploadEvent.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.VISIBLE);
 
-        String image;
+        String mainImage, thumbnailImage;
         String title = binding.TitleET.getText().toString();
         String description = binding.DescriptionET.getText().toString();
         String venue = binding.VenueET.getText().toString();
@@ -450,8 +549,8 @@ public class AddEventFragment extends Fragment {
             DateFormat timeFormat = new SimpleDateFormat("KK:mm a", Locale.US);
             Date mDate = null, mTime = null;
             try {
-                mDate = (Date)dateFormat.parse(date);
-                mTime = (Date)timeFormat.parse(time);
+                mDate = (Date) dateFormat.parse(date);
+                mTime = (Date) timeFormat.parse(time);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -467,13 +566,16 @@ public class AddEventFragment extends Fragment {
         }
 
         if (imageFlag == 0) {
-            if (eventImageDownloadUri != null) {
-                image = eventImageDownloadUri.toString();
+            if (eventMainImageDownloadUri != null) {
+                mainImage = eventMainImageDownloadUri.toString();
+                thumbnailImage = eventThumbnailImageDownloadUri.toString();
             } else {
-                image = null;
+                mainImage = null;
+                thumbnailImage = null;
             }
         } else {
-            image = imageString;
+            mainImage = mainImageString;
+            thumbnailImage = thumbnailImageString;
         }
 
 
@@ -490,7 +592,7 @@ public class AddEventFragment extends Fragment {
         if (statusFlag == 0) {
 //            Save as draft
 
-            EventModel eventModel = new EventModel(image, title, description, venue, dateStamp, timeStamp, link, eventTags, organizerID, draftEventid);
+            EventModel eventModel = new EventModel(mainImage, thumbnailImage, title, description, venue, dateStamp, timeStamp, link, eventTags, organizerID, draftEventid);
 
             eventDraftCollectionReference.document(draftEventid).set(eventModel)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -524,7 +626,7 @@ public class AddEventFragment extends Fragment {
 //            Save as live
 //            EventModel eventModel = new EventModel(image, title, description, venue, date, time, link, eventTags, organizerID, liveEventid);
 
-            EventModel eventModel = new EventModel(image, title, description, venue, dateStamp, timeStamp, link, eventTags, organizerID, liveEventid);
+            EventModel eventModel = new EventModel(mainImage, thumbnailImage, title, description, venue, dateStamp, timeStamp, link, eventTags, organizerID, liveEventid);
 
             eventLivecollectionReference.document(liveEventid).set(eventModel)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -554,18 +656,19 @@ public class AddEventFragment extends Fragment {
                     }
                 }
             });
-
-
         }
 
     }
 
-    private void pickImage() {
+    private void pickImage(int x) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, REQUEST_PHOTO_CODE);
 
+        if (x == 1)
+            startActivityForResult(intent, REQUEST_MAIN_PHOTO_CODE);
+        else
+            startActivityForResult(intent, REQUEST_THUMBNAIL_PHOTO_CODE);
     }
 
     private void initTagDataSet() {
@@ -589,35 +692,60 @@ public class AddEventFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PHOTO_CODE && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == REQUEST_MAIN_PHOTO_CODE && resultCode == getActivity().RESULT_OK) {
+
             if (data == null) {
                 Toast.makeText(getContext(), "Error Fetching Image", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            eventImageUri = data.getData();
+            eventMainImageUri = data.getData();
+            loadUsingGlide(eventMainImageUri.toString(), 1);
 
-            loadUsingGlide(eventImageUri.toString());
+        } else if (requestCode == REQUEST_THUMBNAIL_PHOTO_CODE && resultCode == getActivity().RESULT_OK) {
+            if (data == null) {
+                Toast.makeText(getContext(), "Error Fetching Image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            eventThumbnailImageUri = data.getData();
+            loadUsingGlide(eventThumbnailImageUri.toString(), 2);
         }
     }
 
 
-    private void loadUsingGlide(String imgurl) {
-        Glide.with(this).
-                load(imgurl).
-                listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        binding.ivPosterProgressBar.setVisibility(View.GONE);
-                        return false;
-                    }
+    private void loadUsingGlide(String imgurl, int x) {
+        if (x == 1) {
+            Glide.with(this).
+                    load(imgurl).
+                    listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            binding.ivPosterProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        binding.ivPosterProgressBar.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(binding.ivPoster);
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            binding.ivPosterProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(binding.ivPoster);
+        } else
+            Glide.with(this).
+                    load(imgurl).
+                    listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            binding.ivPosterProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            binding.ivPosterProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(binding.ivThumbnailPoster);
     }
 
     private void textChangedListener(TextInputEditText ET, TextInputLayout TIL) {

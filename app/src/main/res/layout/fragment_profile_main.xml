@@ -58,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:fillViewport="true"
-                    app:tabIndicatorColor="@color/black"
+                    app:tabIndicatorColor="@color/ui_light_blue"
+                    app:tabSelectedTextColor="@color/ui_light_blue"
                     app:tabTextAppearance="@style/ProfileCustomTabText"
                     app:tabTextColor="@color/black">
 
