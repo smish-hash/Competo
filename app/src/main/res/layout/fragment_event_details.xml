@@ -149,7 +149,8 @@
                     android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="@dimen/grid_2x"
+                    android:layout_marginEnd="@dimen/grid_2x"
                     android:layout_marginTop="@dimen/grid_2x"
                     android:text="About"
                     android:textColor="@color/black"
@@ -161,7 +162,8 @@
                     style="@style/TextAppearance.AppCompat.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="@dimen/grid_2x"
+                    android:layout_marginEnd="@dimen/grid_2x"
                     android:layout_marginTop="@dimen/grid_1x"
                     android:background="@drawable/rounded_tv_background"
                     android:backgroundTint="@color/main_background2"
@@ -169,7 +171,7 @@
                     android:maxLength="325"
                     android:minHeight="115dp"
                     android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
-                    android:textColor="#707070" />
+                    android:textColor="@color/dark_grey" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -181,7 +183,6 @@
                     android:paddingTop="@dimen/grid_2x"
                     android:paddingEnd="@dimen/grid_2x"
                     android:paddingBottom="@dimen/grid_2x"
-                    android:visibility="gone"
                     tools:listitem="@layout/interest_chip_item" />
             </LinearLayout>
 

@@ -64,7 +64,18 @@
         <item>Gaming</item>
         <item>Law</item>
         <item>Modelling</item>
-
     </string-array>
+
+    <string-array name="eventTags">
+        <item>Technical</item>
+        <item>Design</item>
+        <item>Public Speaking</item>
+        <item>School Student</item>
+        <item>Entrepreneurial</item>
+        <item>Vocabulary</item>
+        <item>Art and Crafts</item>
+        <item>Cultural</item>
+    </string-array>
+
 
 </resources>

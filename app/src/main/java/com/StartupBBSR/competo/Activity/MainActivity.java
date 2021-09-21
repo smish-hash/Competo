@@ -3,16 +3,10 @@ package com.StartupBBSR.competo.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -24,15 +18,11 @@ import android.widget.TextView;
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
 import com.StartupBBSR.competo.Fragments.FeedFragment;
-import com.StartupBBSR.competo.Fragments.FindFragment;
-import com.StartupBBSR.competo.Fragments.HomeFragment;
 import com.StartupBBSR.competo.Fragments.InboxNewFragment;
 import com.StartupBBSR.competo.Fragments.ProfileFragment;
-import com.StartupBBSR.competo.Fragments.TeamFragment;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
-import com.StartupBBSR.competo.alarmmanager.alarmmanager;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -42,13 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -99,9 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String testTAG = "empty";
 
     private Fragment fragment;
-    private TeamFragment teamFragment;
-    private HomeFragment homeFragment;
-    private FindFragment findFragment;
     private ProfileFragment profileFragment;
 
     private FeedFragment feedFragment;
@@ -156,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );*/
 
 
-//        In-app updates
+/*//        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
         com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
@@ -190,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         appUpdateManager.registerListener(listener);
-        appUpdateManager.unregisterListener(listener);
+        appUpdateManager.unregisterListener(listener);*/
 
 
         drawerLayout = activityMainBinding.drawer;
@@ -215,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        homeFragment = new HomeFragment();
 //        findFragment = new FindFragment();
-        teamFragment = new TeamFragment();
         profileFragment = new ProfileFragment();
         eventPalFragment = new EventPalFragment();
 
@@ -512,7 +492,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("status", "onResume: Online");
 
 
-        appUpdateManager
+        /*appUpdateManager
                 .getAppUpdateInfo()
                 .addOnSuccessListener(appUpdateInfo -> {
                     // If the update is downloaded but not installed,
@@ -520,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
                         popupSnackbarForCompleteUpdate();
                     }
-                });
+                });*/
     }
 
     private void status(String status) {

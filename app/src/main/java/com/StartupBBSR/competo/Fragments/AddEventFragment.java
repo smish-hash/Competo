@@ -97,7 +97,7 @@ public class AddEventFragment extends Fragment {
     private Long eventDateStamp, eventTimeStamp;
 
     private EventModel eventModel;
-    private String liveEventid, draftEventid, eventid;
+    private String liveEventid, draftEventid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -392,7 +392,7 @@ public class AddEventFragment extends Fragment {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 //                Higher the number, higher the quality
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, baos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
                     byte[] data = baos.toByteArray();
 
                     uploadTask = storageReference.putBytes(data);
@@ -441,8 +441,8 @@ public class AddEventFragment extends Fragment {
                     ByteArrayOutputStream thumbnailBaos = new ByteArrayOutputStream();
 
 //                Higher the number, higher the quality
-                    mainBitmap.compress(Bitmap.CompressFormat.JPEG, 85, mainBaos);
-                    thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, 85, thumbnailBaos);
+                    mainBitmap.compress(Bitmap.CompressFormat.JPEG, 70, mainBaos);
+                    thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, 70, thumbnailBaos);
 
                     byte[] mainData = mainBaos.toByteArray();
                     byte[] thumbnailData = thumbnailBaos.toByteArray();
@@ -672,7 +672,7 @@ public class AddEventFragment extends Fragment {
     }
 
     private void initTagDataSet() {
-        tagDataSet = Arrays.asList(getResources().getStringArray(R.array.FilterChips));
+        tagDataSet = Arrays.asList(getResources().getStringArray(R.array.eventTags));
     }
 
     private void updateDateLabel() {

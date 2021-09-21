@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/grid_2x"
-        android:backgroundTint="#F3EFFA"
+        android:backgroundTint="@color/light_white"
         android:elevation="@dimen/grid_1x"
         app:cardCornerRadius="@dimen/grid_3x"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,13 +51,13 @@
                     android:id="@+id/btnEditEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="#B687F6"
+                    android:layout_marginTop="@dimen/grid_2x"
+                    android:layout_marginEnd="@dimen/grid_2x"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEventTime"
-                    app:srcCompat="@drawable/ic_baseline_edit_24" />
+                    app:srcCompat="@drawable/ic_baseline_edit_24"
+                    app:tint="@color/dark_grey" />
 
                 <TextView
                     android:id="@+id/textView20"
@@ -87,7 +87,7 @@
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/grid_2x"
                     android:text="Description: "
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="bold"
