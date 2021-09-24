@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -41,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -130,31 +133,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
 
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        //chat notification channel
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
 
-            NotificationManager notificationmanager1 = (NotificationManager) getSystemService(NotificationManager.class);
-
-            NotificationChannel channel1 = new NotificationChannel("chatnotification", "chat notification", NotificationManager.IMPORTANCE_HIGH);
-            channel1.setDescription("channel for chat notifications");
-
-            notificationmanager1.createNotificationChannel(channel1);
-        }*/
-
-
-        //alarm manager implementation
-       /* alarmManager = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
-        Intent intent = new Intent(this, alarmmanager.class);
-
-        pendingIntent = PendingIntent.getBroadcast(this, 12, intent, 0);
-
-        long systemtime = SystemClock.elapsedRealtime();
-
-        alarmManager.setRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP, systemtime, 5000, pendingIntent
-        );*/
-
+        if(isConnected)
+        {
+            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coor),"Connected to network",Snackbar.LENGTH_SHORT);
+            mySnackbar.show();
+        }
+        else
+        {
+            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coor),"Not Connected to network",Snackbar.LENGTH_SHORT);
+            mySnackbar.show();
+        }
 
 //        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
