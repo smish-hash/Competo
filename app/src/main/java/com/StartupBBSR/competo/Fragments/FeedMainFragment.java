@@ -102,6 +102,9 @@ public class FeedMainFragment extends Fragment {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(getActivity()==null) {
+                    return;
+                }
                 if (task.isSuccessful()) {
                     DocumentSnapshot snapshot = task.getResult();
                     String name = snapshot.getString(constant.getUserNameField());
