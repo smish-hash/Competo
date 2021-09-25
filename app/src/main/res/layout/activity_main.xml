@@ -14,7 +14,9 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
-            android:layout_height="45dp">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/chat_background_color"
+            android:elevation="@dimen/grid_1x">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -47,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/grid_5x"
-            android:layout_marginTop="45dp">
+            android:layout_marginTop="?attr/actionBarSize">
 
 <!--            <include-->
 <!--                android:id="@+id/action_bar"-->

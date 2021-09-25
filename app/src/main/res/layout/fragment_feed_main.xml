@@ -35,12 +35,8 @@
             android:id="@+id/tvFeedHello"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:fontFamily="@font/palanquin_semibold"
-=======
->>>>>>> 9cd42f6fa8fe23852ad42b4c28b14a14bcfa4995
             android:layout_margin="@dimen/grid_3x"
-            android:fontFamily="@font/palanquin_semibold"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"

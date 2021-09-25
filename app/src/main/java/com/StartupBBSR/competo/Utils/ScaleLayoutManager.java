@@ -3,7 +3,6 @@ package com.StartupBBSR.competo.Utils;
 import android.content.Context;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,11 +13,10 @@ public class ScaleLayoutManager extends LinearLayoutManager {
 
     private final float mShrinkAmount = 0.15f;
     private final float mShrinkDistance = 0.9f;
-<<<<<<< HEAD
+
     private final float factor=8;
-=======
-    private final float factor = 4;
->>>>>>> 9cd42f6fa8fe23852ad42b4c28b14a14bcfa4995
+
+
 
     public ScaleLayoutManager(Context context) {
         super(context);

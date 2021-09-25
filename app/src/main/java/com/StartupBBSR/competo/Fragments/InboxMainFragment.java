@@ -162,11 +162,10 @@ public class InboxMainFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 
-<<<<<<< HEAD
+
         //recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
-=======
->>>>>>> 9cd42f6fa8fe23852ad42b4c28b14a14bcfa4995
+
         adapter = new ChatUserListAdapter(options, getContext());
         adapter.startListening();
         recyclerView.setAdapter(adapter);
