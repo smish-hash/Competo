@@ -22,13 +22,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel, EventPalUserAdapter.ViewHolder> {
 
-
-    /*In certain cases, you'd want to setup click handlers for views within the RecyclerView but
-    define the click logic within the containing Activity or Fragment
-    (i.e bubble up events from the adapter). To achieve this, create a custom listener within
-    the adapter and then fire the events upwards to an interface implementation defined within
-    the parent:*/
-
     //    Listener Member Variable
     private OnItemClickListener listener;
 
@@ -60,7 +53,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
     }
 
     private EventPalUserItemBinding binding;
-
     private Context context;
 
 
@@ -103,19 +95,6 @@ public class EventPalUserAdapter extends FirestoreRecyclerAdapter<EventPalModel,
             Image = binding.ivEventPalUserImage;
             recyclerView = binding.eventPalUserSkillRecyclerView;
             btnSendMessageRequestEventPal = binding.btnSendMessage;
-
-
-           /* binding.btnBottomSheet.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onBottomSheetToggleClick(itemView, position);
-                        }
-                    }
-                }
-            });*/
 
             btnSendMessageRequestEventPal.setOnClickListener(new View.OnClickListener() {
                 @Override

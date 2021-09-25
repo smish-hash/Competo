@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/grid_3x"
             android:background="@drawable/eventpal_button_round"
-            android:elevation="0dp"
+            android:elevation="10dp"
             android:outlineProvider="none"
             android:text="Message Request"
             android:textAllCaps="false"
@@ -44,13 +44,11 @@
 
             <ImageView
                 android:id="@+id/ivEventPalUserImage"
-                android:layout_width="250dp"
+                android:layout_width="230dp"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/iron_man" />
-
         </androidx.cardview.widget.CardView>
-
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
@@ -60,7 +58,7 @@
             android:layout_marginTop="@dimen/grid_2x"
             android:layout_marginBottom="@dimen/grid_3x"
             android:background="@drawable/button_round_shape"
-            android:backgroundTint="@color/light_white"
+            android:backgroundTint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/btnSendMessage"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

@@ -18,7 +18,7 @@
             android:layout_height="?actionBarSize"
             android:background="@color/accent_blue"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:navigationIcon="@drawable/ic_baseline_keyboard_arrow_left_24"
             app:navigationIconTint="@color/white"
             app:title="Add Event" />
 
@@ -37,22 +37,59 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/grid_3x"
-            android:paddingBottom="300dp">
+            android:paddingBottom="150dp">
+
+            <TextView
+                android:id="@+id/tvMainImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Main poster image"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/text_dark_gray"
+                android:layout_marginTop="@dimen/grid_4x"
+                app:layout_constraintStart_toStartOf="@+id/ivPoster"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/ivPoster"
                 android:layout_width="@dimen/standard_width"
                 android:layout_height="@dimen/standard_width"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/grid_4x"
                 android:background="@drawable/imageview_background_round"
                 android:maxWidth="@dimen/standard_width"
                 android:maxHeight="@dimen/standard_width"
+                android:layout_marginTop="@dimen/grid_3x"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_baseline_add_a_photo_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvMainImage" />
+
+            <TextView
+                android:id="@+id/tvThumbnailImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Thumbnail Image - optional\n(100dp x 100dp)"
+                android:maxLines="2"
+                android:textColor="@color/text_gray"
+                android:layout_marginTop="@dimen/grid_4x"
+                app:layout_constraintStart_toStartOf="@+id/ivPoster"
+                app:layout_constraintTop_toBottomOf="@id/ivPoster" />
+
+            <ImageView
+                android:id="@+id/ivThumbnailPoster"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/imageview_background_round"
+                android:layout_marginTop="@dimen/grid_3x"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_baseline_add_a_photo_24"
+                app:layout_constraintStart_toStartOf="@id/tvThumbnailImage"
+                app:layout_constraintTop_toBottomOf="@+id/tvThumbnailImage" />
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewTags"
@@ -180,7 +217,7 @@
                 android:layout_marginTop="@dimen/grid_4x"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivPoster">
+                app:layout_constraintTop_toBottomOf="@+id/ivThumbnailPoster">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/TitleET"

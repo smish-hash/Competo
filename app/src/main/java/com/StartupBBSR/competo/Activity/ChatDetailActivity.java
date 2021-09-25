@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -133,11 +134,8 @@ public class ChatDetailActivity extends AppCompatActivity {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     int value = Integer.parseInt(document.getString(constant.getMessageNumber()));
-
                                     value++;
-
                                     Map<String, Object> city = new HashMap<>();
-
                                     city.put("messagenumber", String.valueOf(value));
 
 //                                    DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());

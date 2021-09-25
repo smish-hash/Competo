@@ -45,7 +45,11 @@ public class EventFeedAdapter extends FirestoreRecyclerAdapter<EventModel, Event
         holder.month.setText(month);
         holder.title.setText(model.getEventTitle());
         holder.description.setText(model.getEventDescription());
-        Glide.with(context).load(model.getEventPoster()).into(holder.image);
+
+        if (model.getEventThumbnailPoster() == null)
+            Glide.with(context).load(model.getEventPoster()).into(holder.image);
+        else
+            Glide.with(context).load(model.getEventThumbnailPoster()).into(holder.image);
     }
 
     @NonNull

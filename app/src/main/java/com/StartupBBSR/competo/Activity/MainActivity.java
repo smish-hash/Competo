@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //chat notification channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             NotificationManager notificationmanager1 = (NotificationManager) getSystemService(NotificationManager.class);
 
@@ -140,11 +140,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             channel1.setDescription("channel for chat notifications");
 
             notificationmanager1.createNotificationChannel(channel1);
-        }
+        }*/
 
 
         //alarm manager implementation
-        alarmManager = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
+       /* alarmManager = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
         Intent intent = new Intent(this, alarmmanager.class);
 
         pendingIntent = PendingIntent.getBroadcast(this, 12, intent, 0);
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         alarmManager.setRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP, systemtime, 5000, pendingIntent
-        );
+        );*/
 
 
 //        In-app updates
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Log.d(testTAG, "onCompleteAlert: Photo or bio null: " + alertSnapshot.getString(constant.getUserPhotoField()) + ", " + alertSnapshot.getString(constant.getUserBioField()));
 
                         builder1.setTitle("Tell us a bit about yourself");
-                        builder1.setMessage("Let others know a bit about you\nAdd a photo and a bio to continue");
+                        builder1.setMessage("Let others know a bit about you\nAdd a photo and a bio to continue.\nA profile picture is necessary to make your profile visible to others.");
                         builder1.setIcon(R.drawable.ic_baseline_settings_24);
                         builder1.setCancelable(false);
                         builder1.setPositiveButton("Go to my profile", new DialogInterface.OnClickListener() {

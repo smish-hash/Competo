@@ -7,6 +7,7 @@ public class Constant {
     String draftEvents = "Draft Events";
     String events = "Events";
     String eventPosters = "EventPosters";
+    String eventThumbnailPosters = "ThumbnailPoster";
     String eventDate = "eventDate";
 
     String MessageRequests = "MessageRequests";
@@ -102,6 +103,10 @@ public class Constant {
 
     public String getEventPosters() {
         return eventPosters;
+    }
+
+    public String getEventThumbnailPosters() {
+        return eventThumbnailPosters;
     }
 
     public String getEventOrganizerID() {

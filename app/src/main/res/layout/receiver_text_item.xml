@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/grid_2x"
-    android:background="@drawable/receiver_text_bg"
-    android:maxWidth="300dp"
-    android:minHeight="40dp"
-    android:padding="@dimen/grid_1x">
+    android:layout_height="wrap_content">
 
-
-    <TextView
-        android:id="@+id/tv_receiver_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/grid_1x"
-        android:layout_marginEnd="@dimen/grid_1x"
-        android:layout_marginBottom="@dimen/grid_1x"
-        android:autoLink="all"
-        android:inputType="textNoSuggestions|textMultiLine|textLongMessage|textAutoCorrect|textAutoComplete|textCapSentences"
-        android:maxWidth="270dp"
-        android:minWidth="50dp"
-        android:textColor="@color/text_dark_gray"
-        android:text="Received Message"
-        app:layout_constraintBottom_toTopOf="@+id/tv_receiver_text_time"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="@dimen/grid_2x"
+        android:background="@drawable/receiver_text_bg"
+        android:maxWidth="300dp"
+        android:minHeight="40dp"
+        android:padding="@dimen/grid_1x">
+
+        <TextView
+            android:id="@+id/tv_receiver_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1x"
+            android:layout_marginEnd="@dimen/grid_1x"
+            android:paddingTop="@dimen/grid_1x"
+            android:paddingBottom="@dimen/grid_2x"
+            android:paddingEnd="@dimen/grid_1x"
+            android:paddingStart="@dimen/grid_1x"
+            android:autoLink="all"
+            android:maxWidth="270dp"
+            android:minWidth="50dp"
+            android:text="Received Message"
+            android:textColor="@color/text_dark_gray"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_receiver_text_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/grid_1x"
-        android:fontFamily="sans-serif-condensed"
-        android:text="12:36 PM"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@id/guideline3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/grid_3x" />
+        android:layout_below="@id/conLayout"
+        android:layout_marginStart="@dimen/grid_2x"
+        android:layout_marginBottom="@dimen/grid_1x"
+        android:fontFamily="sans-serif"
+        android:text="12:36 PM"
+        android:textColor="@color/text_dark_gray"
+        android:textSize="11sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

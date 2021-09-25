@@ -5,16 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
@@ -35,6 +25,16 @@ import com.google.firebase.firestore.Query;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 
 public class FeedMainFragment extends Fragment {
@@ -102,9 +102,17 @@ public class FeedMainFragment extends Fragment {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+<<<<<<< HEAD
                 if(getActivity()==null) {
                     return;
                 }
+=======
+
+                if (getActivity() == null) {
+                    return;
+                }
+
+>>>>>>> 9cd42f6fa8fe23852ad42b4c28b14a14bcfa4995
                 if (task.isSuccessful()) {
                     DocumentSnapshot snapshot = task.getResult();
                     String name = snapshot.getString(constant.getUserNameField());
@@ -116,7 +124,7 @@ public class FeedMainFragment extends Fragment {
                     }
 
                     // Creating random greetings
-                    String[] greetings = {"Hello", "Hola", "Namaste", "Bonjour", "Kon'nichiwa","Nǐ hǎo"};
+                    String[] greetings = {"Hello", "Hola", "Namaste", "Bonjour", "Kon'nichiwa", "Nǐ hǎo"};
                     Random r = new Random();
                     int randomNumber = r.nextInt(greetings.length);
 
@@ -133,11 +141,11 @@ public class FeedMainFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if (timeOfDay >= 0 && timeOfDay < 12) {
+        if (timeOfDay >= 5 && timeOfDay < 12) {
             binding.tvFeedGreeting.setText("Good Morning");
-        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+        } else if (timeOfDay >= 12 && timeOfDay < 17) {
             binding.tvFeedGreeting.setText("Good Afternoon");
-        } else if (timeOfDay >= 16 && timeOfDay < 24) {
+        } else if (timeOfDay >= 17 && timeOfDay < 5) {
             binding.tvFeedGreeting.setText("Good Evening");
         }
     }
