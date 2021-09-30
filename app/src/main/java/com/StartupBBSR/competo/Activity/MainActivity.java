@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
 
-        activityMainBinding.actionBar.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
+        activityMainBinding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
