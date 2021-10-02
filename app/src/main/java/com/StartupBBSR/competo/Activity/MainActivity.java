@@ -36,6 +36,7 @@ import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.alarmmanager.alarmmanager;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
+import com.StartupBBSR.competo.foregroundservice.foregroundservice;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,6 +70,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -133,6 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        //network related
+
         ConnectivityManager cm =
                 (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -150,6 +155,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coor),"Not Connected to network",Snackbar.LENGTH_SHORT);
             mySnackbar.show();
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        //starting foreground service
+        Intent intent = new Intent(MainActivity.this, foregroundservice.class);
+        if(Build.VERSION.SDK_INT>=26)
+        {
+            ContextCompat.startForegroundService(MainActivity.this,intent);
+        }
+        else
+        {
+            startService(intent);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
 //        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
