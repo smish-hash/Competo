@@ -4,6 +4,9 @@ package com.StartupBBSR.competo.Activity;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +47,7 @@ import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.backgroundservice.backgroundservice;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
 import com.StartupBBSR.competo.foregroundservice.foregroundservice;
+import com.StartupBBSR.competo.jobscheduler.jobscheduler;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -173,8 +177,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ////////////////////////////////////////////////////////////////////////////////////////////
         //background service
 
-        Intent intent3 = new Intent(this, backgroundservice.class);
-        startService(intent3);
+        /*Intent intent3 = new Intent(this, backgroundservice.class);
+        startService(intent3);*/
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        //////////////////////////////p//////////////////////////////////////////////////////////////
+        //job scheduler
+
+        ComponentName componentname = new ComponentName(this, jobscheduler.class);
+        JobInfo info = new JobInfo.Builder(123,componentname)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(5*60*1000)
+                .build();
+
+        JobScheduler jobscheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        jobscheduler.schedule(info);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
