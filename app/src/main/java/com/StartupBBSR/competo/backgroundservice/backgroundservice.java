@@ -42,7 +42,7 @@ public class backgroundservice extends BroadcastReceiver {
 
                 if(Build.VERSION.SDK_INT>=26)
                 {
-                    notificationchannel = new NotificationChannel(channel_id,channel_name, NotificationManager.IMPORTANCE_NONE);
+                    notificationchannel = new NotificationChannel(channel_id,channel_name, NotificationManager.IMPORTANCE_DEFAULT);
                     manager = context.getSystemService(NotificationManager.class);
                     manager.createNotificationChannel(notificationchannel);
 
