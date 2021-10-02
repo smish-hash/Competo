@@ -78,4 +78,12 @@ public class backgroundservice extends Service {
             manager.notify(5,notification);
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("Service Alert", "onDestroy: Service is destroyed :( ");
+        Intent broadcastIntent = new Intent(this, backgroundservicerestart.class);
+        sendBroadcast(broadcastIntent);
+    }
 }
