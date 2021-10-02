@@ -33,46 +33,62 @@ public class jobscheduler extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        Log.d("Job service","Job Started");
+
         db.collection("messagenumber").document(firebaseAuth.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 Log.d("Data recieved", String.valueOf(value.getData()));
-                //notificationchannel(String.valueOf(value.getData()));
-                dobackgroundwork(params);
+                dobackgroundwork(params,String.valueOf(value.getData()));
             }
         });
+
 
         return true;
     }
 
-    private void dobackgroundwork(JobParameters params)
+    private void dobackgroundwork(JobParameters params,String data)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                /*for(int i=0;i<10;i++)
+                {
+                    Log.d("run","value" + i);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }*/
+
                 if(Build.VERSION.SDK_INT>=26)
                 {
-                    NotificationChannel notificationchannel = new NotificationChannel(channel_id,channel_name, NotificationManager.IMPORTANCE_NONE);
+                    NotificationChannel notificationchannel = new NotificationChannel(channel_id,channel_name, NotificationManager.IMPORTANCE_DEFAULT);
                     NotificationManager manager = getSystemService(NotificationManager.class);
                     manager.createNotificationChannel(notificationchannel);
 
                     Intent intent = new Intent(jobscheduler.this, MainActivity.class);
                     PendingIntent pendingintent = PendingIntent.getActivities(jobscheduler.this,0,new Intent[]{intent},0);
                     Notification notification = new NotificationCompat.Builder(jobscheduler.this,channel_id)
-                            .setContentTitle("Job Service")
-                            .setContentText("hemlo")
+                            .setContentTitle("Background Service")
+                            .setContentText(data)
                             .setSmallIcon(R.drawable.ic_settings)
                             .setContentIntent(pendingintent)
                             .build();
 
                     manager.notify(6,notification);
                 }
+
+                Log.d("job service","Job finished");
+                //jobFinished(params,false);
             }
         }).start();
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
+        Log.d("Job service","Job cancelled before completion");
         return false;
     }
 }
