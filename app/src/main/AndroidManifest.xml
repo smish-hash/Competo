@@ -70,6 +70,8 @@
             android:enabled="true"
             android:exported="false">
         </service>
+
+        <receiver android:name=".backgroundservice.backgroundservicerestart"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
