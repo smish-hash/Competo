@@ -66,10 +66,17 @@
             android:enabled="true"
             android:foregroundServiceType="dataSync"/>
 
-
+        <receiver android:name=".backgroundservice.backgroundservice"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="BackgroundProcess"/>
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
 </manifest>
