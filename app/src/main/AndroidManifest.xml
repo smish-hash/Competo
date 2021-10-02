@@ -66,13 +66,10 @@
             android:enabled="true"
             android:foregroundServiceType="dataSync"/>
 
-        <receiver android:name=".backgroundservice.backgroundservice"
+        <service android:name=".backgroundservice.backgroundservice"
             android:enabled="true"
             android:exported="false">
-            <intent-filter>
-                <action android:name="BackgroundProcess"/>
-            </intent-filter>
-        </receiver>
+        </service>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

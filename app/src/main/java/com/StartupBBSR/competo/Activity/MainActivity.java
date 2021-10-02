@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        //starting foreground service
-       /* Intent intent = new Intent(MainActivity.this, foregroundservice.class);
+        //foreground service
+        /*Intent intent = new Intent(MainActivity.this, foregroundservice.class);
         if(Build.VERSION.SDK_INT>=26)
         {
             ContextCompat.startForegroundService(MainActivity.this,intent);
@@ -174,10 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //background service
 
         Intent intent3 = new Intent(this, backgroundservice.class);
-        intent3.setAction("BackgroundProcess");
-        PendingIntent pendingIntent3 = PendingIntent.getBroadcast(this,0,intent3,0);
-        AlarmManager alarmManager3 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager3.setInexactRepeating(AlarmManager.RTC_WAKEUP,0,10,pendingIntent3);
+        startService(intent3);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
