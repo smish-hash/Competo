@@ -45,7 +45,6 @@ public class foregroundservice extends Service {
                 notificationchannel(String.valueOf(value.getData()));
             }
         });
-
     }
 
     private void notificationchannel(String data)
