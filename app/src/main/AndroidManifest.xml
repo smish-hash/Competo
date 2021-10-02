@@ -50,8 +50,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <receiver android:name=".alarmmanager.alarmmanager" />
-
         <service
             android:name=".Firebasemessaging.MyFirebaseMessagingService"
             android:exported="false">
