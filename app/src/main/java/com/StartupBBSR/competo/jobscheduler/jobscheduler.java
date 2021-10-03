@@ -52,15 +52,6 @@ public class jobscheduler extends JobService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                /*for(int i=0;i<10;i++)
-                {
-                    Log.d("run","value" + i);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }*/
 
                 if(Build.VERSION.SDK_INT>=26)
                 {
