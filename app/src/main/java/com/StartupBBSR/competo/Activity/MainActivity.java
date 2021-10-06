@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ////////////////////////////////////////////////////////////////////////////////////////////
         //network related
 
-        ConnectivityManager cm =
+        /*ConnectivityManager cm =
                 (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coor),"Not Connected to network",Snackbar.LENGTH_SHORT);
             mySnackbar.show();
-        }
+        }*/
         ////////////////////////////////////////////////////////////////////////////////////////////
 
 

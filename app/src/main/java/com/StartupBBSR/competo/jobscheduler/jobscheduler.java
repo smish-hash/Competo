@@ -8,6 +8,8 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 
@@ -17,10 +19,15 @@ import androidx.core.app.NotificationCompat;
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class jobscheduler extends JobService {
 
@@ -30,28 +37,70 @@ public class jobscheduler extends JobService {
     String channel_name = "Job_service";
     String channel_id = "service3";
 
-
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d("Job service","Job Started");
 
-        db.collection("messagenumber").document(firebaseAuth.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Log.d("Data recieved", String.valueOf(value.getData()));
-                dobackgroundwork(params,String.valueOf(value.getData()));
+        db.collection("Events").addSnapshotListener((value, error) -> {
+            for(DocumentChange dc : value.getDocumentChanges())
+            {
+                if (dc.getType() == DocumentChange.Type.ADDED) {
+                    Log.d("Data added", String.valueOf(dc.getDocument().getData()));
+                    dobackgroundwork(params,"A new EVENT is added",dc.getDocument().getString("eventThumbnailPoster"));
+                    // TODO: 06-10-2021 insert a condition 
+                }
+
+                if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                    Log.d("Data Modified",dc.getDocument().getString("eventThumbnailPoster"));
+
+                    dobackgroundwork(params,"An EVENT is modified",dc.getDocument().getString("eventThumbnailPoster"));
+                }
+
+                if (dc.getType() == DocumentChange.Type.REMOVED) {
+                    Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
+                    dobackgroundwork(params,"An EVENT is removed",dc.getDocument().getString("eventThumbnailPoster"));
+                }
             }
         });
 
+        db.collection("Requests").document(firebaseAuth.getUid()).collection("Requests").addSnapshotListener((value, error) -> {
+
+            for(DocumentChange dc : value.getDocumentChanges())
+            {
+                if (dc.getType() == DocumentChange.Type.ADDED) {
+                    Log.d("Data added", String.valueOf(dc.getDocument().getData()));
+                    dobackgroundwork(params,"You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg");
+                }
+
+                if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                    Log.d("Data Modified", String.valueOf(dc.getDocument().getData()));
+                    dobackgroundwork(params,"A MESSAGE REQUEST is modified","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg");
+                }
+
+                if (dc.getType() == DocumentChange.Type.REMOVED) {
+                    Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
+                    dobackgroundwork(params,"A MESSAGE REQUEST is removed","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg");
+                }
+            }
+        });
 
         return true;
     }
 
-    private void dobackgroundwork(JobParameters params,String data)
+    private void dobackgroundwork(JobParameters params,String data, String image_address)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                Bitmap image = null;
+
+                try {
+                    URL url = new URL(image_address);
+                    image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch(IOException e) {
+                    System.out.println(e);
+                }
 
                 if(Build.VERSION.SDK_INT>=26)
                 {
@@ -62,9 +111,11 @@ public class jobscheduler extends JobService {
                     Intent intent = new Intent(jobscheduler.this, MainActivity.class);
                     PendingIntent pendingintent = PendingIntent.getActivities(jobscheduler.this,0,new Intent[]{intent},0);
                     Notification notification = new NotificationCompat.Builder(jobscheduler.this,channel_id)
-                            .setContentTitle("Background Service")
+                            .setContentTitle("Notification")
                             .setContentText(data)
                             .setSmallIcon(R.drawable.ic_settings)
+                            .setStyle(new NotificationCompat.BigPictureStyle()
+                                    .bigPicture(image))
                             .setContentIntent(pendingintent)
                             .build();
 
