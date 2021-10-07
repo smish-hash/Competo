@@ -89,6 +89,10 @@ public class jobscheduler extends JobService {
                 {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
                         Log.d("Data added", String.valueOf(dc.getDocument().getData()));
+                        if(dc.getDocument().getString("receiverID") == firebaseAuth.getUid())
+                        {
+                            sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
+                        }
                         sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
                     }
 
