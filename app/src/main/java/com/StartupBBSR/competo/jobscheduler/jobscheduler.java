@@ -57,7 +57,7 @@ public class jobscheduler extends JobService {
                 {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
                         Log.d("Data added", String.valueOf(dc.getDocument().getData()));
-                        sendnotification("A new EVENT is added",dc.getDocument().getString("eventPoster"), 1,false);
+                        sendnotification("A new EVENT is added",dc.getDocument().getString("eventPoster"), 1,true);
                         // TODO: 06-10-2021 insert a condition
                     }
 
