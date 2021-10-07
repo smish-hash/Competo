@@ -48,100 +48,93 @@ public class jobscheduler extends JobService {
 
     private void dobackgroundwork(JobParameters params)
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                ////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////
 
-                db.collection("Events").addSnapshotListener((value, error) -> {
-                    for(DocumentChange dc : value.getDocumentChanges())
-                    {
-                        /*if (dc.getType() == DocumentChange.Type.ADDED) {
-                            Log.d("Data added", String.valueOf(dc.getDocument().getData()));
-                            sendnotification("A new EVENT is added",dc.getDocument().getString("eventPoster"), 1);
-                            // TODO: 06-10-2021 insert a condition
-                        }*/
-
-                        if (dc.getType() == DocumentChange.Type.MODIFIED) {
-                            Log.d("Data Modified",dc.getDocument().getString("eventThumbnailPoster"));
-
-                            sendnotification("An EVENT is modified",dc.getDocument().getString("eventPoster"),2);
-                        }
-
-                        if (dc.getType() == DocumentChange.Type.REMOVED) {
-                            Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
-                            sendnotification("An EVENT is removed",dc.getDocument().getString("eventPoster"),3);
-                        }
+            db.collection("Events").addSnapshotListener((value, error) -> {
+                for(DocumentChange dc : value.getDocumentChanges())
+                {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        Log.d("Data added", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("A new EVENT is added",dc.getDocument().getString("eventPoster"), 1);
+                        // TODO: 06-10-2021 insert a condition
                     }
-                });
 
-                ////////////////////////////////////////////////////////////////////////////////////
+                    if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                        Log.d("Data Modified",dc.getDocument().getString("eventThumbnailPoster"));
 
-                ////////////////////////////////////////////////////////////////////////////////////
-
-                db.collection("Requests").document(firebaseAuth.getUid()).collection("Requests").addSnapshotListener((value, error) -> {
-
-                    for(DocumentChange dc : value.getDocumentChanges())
-                    {
-                        /*if (dc.getType() == DocumentChange.Type.ADDED) {
-                            Log.d("Data added", String.valueOf(dc.getDocument().getData()));
-                            sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4);
-                        }*/
-
-                        if (dc.getType() == DocumentChange.Type.MODIFIED) {
-                            Log.d("Data Modified", String.valueOf(dc.getDocument().getData()));
-                            sendnotification("A MESSAGE REQUEST is modified","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 5);
-                        }
-
-                        if (dc.getType() == DocumentChange.Type.REMOVED) {
-                            Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
-                            sendnotification("A MESSAGE REQUEST is removed","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 6);
-                        }
+                        sendnotification("An EVENT is modified",dc.getDocument().getString("eventPoster"),2);
                     }
-                });
 
-                ////////////////////////////////////////////////////////////////////////////////////
+                    if (dc.getType() == DocumentChange.Type.REMOVED) {
+                        Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("An EVENT is removed",dc.getDocument().getString("eventPoster"),3);
+                    }
+                }
+            });
 
-                Log.d("job service","Job finished");
-                //jobFinished(params,false);
-            }
+            ////////////////////////////////////////////////////////////////////////////////////
 
+            ////////////////////////////////////////////////////////////////////////////////////
+
+            db.collection("Requests").document(firebaseAuth.getUid()).collection("Requests").addSnapshotListener((value, error) -> {
+
+                for(DocumentChange dc : value.getDocumentChanges())
+                {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        Log.d("Data added", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4);
+                    }
+
+                    if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                        Log.d("Data Modified", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("A MESSAGE REQUEST is modified","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 5);
+                    }
+
+                    if (dc.getType() == DocumentChange.Type.REMOVED) {
+                        Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("A MESSAGE REQUEST is removed","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 6);
+                    }
+                }
+            });
+
+            ////////////////////////////////////////////////////////////////////////////////////
+
+            //Log.d("job service","Job finished");
+            //jobFinished(params,false);
         }).start();
     }
 
     private void sendnotification(String data, String image_address, int id) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Bitmap image = null;
+        new Thread(() -> {
+            Bitmap image = null;
 
-                try {
-                    URL url = new URL(image_address);
-                    image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                } catch(IOException e) {
-                    System.out.println(e);
-                }
+            try {
+                URL url = new URL(image_address);
+                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch(IOException e) {
+                System.out.println(e);
+            }
 
-                if(Build.VERSION.SDK_INT>=26)
-                {
-                    NotificationChannel notificationchannel = new NotificationChannel(channel_id,channel_name, NotificationManager.IMPORTANCE_DEFAULT);
-                    NotificationManager manager = getSystemService(NotificationManager.class);
-                    manager.createNotificationChannel(notificationchannel);
+            if(Build.VERSION.SDK_INT>=26)
+            {
+                NotificationChannel notificationchannel = new NotificationChannel(channel_id,channel_name, NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationManager manager = getSystemService(NotificationManager.class);
+                manager.createNotificationChannel(notificationchannel);
 
-                    Intent intent = new Intent(jobscheduler.this, MainActivity.class);
-                    PendingIntent pendingintent = PendingIntent.getActivities(jobscheduler.this,0,new Intent[]{intent},0);
-                    Notification notification = new NotificationCompat.Builder(jobscheduler.this,channel_id)
-                            .setContentTitle("Notification")
-                            .setContentText(data)
-                            .setSmallIcon(R.drawable.ic_settings)
-                            .setStyle(new NotificationCompat.BigPictureStyle()
-                                    .bigPicture(image))
-                            .setContentIntent(pendingintent)
-                            .build();
+                Intent intent = new Intent(jobscheduler.this, MainActivity.class);
+                PendingIntent pendingintent = PendingIntent.getActivities(jobscheduler.this,0,new Intent[]{intent},0);
+                Notification notification = new NotificationCompat.Builder(jobscheduler.this,channel_id)
+                        .setContentTitle("Notification")
+                        .setContentText(data)
+                        .setSmallIcon(R.drawable.ic_settings)
+                        .setStyle(new NotificationCompat.BigPictureStyle()
+                                .bigPicture(image))
+                        .setContentIntent(pendingintent)
+                        .build();
 
-                    manager.notify(id,notification);
-                }
+                manager.notify(id,notification);
             }
         }).start();
     }

@@ -186,25 +186,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /////////////////////////////////////////////////////////////////////////////////////////////
         //job scheduler
 
-        ComponentName componentname = new ComponentName(this, jobscheduler.class);
-        JobInfo info = new JobInfo.Builder(123,componentname)
-                .setRequiresCharging(false)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPersisted(true)
-                .setPeriodic(15*60*1000)
-                .build();
-
         JobScheduler jobscheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultcode = jobscheduler.schedule(info);
 
-        if(resultcode == JobScheduler.RESULT_SUCCESS)
+        /*if(jobscheduler.getAllPendingJobs()!=null)
         {
-            Log.d("Job Service","Job scheduled successfully");
+            Log.d("Job Service","Job is already scheduled");
         }
         else
-        {
-            Log.d("Job service","Job Scheduling Failed");
-        }
+        {*/
+            ComponentName componentname = new ComponentName(this, jobscheduler.class);
+            JobInfo info = new JobInfo.Builder(123,componentname)
+                    .setRequiresCharging(false)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setPersisted(true)
+                    .setPeriodic(15*60*1000)
+                    .build();
+
+
+            int resultcode = jobscheduler.schedule(info);
+
+            if(resultcode == JobScheduler.RESULT_SUCCESS)
+            {
+                Log.d("Job Service","Job scheduled successfully");
+            }
+            else
+            {
+                Log.d("Job service","Job Scheduling Failed");
+            }
+        //}
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
