@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Menu menu;
 
     private DrawerLayout drawerLayout;
+
     private NavigationView navigationView;
     private View header;
     private NavHostFragment navHostFragment;
