@@ -203,16 +203,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setPeriodic(15*60*1000)
                     .build();
 
-
-            int resultcode = jobscheduler.schedule(info);
-
-            if(resultcode == JobScheduler.RESULT_SUCCESS)
+            if(jobscheduler.getPendingJob(123)!=null)
             {
-                Log.d("Job Service","Job scheduled successfully");
+                Log.d("Job service","Job service is already running");
             }
             else
             {
-                Log.d("Job service","Job Scheduling Failed");
+                int resultcode = jobscheduler.schedule(info);
+
+                if(resultcode == JobScheduler.RESULT_SUCCESS)
+                {
+                    Log.d("Job Service","Job scheduled successfully");
+                }
+                else
+                {
+                    Log.d("Job service","Job Scheduling Failed");
+                }
             }
         //}
 

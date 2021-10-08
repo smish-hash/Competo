@@ -88,12 +88,12 @@ public class jobscheduler extends JobService {
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
-                        Log.d("Data added", String.valueOf(dc.getDocument().getData()));
-                        if(dc.getDocument().getString("receiverID") == firebaseAuth.getUid())
+                        Log.d("Data added", String.valueOf(dc.getDocument().getString("receiverID")));
+                        if(firebaseAuth.getUid().compareTo(dc.getDocument().getString("receiverID")) == 1)
                         {
                             sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
                         }
-                        sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
+                        //sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
                     }
 
                     if (dc.getType() == DocumentChange.Type.MODIFIED) {
