@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,9 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class jobscheduler extends JobService {
 
@@ -88,11 +91,9 @@ public class jobscheduler extends JobService {
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
-                        Log.d("Data added", String.valueOf(dc.getDocument().getString("receiverID")));
-                        if(firebaseAuth.getUid().compareTo(dc.getDocument().getString("receiverID")) == 1)
-                        {
-                            sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
-                        }
+                        Log.d("Data Added", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
+
                         //sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
                     }
 
@@ -110,14 +111,22 @@ public class jobscheduler extends JobService {
 
             ////////////////////////////////////////////////////////////////////////////////////////
 
+
             ////////////////////////////////////////////////////////////////////////////////////////
 
             db.collectionGroup("Messages").addSnapshotListener((value, error) -> {
+
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
-                        Log.d("Data added", String.valueOf(dc.getDocument().getData()));
-                        sendnotification("You have a new CHAT MESSAGE","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 7,false);
+                        {
+                            if(dc.getDocument().getString("receiverID").equals(firebaseAuth.getUid()))
+                            {
+                                Log.d("Data added",String.valueOf(dc.getDocument().getString("receiverID")));
+                                sendnotification("You have a new CHAT MESSAGE","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 7,false);
+
+                            }
+                        }
                     }
 
                     if (dc.getType() == DocumentChange.Type.MODIFIED) {
@@ -134,8 +143,32 @@ public class jobscheduler extends JobService {
 
             ////////////////////////////////////////////////////////////////////////////////////////
 
-            //Log.d("job service","Job finished");
-            //jobFinished(params,false);
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            db.collection("TeamChats").addSnapshotListener((value, error) -> {
+                for(DocumentChange dc : value.getDocumentChanges())
+                {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        {
+                                Log.d("Team data added",String.valueOf(dc.getDocument().getData()));
+                                sendnotification("You have a new TEAM MESSAGE","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 10,false);
+                        }
+                    }
+
+                    if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                        Log.d("Team Data Modified", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("A TEAM message is MODIFIED","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 11,false);
+                    }
+
+                    if (dc.getType() == DocumentChange.Type.REMOVED) {
+                        Log.d("Team Data removed", String.valueOf(dc.getDocument().getData()));
+                        sendnotification("A TEAM message is REMOVED","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 12,false);
+                    }
+                }
+            });
+
+            ////////////////////////////////////////////////////////////////////////////////////////
         }).start();
     }
 
