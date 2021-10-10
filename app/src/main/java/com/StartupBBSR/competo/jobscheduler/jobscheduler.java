@@ -93,8 +93,6 @@ public class jobscheduler extends JobService {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
                         Log.d("Data Added", String.valueOf(dc.getDocument().getData()));
                         sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
-
-                        //sendnotification("You have a new MESSAGE REQUEST","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 4,false);
                     }
 
                     if (dc.getType() == DocumentChange.Type.MODIFIED) {
@@ -146,9 +144,10 @@ public class jobscheduler extends JobService {
 
             ////////////////////////////////////////////////////////////////////////////////////////
 
-            db.collection("TeamChats").addSnapshotListener((value, error) -> {
+            db.collection("TeamChats").document("13PSwwdxSgTXps95uv7K").collection("TeamMessages").addSnapshotListener((value, error) -> {
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
+                    Log.d("Team data added",String.valueOf(dc.getDocument().getData()));
                     if (dc.getType() == DocumentChange.Type.ADDED) {
                         {
                                 Log.d("Team data added",String.valueOf(dc.getDocument().getData()));
