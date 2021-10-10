@@ -217,6 +217,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
+
+        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Success";
+                        if (!task.isSuccessful()) {
+                            msg = "Failed";
+                        }
+                    }
+                });
+
 //        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
         com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
@@ -334,17 +346,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     drawerLayout.openDrawer(Gravity.START);
             }
         });
-
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Success";
-                        if (!task.isSuccessful()) {
-                            msg = "Failed";
-                        }
-                    }
-                });
     }
 
     private void popupSnackbarForCompleteUpdate() {
