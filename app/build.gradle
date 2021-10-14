@@ -90,6 +90,9 @@ dependencies {
 
     //neumorphism
     implementation 'com.github.fornewid:neumorphism:0.3.0'
+
+    //jetpack work manager
+    implementation "androidx.work:work-runtime:2.7.0"
     
 
 }
