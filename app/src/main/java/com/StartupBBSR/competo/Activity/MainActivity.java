@@ -136,12 +136,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         JobScheduler jobscheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
 
-        /*if(jobscheduler.getAllPendingJobs()!=null)
+        if(jobscheduler.getPendingJob(123)!=null)
         {
             Log.d("Job Service","Job is already scheduled");
         }
         else
-        {*/
+        {
             ComponentName componentname = new ComponentName(this, jobscheduler.class);
             JobInfo info = new JobInfo.Builder(123,componentname)
                     .setRequiresCharging(false)
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 {
                     Log.d("Job service","Job Scheduling Failed");
                 }
-        //}
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 

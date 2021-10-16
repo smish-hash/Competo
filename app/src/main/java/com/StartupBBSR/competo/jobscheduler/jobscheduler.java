@@ -71,12 +71,12 @@ public class jobscheduler extends JobService {
                     if (dc.getType() == DocumentChange.Type.MODIFIED) {
                         Log.d("Data Modified",dc.getDocument().getString("eventThumbnailPoster"));
 
-                        sendnotification("An EVENT is modified",dc.getDocument().getString("eventPoster"),2,false);
+                        sendnotification("An EVENT is modified",dc.getDocument().getString("eventPoster"),2,true);
                     }
 
                     if (dc.getType() == DocumentChange.Type.REMOVED) {
                         Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
-                        sendnotification("An EVENT is removed",dc.getDocument().getString("eventPoster"),3,false);
+                        sendnotification("An EVENT is removed",dc.getDocument().getString("eventPoster"),3,true);
                     }
                 }
             });
@@ -96,7 +96,7 @@ public class jobscheduler extends JobService {
 
                     if (dc.getType() == DocumentChange.Type.REMOVED) {
                         Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
-                        sendnotification("A MESSAGE REQUEST is removed","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 6,false);
+                        sendnotification("A MESSAGE REQUEST is accepted","https://media.wired.com/photos/5d09594a62bcb0c9752779d9/master/pass/Transpo_G70_TA-518126.jpg", 6,false);
                     }
                 }
             });
@@ -128,7 +128,7 @@ public class jobscheduler extends JobService {
 
             ////////////////////////////////////////////////////////////////////////////////////////
 
-            db.collection("TeamChats").document("13PSwwdxSgTXps95uv7K").collection("TeamMessages").addSnapshotListener((value, error) -> {
+            /*db.collection("TeamChats").document("13PSwwdxSgTXps95uv7K").collection("TeamMessages").addSnapshotListener((value, error) -> {
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
                     Log.d("Team data added",String.valueOf(dc.getDocument().getData()));
@@ -139,7 +139,7 @@ public class jobscheduler extends JobService {
                         }
                     }
                 }
-            });
+            });*/
 
             ////////////////////////////////////////////////////////////////////////////////////////
         }).start();
