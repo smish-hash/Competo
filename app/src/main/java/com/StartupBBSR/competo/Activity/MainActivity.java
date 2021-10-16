@@ -7,13 +7,9 @@ import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,7 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -44,9 +39,7 @@ import com.StartupBBSR.competo.Fragments.TeamFragment;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
-import com.StartupBBSR.competo.backgroundservice.backgroundservice;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
-import com.StartupBBSR.competo.foregroundservice.foregroundservice;
 import com.StartupBBSR.competo.jobscheduler.jobscheduler;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -137,52 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        //network related
-
-        /*ConnectivityManager cm =
-                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        if(isConnected)
-        {
-            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coor),"Connected to network",Snackbar.LENGTH_SHORT);
-            mySnackbar.show();
-        }
-        else
-        {
-            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coor),"Not Connected to network",Snackbar.LENGTH_SHORT);
-            mySnackbar.show();
-        }*/
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        //foreground service
-        /*Intent intent = new Intent(MainActivity.this, foregroundservice.class);
-        if(Build.VERSION.SDK_INT>=26)
-        {
-            ContextCompat.startForegroundService(MainActivity.this,intent);
-        }
-        else
-        {
-            startService(intent);
-        }*/
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        //background service
-
-        /*Intent intent3 = new Intent(this, backgroundservice.class);
-        startService(intent3);*/
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         //job scheduler
@@ -214,6 +161,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.d("Job service","Job Scheduling Failed");
                 }
         //}
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
