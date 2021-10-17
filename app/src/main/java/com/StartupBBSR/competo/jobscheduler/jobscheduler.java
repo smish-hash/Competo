@@ -64,20 +64,21 @@ public class jobscheduler extends JobService {
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
-                        Log.d("Data added", String.valueOf(dc.getDocument().getData()));
+                        Log.d("Data", "data added");
                         sendnotification("A new EVENT is added",dc.getDocument().getString("eventPoster"), 1,true);
                     }
 
                     if (dc.getType() == DocumentChange.Type.MODIFIED) {
-                        Log.d("Data Modified",dc.getDocument().getString("eventThumbnailPoster"));
+                        Log.d("Data","data modified");
+                        //Log.d("Data",dc.getDocument().getString("eventThumbnailPoster"));
 
                         sendnotification("An EVENT is modified",dc.getDocument().getString("eventPoster"),2,true);
                     }
 
-                    if (dc.getType() == DocumentChange.Type.REMOVED) {
+                    /*if (dc.getType() == DocumentChange.Type.REMOVED) {
                         Log.d("Data removed", String.valueOf(dc.getDocument().getData()));
                         sendnotification("An EVENT is removed",dc.getDocument().getString("eventPoster"),3,true);
-                    }
+                    }*/
                 }
             });
 
@@ -105,8 +106,8 @@ public class jobscheduler extends JobService {
 
 
             ////////////////////////////////////////////////////////////////////////////////////////
-
-            db.collectionGroup("Messages").addSnapshotListener((value, error) -> {
+            // TODO: 17-10-2021 pending 
+            /*db.collectionGroup("Messages").addSnapshotListener((value, error) -> {
 
                 for(DocumentChange dc : value.getDocumentChanges())
                 {
@@ -121,7 +122,7 @@ public class jobscheduler extends JobService {
                         }
                     }
                 }
-            });
+            });*/
 
             ////////////////////////////////////////////////////////////////////////////////////////
 
