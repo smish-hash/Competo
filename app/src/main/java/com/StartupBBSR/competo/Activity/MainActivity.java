@@ -28,6 +28,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.StartupBBSR.competo.Firebasemessaging.pushnotification;
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
 import com.StartupBBSR.competo.Fragments.FeedFragment;
@@ -69,6 +70,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.Dispatchers;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
