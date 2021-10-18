@@ -28,7 +28,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.StartupBBSR.competo.Firebasemessaging.pushnotification;
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
 import com.StartupBBSR.competo.Fragments.FeedFragment;
@@ -63,15 +62,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import kotlinx.coroutines.CoroutineScope;
-import kotlinx.coroutines.Dispatchers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -145,35 +149,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else
         {*/
-            ComponentName componentname = new ComponentName(this, jobscheduler.class);
-            JobInfo info = new JobInfo.Builder(123,componentname)
-                    .setRequiresCharging(false)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setPersisted(true)
-                    .setPeriodic(15*60*1000)
-                    .build();
+        ComponentName componentname = new ComponentName(this, jobscheduler.class);
+        JobInfo info = new JobInfo.Builder(123, componentname)
+                .setRequiresCharging(false)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
 
-                int resultcode = jobscheduler.schedule(info);
+        int resultcode = jobscheduler.schedule(info);
 
-                if(resultcode == JobScheduler.RESULT_SUCCESS)
-                {
-                    Log.d("Job Service","Job scheduled successfully");
-                }
-                else
-                {
-                    Log.d("Job service","Job Scheduling Failed");
-                }
-       // }
+        if (resultcode == JobScheduler.RESULT_SUCCESS) {
+            Log.d("Job Service", "Job scheduled successfully");
+        } else {
+            Log.d("Job service", "Job Scheduling Failed");
+        }
+        // }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+        FirebaseMessaging.getInstance().subscribeToTopic("news")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         String msg = "Success";
+                        Log.d("subscribe success", "token");
                         if (!task.isSuccessful()) {
                             msg = "Failed";
+                            Log.d("subscribe failed", "token");
                         }
                     }
                 });
@@ -318,6 +321,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getUserData() {
+
 //      get realtime data and store it in a class
         Log.d(testTAG, "getUserData: ");
         documentReference.addSnapshotListener(MainActivity.this, new EventListener<DocumentSnapshot>() {
@@ -537,4 +541,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void status(String status) {
         documentReference.update("status", status);
     }
-}
+
+   /* private void sendfcm(String token) {
+        Runnable runnable = () -> {
+
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{\"token\": \""+token+"\",\"body\": \"test\",\"title\": \"test\"}");
+
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send/")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+        }*/
+    }
