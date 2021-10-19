@@ -360,7 +360,7 @@ public class EventPalMainFragment extends Fragment {
                     "    \"title\": \"Request\",\n" +
                     "    \"body\": \"You have a new message request\"\n" +
                     "  },\n" +
-                    "  \"to\" : \"/topics/Event\"\n" +
+                    "  \"to\" : \""+token+"\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")

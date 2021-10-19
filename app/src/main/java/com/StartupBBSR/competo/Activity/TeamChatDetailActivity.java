@@ -37,9 +37,15 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -185,6 +191,26 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 //                                    Message sent
                                     binding.btnSendChat.setVisibility(View.VISIBLE);
                                     binding.sendMessageProgressBar.setVisibility(View.GONE);
+
+                                    for(String uid:teamMembers)
+                                    {
+                                        if(!uid.equals(userID))
+                                        {
+                                            firestoreDB.collection("token").document(uid).get().addOnCompleteListener(task -> {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+                                                        Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
+                                                        sendfcm(document.getString("token"));
+                                                    } else {
+                                                        Log.d("data", "No such document");
+                                                    }
+                                                } else {
+                                                    Log.d("data", "get failed with ", task.getException());
+                                                }
+                                            });
+                                        }
+                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -503,5 +529,33 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             teamCollectionRef.document(model.getUserID()).update(constant.getTeamConnections(), FieldValue.arrayUnion(teamID));
             Toast.makeText(TeamChatDetailActivity.this, "Team Updated", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void sendfcm(String token)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
+                    "    \"title\": \"Team\",\n" +
+                    "    \"body\": \"You have a new team message\"\n" +
+                    "  },\n" +
+                    "  \"to\" : \""+token+"\"\n" +
+                    "}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }
