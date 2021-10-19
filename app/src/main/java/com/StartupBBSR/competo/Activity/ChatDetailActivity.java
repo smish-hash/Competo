@@ -29,9 +29,15 @@ import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -125,26 +131,6 @@ public class ChatDetailActivity extends AppCompatActivity {
 
                 if (!binding.etMessage.getText().toString().trim().equals("")) {
 
-//                    Notification
-
-                    userMessageNumberRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    int value = Integer.parseInt(document.getString(constant.getMessageNumber()));
-                                    value++;
-                                    Map<String, Object> city = new HashMap<>();
-                                    city.put("messagenumber", String.valueOf(value));
-
-//                                    DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
-                                    userMessageNumberRef.set(city);
-                                }
-                            }
-                        }
-                    });
-
                     String message = binding.etMessage.getText().toString().trim();
                     Long timestamp = new Date().getTime();
 
@@ -164,6 +150,8 @@ public class ChatDetailActivity extends AppCompatActivity {
                             .collection(constant.getMessages())
                             .add(messageModel)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     firestoreDB.collection(constant.getChats())
@@ -175,9 +163,24 @@ public class ChatDetailActivity extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                 @Override
                                                 public void onSuccess(DocumentReference documentReference) {
-//                                                    Message sent
+//                                                    Message send
+
                                                     binding.btnSendChat.setVisibility(View.VISIBLE);
                                                     binding.sendMessageProgressBar.setVisibility(View.GONE);
+
+                                                    firestoreDB.collection("token").document(receiverID).get().addOnCompleteListener(task -> {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot document = task.getResult();
+                                                            if (document.exists()) {
+                                                                Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
+                                                                sendfcm(document.getString("token"));
+                                                            } else {
+                                                                Log.d("data", "No such document");
+                                                            }
+                                                        } else {
+                                                            Log.d("data", "get failed with ", task.getException());
+                                                        }
+                                                    });
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -452,5 +455,33 @@ public class ChatDetailActivity extends AppCompatActivity {
 
     private void status(String status) {
         userRef.update("status", status);
+    }
+
+    public void sendfcm(String token)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
+                    "    \"title\": \"Chat\",\n" +
+                    "    \"body\": \"You have a new CHAT MESSAGE\"\n" +
+                    "  },\n" +
+                    "  \"to\" : \""+token+"\"\n" +
+                    "}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }

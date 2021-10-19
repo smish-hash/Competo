@@ -164,28 +164,6 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             public void onClick(View view) {
                 if (!binding.etMessage.getText().toString().trim().equals("")) {
 
-//                    Notification
-                    userMessageNumberRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    int value = Integer.parseInt(document.getString(constant.getMessageNumber()));
-
-                                    value++;
-
-                                    Map<String, Object> city = new HashMap<>();
-
-                                    city.put("messagenumber", String.valueOf(value));
-
-//                                    DocumentReference docRef3 = firestoreDB.collection("messagenumber").document(firebaseAuth.getUid());
-                                    userMessageNumberRef.set(city);
-                                }
-                            }
-                        }
-                    });
-
                     String message = binding.etMessage.getText().toString().trim();
                     String messageID = collectionReference.document().getId();
                     String senderID = userID;
