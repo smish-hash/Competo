@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.StartupBBSR.competo.R;
@@ -11,12 +12,14 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 public class firebasemessagingservice extends FirebaseMessagingService {
     @Override
-    public void onMessageReceived(@NotNull RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        getfirebasemessage(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+        getfirebasemessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
 
     }
 

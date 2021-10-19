@@ -61,9 +61,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -131,21 +139,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
         FirebaseMessaging.getInstance().subscribeToTopic("news")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnCompleteListener(task -> {
+                    String msg = "Success";
+                    Log.d("subscribe success", "token");
+                    if (!task.isSuccessful()) {
+                        msg = "Failed";
+                        Log.d("subscribe failed", "token");
+                    }
+                });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Success";
-                        Log.d("subscribe success", "token");
+                    public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            msg = "Failed";
-                            Log.d("subscribe failed", "token");
+                            Log.w("token failed", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        else
+                        {
+                            // Get new FCM registration token
+                            String token = task.getResult();
+
+                            // Log and toast
+                            Log.d("token success", token);
                         }
                     }
                 });
 
+        Thread t1 = new Thread(() -> {
+
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON
+                    = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody body = RequestBody.create(JSON,"{\"to\":\"/topics/news\"}");
+
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .method("POST", body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader(
+                            "Authorization",
+                            "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy"
+                    )
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response", String.valueOf(response.request()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+        t1.start();
 
 //        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
@@ -286,9 +336,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(testTAG, "onStart: ");
     }
 
-    private void sendRegistrationToServer(String token) {
-
-    }
 
     private void getUserData() {
 
