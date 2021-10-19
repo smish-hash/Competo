@@ -164,38 +164,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             // Log and toast
                             Log.d("token success", token);
+                            sendfcm(token);
                         }
                     }
                 });
-
-        Thread t1 = new Thread(() -> {
-
-            OkHttpClient client = new OkHttpClient();
-
-            MediaType JSON
-                    = MediaType.parse("application/json; charset=utf-8");
-
-            RequestBody body = RequestBody.create(JSON,"{\"to\":\"/topics/news\"}");
-
-            Request request = new Request.Builder()
-                    .url("https://fcm.googleapis.com/fcm/send")
-                    .method("POST", body)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader(
-                            "Authorization",
-                            "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy"
-                    )
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                Log.d("response", String.valueOf(response.request()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        });
-        t1.start();
 
 //        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
@@ -326,6 +298,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         snackbar.setActionTextColor(
                 getResources().getColor(R.color.ui_blue));
         snackbar.show();
+    }
+
+    public void sendfcm(String token)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{\"to\": \""+token+"\",\"title\": \"test\",\"body\": \"test\"}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     @Override
