@@ -4,13 +4,11 @@ package com.StartupBBSR.competo.Activity;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -40,7 +38,6 @@ import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivityMainBinding;
-import com.StartupBBSR.competo.jobscheduler.jobscheduler;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,20 +59,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -139,32 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-        //job scheduler
-
-        JobScheduler jobscheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-
-        /*if(jobscheduler.getPendingJob(123)!=null)
-        {
-            Log.d("Job Service","Job is already scheduled");
-        }
-        else
-        {*/
-        ComponentName componentname = new ComponentName(this, jobscheduler.class);
-        JobInfo info = new JobInfo.Builder(123, componentname)
-                .setRequiresCharging(false)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build();
-
-        int resultcode = jobscheduler.schedule(info);
-
-        if (resultcode == JobScheduler.RESULT_SUCCESS) {
-            Log.d("Job Service", "Job scheduled successfully");
-        } else {
-            Log.d("Job service", "Job Scheduling Failed");
-        }
-        // }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -180,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
+
 
 //        In-app updates
         appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
@@ -318,6 +284,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        Get Data when this activity starts
         getUserData();
         Log.d(testTAG, "onStart: ");
+    }
+
+    private void sendRegistrationToServer(String token) {
+
     }
 
     private void getUserData() {
@@ -542,29 +512,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference.update("status", status);
     }
 
-   /* private void sendfcm(String token) {
-        Runnable runnable = () -> {
-
-            OkHttpClient client = new OkHttpClient();
-            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,"{\"token\": \""+token+"\",\"body\": \"test\",\"title\": \"test\"}");
-
-            Request request = new Request.Builder()
-                    .url("https://fcm.googleapis.com/fcm/send/")
-                    .post(body)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                Log.d("response",response.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        };
-
-        Thread thread = new Thread(runnable);
-        thread.start();
-        }*/
     }
