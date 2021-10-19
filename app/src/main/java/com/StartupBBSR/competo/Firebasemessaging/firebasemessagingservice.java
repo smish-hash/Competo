@@ -36,7 +36,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "firebasemessage")
-                .setSmallIcon(R.drawable.ic_settings)
+                .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true);

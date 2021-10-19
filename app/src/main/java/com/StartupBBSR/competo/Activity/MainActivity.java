@@ -41,6 +41,8 @@ import com.StartupBBSR.competo.databinding.ActivityMainBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
@@ -72,7 +74,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        FirebaseMessaging.getInstance().subscribeToTopic("news")
+        FirebaseMessaging.getInstance().subscribeToTopic("Event")
                 .addOnCompleteListener(task -> {
                     String msg = "Success";
                     Log.d("subscribe success", "token");
@@ -165,6 +169,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             // Log and toast
                             Log.d("token success", token);
                             sendfcm(token);
+
+                            Map<String, Object> fcmtoken = new HashMap<>();
+                            fcmtoken.put("token", token);
+
+                            firestoreDB.collection("token").document(firebaseAuth.getUid())
+                                    .set(fcmtoken)
+                                    .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> Log.d("token uploading", "DocumentSnapshot successfully written!"))
+                                    .addOnFailureListener((OnFailureListener) e -> Log.w("token uploading", "Error writing document", e));
                         }
                     }
                 });
@@ -306,10 +318,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
-                    "    \"title\": \"5x1\",\n" +
-                    "    \"body\": \"15:10\"\n" +
+                    "    \"title\": \"Event\",\n" +
+                    "    \"body\": \"A new event is added\"\n" +
                     "  },\n" +
-                    "  \"to\" : \""+token+"\"\n" +
+                    "  \"to\" : \"/topics/Event\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")
