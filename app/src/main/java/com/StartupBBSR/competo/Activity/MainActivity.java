@@ -317,11 +317,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
-                    "    \"title\": \"Event\",\n" +
-                    "    \"body\": \"A new event is added\"\n" +
-                    "  },\n" +
-                    "  \"to\" : \"/topics/test\"\n" +
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Portugal vs. Denmark\",\n" +
+                    "      \"body\":\"great match!\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"event\",\n" +
+                    "    },\n" +
+                    "    \"to\":\"/topics/test\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")

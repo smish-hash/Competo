@@ -19,27 +19,101 @@ public class firebasemessagingservice extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        getfirebasemessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
-
+        if(remoteMessage.getData().get("category").equals("event"))
+        {
+            geteventmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
+        }
+        else if(remoteMessage.getData().get("category").equals("chat"))
+        {
+            getchatmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
+        }
+        else if(remoteMessage.getData().get("category").equals("request"))
+        {
+            getrequestmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
+        }
+        else if(remoteMessage.getData().get("category").equals("team"))
+        {
+            getteammessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
+        }
     }
 
-    public void getfirebasemessage(String title, String body) {
+    public void geteventmessage(String title, String body) {
 
-        NotificationManager notificationmanager99 = (NotificationManager) getSystemService(NotificationManager.class);
+        NotificationManager notificationmanager1 = getSystemService(NotificationManager.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel99 = new NotificationChannel("firebasemessage", "firebasenotification", NotificationManager.IMPORTANCE_HIGH);
-            channel99.setDescription("this is firebase cloud messaging channel");
+            NotificationChannel channel1 = new NotificationChannel("event_notification", "Events", NotificationManager.IMPORTANCE_HIGH);
+            channel1.setDescription("this is fcm event channel");
 
-            notificationmanager99.createNotificationChannel(channel99);
+            notificationmanager1.createNotificationChannel(channel1);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "firebasemessage")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "event_notification")
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true);
 
-        notificationmanager99.notify(1201, builder.build());
+        notificationmanager1.notify(1, builder.build());
+    }
+
+    public void getrequestmessage(String title, String body) {
+
+        NotificationManager notificationmanager2 = getSystemService(NotificationManager.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel2 = new NotificationChannel("request_notification", "Requests", NotificationManager.IMPORTANCE_HIGH);
+            channel2.setDescription("this is fcm request channel");
+
+            notificationmanager2.createNotificationChannel(channel2);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "request_notification")
+                .setSmallIcon(R.drawable.teamos_logo)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true);
+
+        notificationmanager2.notify(2, builder.build());
+    }
+
+    public void getchatmessage(String title, String body) {
+
+        NotificationManager notificationmanager3 = getSystemService(NotificationManager.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel3 = new NotificationChannel("chat_notification", "Chats", NotificationManager.IMPORTANCE_HIGH);
+            channel3.setDescription("this is fcm chat channel");
+
+            notificationmanager3.createNotificationChannel(channel3);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "chat_notification")
+                .setSmallIcon(R.drawable.teamos_logo)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true);
+
+        notificationmanager3.notify(3, builder.build());
+    }
+
+    public void getteammessage(String title, String body) {
+
+        NotificationManager notificationmanager4 = getSystemService(NotificationManager.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel4 = new NotificationChannel("team_notification", "Teams", NotificationManager.IMPORTANCE_HIGH);
+            channel4.setDescription("this is fcm team channel");
+
+            notificationmanager4.createNotificationChannel(channel4);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "team_notification")
+                .setSmallIcon(R.drawable.teamos_logo)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true);
+
+        notificationmanager4.notify(4, builder.build());
     }
 }
