@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "    \"data\" : {\n" +
                     "      \"category\" : \"chat\",\n" +
                     "    },\n" +
-                    "    \"to\":\"/topics/test\"\n" +
+                    "    \"to\":\"/topics/Event\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")

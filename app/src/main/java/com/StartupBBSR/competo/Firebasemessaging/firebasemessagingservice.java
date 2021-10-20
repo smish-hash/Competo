@@ -2,11 +2,14 @@ package com.StartupBBSR.competo.Firebasemessaging;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.StartupBBSR.competo.Fragments.EventMainFragment;
 import com.StartupBBSR.competo.R;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -39,6 +42,10 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
     public void geteventmessage(String title, String body) {
 
+        Intent intent = new Intent(this, EventMainFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
         NotificationManager notificationmanager1 = getSystemService(NotificationManager.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -52,12 +59,17 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         notificationmanager1.notify(1, builder.build());
     }
 
     public void getrequestmessage(String title, String body) {
+
+        Intent intent = new Intent(this, EventMainFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationManager notificationmanager2 = getSystemService(NotificationManager.class);
 
@@ -72,12 +84,17 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         notificationmanager2.notify(2, builder.build());
     }
 
     public void getchatmessage(String title, String body) {
+
+        Intent intent = new Intent(this, EventMainFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationManager notificationmanager3 = getSystemService(NotificationManager.class);
 
@@ -92,12 +109,17 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         notificationmanager3.notify(3, builder.build());
     }
 
     public void getteammessage(String title, String body) {
+
+        Intent intent = new Intent(this, EventMainFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationManager notificationmanager4 = getSystemService(NotificationManager.class);
 
@@ -112,6 +134,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         notificationmanager4.notify(4, builder.build());
