@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        FirebaseMessaging.getInstance().subscribeToTopic("test")
+        FirebaseMessaging.getInstance().subscribeToTopic("Event")
                 .addOnCompleteListener(task -> {
                     String msg = "Success";
                     Log.d("subscribe success", "token");
@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "      \"body\":\"great match!\"\n" +
                     "    },\n" +
                     "    \"data\" : {\n" +
-                    "      \"category\" : \"event\",\n" +
+                    "      \"category\" : \"chat\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/test\"\n" +
                     "}");

@@ -462,11 +462,15 @@ public class ChatDetailActivity extends AppCompatActivity {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
-                    "    \"title\": \"Chat\",\n" +
-                    "    \"body\": \"You have a new CHAT MESSAGE\"\n" +
-                    "  },\n" +
-                    "  \"to\" : \""+token+"\"\n" +
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Chat\",\n" +
+                    "      \"body\":\"You have a new CHAT message\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"chat\",\n" +
+                    "    },\n" +
+                    "    \"to\":\""+token+"\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")

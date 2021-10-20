@@ -536,11 +536,15 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
-                    "    \"title\": \"Team\",\n" +
-                    "    \"body\": \"You have a new team message\"\n" +
-                    "  },\n" +
-                    "  \"to\" : \""+token+"\"\n" +
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Team\",\n" +
+                    "      \"body\":\"You have a new TEAM message\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"team\",\n" +
+                    "    },\n" +
+                    "    \"to\":\""+token+"\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")

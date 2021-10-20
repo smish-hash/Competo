@@ -356,11 +356,15 @@ public class EventPalMainFragment extends Fragment {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,"{ \"notification\": {\n" +
-                    "    \"title\": \"Request\",\n" +
-                    "    \"body\": \"You have a new message request\"\n" +
-                    "  },\n" +
-                    "  \"to\" : \""+token+"\"\n" +
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Request\",\n" +
+                    "      \"body\":\"You have a new message REQUEST\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"request\",\n" +
+                    "    },\n" +
+                    "    \"to\":\""+token+"\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")
