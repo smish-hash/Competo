@@ -20,7 +20,6 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         getfirebasemessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
-        //getfirebasemessage("hello","hemlo");
 
     }
 
