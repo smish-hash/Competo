@@ -4,6 +4,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,8 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 public class firebasemessagingservice extends FirebaseMessagingService {
@@ -24,7 +28,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
         if(remoteMessage.getData().get("category").equals("event"))
         {
-            geteventmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
+            geteventmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody(), remoteMessage.getData().get("link"));
         }
         else if(remoteMessage.getData().get("category").equals("chat"))
         {
@@ -40,7 +44,16 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         }
     }
 
-    public void geteventmessage(String title, String body) {
+    public void geteventmessage(String title, String body, String link) {
+
+        Bitmap image = null;
+
+        try {
+            URL url = new URL(link);
+            image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch(IOException e) {
+            System.out.println(e);
+        }
 
         Intent intent = new Intent(this, EventMainFragment.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -60,6 +73,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setContentIntent(pendingIntent)
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(image))
                 .setAutoCancel(true);
 
         notificationmanager1.notify(1, builder.build());

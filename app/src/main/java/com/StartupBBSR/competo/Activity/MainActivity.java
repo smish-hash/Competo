@@ -323,7 +323,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "      \"body\":\"great match!\"\n" +
                     "    },\n" +
                     "    \"data\" : {\n" +
-                    "      \"category\" : \"chat\",\n" +
+                    "      \"category\" : \"event\",\n" +
+                    "      \"link\" : \"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/Event\"\n" +
                     "}");
