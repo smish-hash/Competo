@@ -28,7 +28,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
         if(remoteMessage.getData().get("category").equals("event"))
         {
-            geteventmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody(), remoteMessage.getData().get("link"));
+            geteventmessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),remoteMessage.getNotification().getBody());
         }
         else if(remoteMessage.getData().get("category").equals("chat"))
         {
@@ -44,16 +44,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         }
     }
 
-    public void geteventmessage(String title, String body, String link) {
-
-        Bitmap image = null;
-
-        try {
-            URL url = new URL(link);
-            image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch(IOException e) {
-            System.out.println(e);
-        }
+    public void geteventmessage(String title, String body) {
 
         Intent intent = new Intent(this, EventMainFragment.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -73,7 +64,6 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setContentIntent(pendingIntent)
-                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(image))
                 .setAutoCancel(true);
 
         notificationmanager1.notify(1, builder.build());

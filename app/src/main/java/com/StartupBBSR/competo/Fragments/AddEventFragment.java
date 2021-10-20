@@ -642,7 +642,7 @@ public class AddEventFragment extends Fragment {
                             binding.btnUploadEvent.setVisibility(View.VISIBLE);
                             binding.progressBar.setVisibility(View.GONE);
                             navController.navigate(R.id.action_addEventFragment_to_manageEventMainFragment);
-                            sendfcm(mainImage);
+                            sendfcm();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -771,7 +771,7 @@ public class AddEventFragment extends Fragment {
 
     }
 
-    public void sendfcm(String image_link)
+    public void sendfcm()
     {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
@@ -783,7 +783,6 @@ public class AddEventFragment extends Fragment {
                     "    },\n" +
                     "    \"data\" : {\n" +
                     "      \"category\" : \"event\",\n" +
-                    "      \"link\" : \""+image_link+"\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/Event\"\n" +
                     "}");
