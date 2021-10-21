@@ -1,14 +1,18 @@
 package com.StartupBBSR.competo.Firebasemessaging;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Person;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Message;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.StartupBBSR.competo.Fragments.EventMainFragment;
@@ -19,9 +23,13 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class firebasemessagingservice extends FirebaseMessagingService {
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -94,6 +102,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         notificationmanager2.notify(2, builder.build());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     public void getchatmessage(String title, String body) {
 
         Intent intent = new Intent(this, EventMainFragment.class);
@@ -109,10 +118,13 @@ public class firebasemessagingservice extends FirebaseMessagingService {
             notificationmanager3.createNotificationChannel(channel3);
         }
 
+        NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(body,121212,title);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "chat_notification")
                 .setSmallIcon(R.drawable.teamos_logo)
-                .setContentTitle(title)
-                .setContentText(body)
+                .setStyle(new NotificationCompat.MessagingStyle(title)
+                        .setConversationTitle("Chat")
+                        .addMessage(message))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 

@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             // Log and toast
                             Log.d("token success", token);
-                            sendfcm(token);
+                            //sendfcm(token);
 
                             Map<String, Object> fcmtoken = new HashMap<>();
                             fcmtoken.put("token", token);
@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "      \"body\":\"great match!\"\n" +
                     "    },\n" +
                     "    \"data\" : {\n" +
-                    "      \"category\" : \"event\",\n" +
+                    "      \"category\" : \"chat\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/Event\"\n" +
                     "}");

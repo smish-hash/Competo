@@ -173,7 +173,15 @@ public class ChatDetailActivity extends AppCompatActivity {
                                                             DocumentSnapshot document = task.getResult();
                                                             if (document.exists()) {
                                                                 Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
-                                                                sendfcm(document.getString("token"));
+                                                                firestoreDB.collection("Users").document(firebaseAuth.getUid()).get().addOnCompleteListener(task3 -> {
+                                                                    if (task3.isSuccessful()) {
+                                                                        DocumentSnapshot document3 = task3.getResult();
+                                                                        if (document3.exists()) {
+                                                                            Log.d("data", "DocumentSnapshot data: " + document3.getString("Name"));
+                                                                            sendfcm(document.getString("token"),message,document3.getString("Name"));
+                                                                        }
+                                                                    }
+                                                                        });
                                                             } else {
                                                                 Log.d("data", "No such document");
                                                             }
@@ -457,15 +465,15 @@ public class ChatDetailActivity extends AppCompatActivity {
         userRef.update("status", status);
     }
 
-    public void sendfcm(String token)
+    public void sendfcm(String token, String message, String name)
     {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,"{\n" +
                     "    \"notification\":{\n" +
-                    "      \"title\":\"Chat\",\n" +
-                    "      \"body\":\"You have a new CHAT message\"\n" +
+                    "      \"title\":\""+name+"\",\n" +
+                    "      \"body\":\""+message+"\"\n" +
                     "    },\n" +
                     "    \"data\" : {\n" +
                     "      \"category\" : \"chat\",\n" +

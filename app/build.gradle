@@ -103,4 +103,8 @@ dependencies {
     //analytics
     implementation 'com.google.firebase:firebase-analytics'
 
+    
+    implementation "androidx.core:core:1.6.0"
+
+
 }
