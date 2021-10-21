@@ -2,6 +2,7 @@ package com.StartupBBSR.competo.Activity;
 
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -324,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "    },\n" +
                     "    \"data\" : {\n" +
                     "      \"category\" : \"event\",\n" +
-                    "      \"link\" : \"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/Event\"\n" +
                     "}");
