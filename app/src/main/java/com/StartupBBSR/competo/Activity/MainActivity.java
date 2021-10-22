@@ -253,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
 
+
         activityMainBinding.btnTeamFinder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -300,6 +301,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     drawerLayout.openDrawer(Gravity.START);
             }
         });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.getString("e").equals("event"))
+            {
+                loadFragment(eventFragment);
+            }
+            if(extras.getString("c").equals("chat"))
+            {
+                loadFragment(inboxNewFragment);
+            }
+        }
     }
 
     private void popupSnackbarForCompleteUpdate() {
@@ -325,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "      \"body\":\"great match!\"\n" +
                     "    },\n" +
                     "    \"data\" : {\n" +
-                    "      \"category\" : \"chat\",\n" +
+                    "      \"category\" : \"event\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/test\"\n" +
                     "}");

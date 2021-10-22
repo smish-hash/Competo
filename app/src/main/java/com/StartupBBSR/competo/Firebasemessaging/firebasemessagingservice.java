@@ -1,28 +1,23 @@
 package com.StartupBBSR.competo.Firebasemessaging;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Fragments.EventMainFragment;
 import com.StartupBBSR.competo.R;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Calendar;
 import java.util.Objects;
 
 public class firebasemessagingservice extends FirebaseMessagingService {
@@ -53,7 +48,8 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
     public void geteventmessage(String title, String body) {
 
-        Intent intent = new Intent(this, EventMainFragment.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        //intent.putExtra("e","event");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -103,7 +99,8 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
     public void getchatmessage(String title, String body) {
 
-        Intent intent = new Intent(this, EventMainFragment.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        //intent.putExtra("c","chat");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
