@@ -1,10 +1,16 @@
 package com.StartupBBSR.competo.Firebasemessaging;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -16,9 +22,12 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class firebasemessagingservice extends FirebaseMessagingService {
+
+    private static final String PREFERENCE_LAST_NOTIF_ID = "PREFERENCE_LAST_NOTIF_ID";
 
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
@@ -107,10 +116,13 @@ public class firebasemessagingservice extends FirebaseMessagingService {
             notificationmanager3.createNotificationChannel(channel3);
         }
 
+        Bitmap Icon = BitmapFactory.decodeResource(getResources(), R.drawable.teamos_logo);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "chat_notification")
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
+                //.setLargeIcon(Icon)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 

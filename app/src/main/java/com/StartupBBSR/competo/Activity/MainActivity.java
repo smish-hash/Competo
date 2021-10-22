@@ -75,6 +75,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        FirebaseMessaging.getInstance().subscribeToTopic("Event")
+        FirebaseMessaging.getInstance().subscribeToTopic("test")
                 .addOnCompleteListener(task -> {
                     String msg = "Success";
                     Log.d("subscribe success", "token");
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             // Log and toast
                             Log.d("token success", token);
-                            //sendfcm(token);
+                            sendfcm(token);
 
                             Map<String, Object> fcmtoken = new HashMap<>();
                             fcmtoken.put("token", token);
@@ -326,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "    \"data\" : {\n" +
                     "      \"category\" : \"chat\",\n" +
                     "    },\n" +
-                    "    \"to\":\"/topics/Event\"\n" +
+                    "    \"to\":\"/topics/test\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")
