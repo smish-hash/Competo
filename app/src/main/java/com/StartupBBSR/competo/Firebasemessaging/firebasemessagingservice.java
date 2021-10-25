@@ -22,8 +22,6 @@ import java.util.Objects;
 
 public class firebasemessagingservice extends FirebaseMessagingService {
 
-    private static final String PREFERENCE_LAST_NOTIF_ID = "PREFERENCE_LAST_NOTIF_ID";
-
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -49,7 +47,6 @@ public class firebasemessagingservice extends FirebaseMessagingService {
     public void geteventmessage(String title, String body) {
 
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("e","event");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -100,7 +97,6 @@ public class firebasemessagingservice extends FirebaseMessagingService {
     public void getchatmessage(String title, String body) {
 
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("c","chat");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -119,7 +115,6 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.teamos_logo)
                 .setContentTitle(title)
                 .setContentText(body)
-                //.setLargeIcon(Icon)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 

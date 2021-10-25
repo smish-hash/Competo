@@ -302,17 +302,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if(extras.getString("e").equals("event"))
             {
                 loadFragment(eventFragment);
             }
-            if(extras.getString("c").equals("chat"))
+            else if(extras.getString("c").equals("chat"))
             {
                 loadFragment(inboxNewFragment);
             }
-        }
+        }*/
     }
 
     private void popupSnackbarForCompleteUpdate() {
@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "      \"body\":\"great match!\"\n" +
                     "    },\n" +
                     "    \"data\" : {\n" +
-                    "      \"category\" : \"event\",\n" +
+                    "      \"category\" : \"chat\",\n" +
                     "    },\n" +
                     "    \"to\":\"/topics/test\"\n" +
                     "}");
