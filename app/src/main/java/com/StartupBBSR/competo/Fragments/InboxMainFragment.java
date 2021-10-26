@@ -1,6 +1,7 @@
 package com.StartupBBSR.competo.Fragments;
 
 import android.os.Bundle;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.StartupBBSR.competo.Adapters.ChatUserListAdapter;
+import com.StartupBBSR.competo.Adapters.NewChatUserListAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -25,6 +26,7 @@ import com.StartupBBSR.competo.databinding.FragmentInboxMainBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +34,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,7 +52,6 @@ public class InboxMainFragment extends Fragment {
     private FirebaseFirestore firestoreDB;
     private String userID;
 
-    private UserModel userModel;
     private Constant constant;
 
     private DocumentReference documentReference, chatRef;
@@ -55,13 +59,18 @@ public class InboxMainFragment extends Fragment {
 
     private NavController navController;
 
-    private ChatUserListAdapter adapter;
+//    private ChatUserListAdapter adapter;
+    private NewChatUserListAdapter adapter;
     private FirestoreRecyclerOptions<EventPalModel> options;
 
     private Query query;
     List<String> chatUsers = new ArrayList<>();
-    List<String> demo, chatList;
+    List<String> chatList;
     public static final String TAG = "chatUser";
+
+    // TODO: 9/26/2021
+    //testing sorting using new adapter
+    private List<EventPalModel> mList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,7 +83,6 @@ public class InboxMainFragment extends Fragment {
         userID = firebaseAuth.getUid();
 
         constant = new Constant();
-        userModel = new UserModel();
 
         documentReference = firestoreDB.collection(constant.getUsers()).document(userID);
 
@@ -88,7 +96,7 @@ public class InboxMainFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    chatUsers = (List<String>) documentSnapshot.get("Connections");
+                    chatUsers = (List<String>) documentSnapshot.get(constant.getConnections());
                     Log.d(TAG, "onComplete: " + chatUsers);
 
                     if (chatUsers != null){
@@ -114,7 +122,7 @@ public class InboxMainFragment extends Fragment {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()){
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            chatUsers = (List<String>) documentSnapshot.get("Connections");
+                            chatUsers = (List<String>) documentSnapshot.get(constant.getConnections());
                             Log.d(TAG, "onComplete: " + chatUsers);
                             binding.inboxRefreshLayout.setRefreshing(false);
                             if (chatUsers != null){
@@ -141,19 +149,32 @@ public class InboxMainFragment extends Fragment {
     }
 
     private void initData() {
-//        Query query = collectionReference.orderBy(constants.getUserIDField()).whereNotEqualTo(constants.getUserIDField(), userID);
 
         chatList = chatUsers;
 
-        query = collectionReference.whereIn(constant.getUserIdField(), chatList);
-
-        Log.d(TAG, "initData: " + chatList + "\n" + query);
+        /*query = collectionReference.whereIn(constant.getUserIdField(), chatList);
 
         options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
                 .setQuery(query, EventPalModel.class)
-                .build();
+                .build();*/
 
-        initRecyclerView();
+        mList = new ArrayList<>();
+
+        collectionReference.orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mList.clear();
+
+                for (QueryDocumentSnapshot snapshot: queryDocumentSnapshots) {
+                    EventPalModel model = snapshot.toObject(EventPalModel.class);
+                    if (chatList.contains(model.getUserID())) {
+                        mList.add(model);
+                    }
+
+                }
+                initRecyclerView();
+            }
+        });
 
     }
 
@@ -162,9 +183,8 @@ public class InboxMainFragment extends Fragment {
         RecyclerView recyclerView = binding.chatListRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-
-        adapter = new ChatUserListAdapter(options, getContext());
-        adapter.startListening();
+//        adapter = new ChatUserListAdapter(options, getContext());
+        adapter = new NewChatUserListAdapter(getContext(), mList);
         recyclerView.setAdapter(adapter);
     }
 
@@ -172,17 +192,17 @@ public class InboxMainFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (adapter != null) {
+        /*if (adapter != null) {
             adapter.startListening();
-        }
+        }*/
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (adapter != null) {
+        /*if (adapter != null) {
             adapter.stopListening();
-        }
+        }*/
     }
 
     @Override

@@ -20,6 +20,21 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Team_finder">Team Finder</string>
 
+    <string name="AboutUsMission">Mission</string>
+    <string name="AboutUsMissionDetail">Our mission is to provide each person with the platform for the selection of teams so
+that the lack of options never impairs their growth.</string>
+    <string name="AboutUsAbout">About</string>
+    <string name="AboutUsAboutDetail">Teamos is an ideal platform to help you find the right teammate based on your
+required skill set, for an event, a project, or a startup from a vast community of students and
+startup enthusiasts.</string>
+    <string name="AboutUsVision">Vision</string>
+    <string name="AboutUsVisionDetail">Teamos aims at developing a community that provides a perfect platform to form teams
+with people sharing the same interests or the required skill set for students, young entrepreneurs,
+and organizations.</string>
+
+
+
+
     <string-array name="FilterChips">
         <item>Web Development</item>
         <item>Social Science</item>
@@ -76,6 +91,9 @@
         <item>Art and Crafts</item>
         <item>Cultural</item>
     </string-array>
+
+
+
 
 
 </resources>

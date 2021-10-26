@@ -4,8 +4,11 @@ package com.StartupBBSR.competo.Activity;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
@@ -31,6 +35,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +56,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -61,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding activityMainBinding;
 
     Menu menu;
+
+    private boolean isConnected;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -96,6 +105,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AlertDialog.Builder builder1;
     private AlertDialog.Builder builder2;
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,8 +197,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         header = navigationView.getHeaderView(0);
 
+
+        float radius = getResources().getDimension(R.dimen.radius_10);
+        MaterialShapeDrawable materialShapeDrawable = (MaterialShapeDrawable) navigationView.getBackground();
+        materialShapeDrawable.setShapeAppearanceModel(materialShapeDrawable.getShapeAppearanceModel()
+        .toBuilder().setTopRightCorner(CornerFamily.ROUNDED, radius)
+        .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+        .build());
+
 //        Bottom Navigation bar
         bottomNavigationView = activityMainBinding.bottomNavBar;
+
+        ConnectivityManager cm =
+                (ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+
+        if (!isConnected) {
+            Snackbar.make(activityMainBinding.getRoot(), "No Internet", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("CLOSE", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
+                    .show();
+        }
 
 
         firestoreDB = FirebaseFirestore.getInstance();
@@ -192,10 +235,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
         status("Online");
 
-//        getUserData();
-
-//        homeFragment = new HomeFragment();
-//        findFragment = new FindFragment();
         profileFragment = new ProfileFragment();
         eventPalFragment = new EventPalFragment();
 
@@ -245,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
 
-        activityMainBinding.actionBar.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
+        activityMainBinding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
@@ -408,6 +447,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.menu_addEvent)
             startActivity(new Intent(MainActivity.this, ManageEventActivity.class));
+
+        else if (id == R.id.menu_faq)
+            startActivity(new Intent(MainActivity.this, FAQActivity.class));
+
+        else if (id == R.id.menu_about_us)
+            startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
 
         return true;
     }

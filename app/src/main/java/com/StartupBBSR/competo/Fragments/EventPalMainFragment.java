@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-public class EventPalMainFragment extends Fragment {
+public class EventPalMainFragment extends Fragment implements TeamFinderBottomSheetDialog.BottomSheetListener {
 
     public static final String TAG = "sheet";
 
@@ -58,20 +59,16 @@ public class EventPalMainFragment extends Fragment {
     private String userID;
 
     private Constant constant;
-
-    private EventPalUserAdapter adapter;
-
     private CollectionReference collectionReference;
-    private FirestoreRecyclerOptions<EventPalModel> options;
 
-    private EventPalModel eventPalModel;
-    private List<EventPalModel> mList, mSearchList;
-
-    private NavController navController;
+    private List<EventPalModel> mList;
 
     private FragmentEventPalMainBinding binding;
 
     private NewEventPalAdapter newEventPalAdapter;
+
+    private TeamFinderBottomSheetDialog bottomSheetDialog;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -113,6 +110,16 @@ public class EventPalMainFragment extends Fragment {
             }
         });
 
+        bottomSheetDialog = new TeamFinderBottomSheetDialog(getContext());
+        bottomSheetDialog.setTargetFragment(this, 0);
+
+        binding.btnTeamFinderFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.show(getParentFragmentManager().beginTransaction(), "teamFinderFilterSheet");
+            }
+        });
+
         initData();
         initRecycler();
 
@@ -146,14 +153,6 @@ public class EventPalMainFragment extends Fragment {
 
             }
         });
-
-        /*Query userSearchQuery = collectionReference
-                .orderBy(constant.getUserNameField())
-                .whereGreaterThanOrEqualTo(constant.getUserNameField(), newText);
-
-        options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
-                .setQuery(userSearchQuery, EventPalModel.class)
-                .build();*/
     }
 
     private void initData() {
@@ -216,67 +215,7 @@ public class EventPalMainFragment extends Fragment {
             }
         });
 
-
-        /*adapter = new EventPalUserAdapter(getContext(), options);
-        adapter.setOnItemClickListener(new EventPalUserAdapter.OnItemClickListener() {
-            @Override
-            public void onButtonClick(DocumentSnapshot snapshot) {
-                EventPalModel model = snapshot.toObject(EventPalModel.class);
-
-                firestoreDB.collection(constant.getChatConnections()).document(userID)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot connectionListSnapshot = task.getResult();
-                            List<String> connectionList = (List<String>) connectionListSnapshot.get("Connections");
-                            if (connectionList != null) {
-                                if (!connectionList.contains(model.getUserID())) {
-//                                    Create new request
-                                    showCreateRequestDialog(model);
-                                } else {
-//                                    Chat already present
-                                    Intent intent = new Intent(getContext(), ChatDetailActivity.class);
-                                    intent.putExtra("receiverID", model.getUserID());
-                                    intent.putExtra("receiverName", model.getName());
-                                    intent.putExtra("receiverPhoto", model.getPhoto());
-                                    startActivity(intent);
-                                }
-                            } else {
-                                showCreateRequestDialog(model);
-                            }
-                        }
-                    }
-                });
-            }
-
-            *//*@Override
-            public void onBottomSheetToggleClick(View itemView, int position) {
-
-                View bottomSheet = itemView.findViewById(R.id.EventPalBottomSheet);
-                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-                // ImageView btnBottomSheet = itemView.findViewById(R.id.btnBottomSheet);
-
-                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-
-                    Log.d(TAG, "onButtonClick: STATE_COLLAPSED");
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.VISIBLE);
-                    // btnBottomSheet.setImageResource(R.drawable.down_arrow);
-
-                } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-
-                    Log.d(TAG, "onButtonClick: STATE_EXPANDED");
-                    itemView.findViewById(R.id.tvEventPalUserAbout).setVisibility(View.GONE);
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    //  btnBottomSheet.setImageResource(R.drawable.ic_upperarrow);
-
-                }
-            }*//*
-        });*/
-
         recyclerView.setAdapter(newEventPalAdapter);
-//        adapter.startListening();
     }
 
     private void showCreateRequestDialog(EventPalModel model) {
@@ -317,14 +256,40 @@ public class EventPalMainFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-//        adapter.startListening();
-    }
+    public void onApplyButtonClicked(List<String> selectedFilters) {
+        mList = new ArrayList<>();
 
-    @Override
-    public void onStop() {
-        super.onStop();
-//        adapter.stopListening();
+        if (selectedFilters.size() != 0) {
+            collectionReference.orderBy(constant.getUserNameField()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    mList.clear();
+                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        EventPalModel eventPalModel = snapshot.toObject(EventPalModel.class);
+                        if (!eventPalModel.getUserID().equals(userID)) {
+                            if (eventPalModel.getChips() != null) {
+                                for (String filter : selectedFilters) {
+                                    if (eventPalModel.getChips().contains(filter)) {
+                                        mList.add(eventPalModel);
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (mList.size() == 0) {
+                        binding.eventPalRecyclerView.setVisibility(View.GONE);
+                        binding.tvnoUserFound.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.tvnoUserFound.setVisibility(View.GONE);
+                        binding.eventPalRecyclerView.setVisibility(View.VISIBLE);
+                        initRecycler();
+                    }
+                }
+            });
+        } else {
+            initData();
+            initRecycler();
+        }
     }
 }

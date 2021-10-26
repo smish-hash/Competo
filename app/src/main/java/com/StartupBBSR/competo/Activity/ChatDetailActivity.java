@@ -178,6 +178,20 @@ public class ChatDetailActivity extends AppCompatActivity {
 //                                                    Message sent
                                                     binding.btnSendChat.setVisibility(View.VISIBLE);
                                                     binding.sendMessageProgressBar.setVisibility(View.GONE);
+
+//                                                    Updating timestamp of users for sorting
+                                                    firestoreDB.collection(constant.getUsers())
+                                                            .document(senderID)
+                                                            .update("time", timestamp)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    firestoreDB.collection(constant.getUsers())
+                                                                            .document(receiverID)
+                                                                            .update("time", timestamp);
+                                                                }
+                                                            });
+
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override

@@ -17,11 +17,22 @@
         android:background="@drawable/btn_search_round"
         android:elevation="@dimen/grid_1x"
         app:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnTeamFinderFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryBackground="@color/transparent"
         app:queryHint="Find Users" />
+
+    <ImageView
+        android:id="@+id/btnTeamFinderFilter"
+        android:layout_width="@dimen/grid_4x"
+        android:layout_height="@dimen/grid_4x"
+        android:layout_marginEnd="@dimen/grid_3x"
+        android:src="@drawable/ic_baseline_filter_list_24"
+        app:tint = "@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/searchView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eventPalRecyclerView"

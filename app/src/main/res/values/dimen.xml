@@ -14,4 +14,6 @@
 
     <dimen name="bottom_sheet_expanded_height">550dp</dimen>
     <dimen name="bottom_sheet_collapsed_height">350dp</dimen>
+
+    <dimen name="radius_10">10dp</dimen>
 </resources>

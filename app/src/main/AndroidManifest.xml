@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Competo">
         <activity
+            android:name=".Activity.AboutUsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.FAQActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activity.ChatDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -55,11 +61,9 @@
         <service
             android:name=".Firebasemessaging.MyFirebaseMessagingService"
             android:exported="false">
-
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
     </application>
 

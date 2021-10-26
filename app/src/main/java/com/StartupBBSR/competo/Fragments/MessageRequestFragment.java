@@ -1,6 +1,5 @@
 package com.StartupBBSR.competo.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 import com.StartupBBSR.competo.Adapters.MessageRequestAdapter;
 import com.StartupBBSR.competo.Models.MessageModel;
 import com.StartupBBSR.competo.Models.RequestModel;
-import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentMessageRequestBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -28,12 +26,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,7 +82,7 @@ public class MessageRequestFragment extends Fragment {
                         count++;
                     }
 
-                    if (count != 0){
+                    if (count != 0) {
                         binding.tvNoRequests.setVisibility(View.GONE);
                         binding.requestRecyclerView.setVisibility(View.VISIBLE);
                     } else {
@@ -149,19 +143,35 @@ public class MessageRequestFragment extends Fragment {
 
 //                                                Update Connection
                                                 connectionRef.document(userID)
-                                                        .update("Connections", FieldValue.arrayUnion(senderID))
+                                                        .update(constant.getConnections(), FieldValue.arrayUnion(senderID))
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
                                                                 connectionRef.document(senderID)
-                                                                        .update("Connections", FieldValue.arrayUnion(firebaseAuth.getUid()))
+                                                                        .update(constant.getConnections(), FieldValue.arrayUnion(firebaseAuth.getUid()))
                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                             @Override
                                                                             public void onSuccess(Void aVoid) {
-                                                                                snapshot.getReference().delete();
-                                                                                Toast.makeText(getContext(), "Request moved to Inbox", Toast.LENGTH_SHORT).show();
-                                                                                binding.progressBar.setVisibility(View.GONE);
-                                                                                checkRequestCount();
+                                                                                firestoreDB.collection(constant.getUsers())
+                                                                                        .document(userID)
+                                                                                        .update("time", timestamp)
+                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                firestoreDB.collection(constant.getUsers())
+                                                                                                        .document(senderID)
+                                                                                                        .update("time", timestamp)
+                                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                            @Override
+                                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                snapshot.getReference().delete();
+                                                                                                                Toast.makeText(getContext(), "Request moved to Inbox", Toast.LENGTH_SHORT).show();
+                                                                                                                binding.progressBar.setVisibility(View.GONE);
+                                                                                                                checkRequestCount();
+                                                                                                            }
+                                                                                                        });
+                                                                                            }
+                                                                                        });
                                                                             }
                                                                         });
                                                             }
