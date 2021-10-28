@@ -5,11 +5,18 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.Message;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,11 +38,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.StartupBBSR.competo.Fragments.EventFragment;
 import com.StartupBBSR.competo.Fragments.EventPalFragment;
 import com.StartupBBSR.competo.Fragments.FeedFragment;
-import com.StartupBBSR.competo.Fragments.FindFragment;
-import com.StartupBBSR.competo.Fragments.HomeFragment;
 import com.StartupBBSR.competo.Fragments.InboxNewFragment;
 import com.StartupBBSR.competo.Fragments.ProfileFragment;
-import com.StartupBBSR.competo.Fragments.TeamFragment;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -48,14 +53,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -80,6 +81,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -88,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding activityMainBinding;
 
     Menu menu;
+
+    private boolean isConnected;
 
     private DrawerLayout drawerLayout;
 
@@ -111,9 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String testTAG = "empty";
 
     private Fragment fragment;
-    private TeamFragment teamFragment;
-    private HomeFragment homeFragment;
-    private FindFragment findFragment;
     private ProfileFragment profileFragment;
 
     private FeedFragment feedFragment;
@@ -127,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AlertDialog.Builder builder1;
     private AlertDialog.Builder builder2;
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,10 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
 
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-
-        FirebaseMessaging.getInstance().subscribeToTopic("test")
+        FirebaseMessaging.getInstance().subscribeToTopic("Event")
                 .addOnCompleteListener(task -> {
                     String msg = "Success";
                     Log.d("subscribe success", "token");
@@ -170,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             // Log and toast
                             Log.d("token success", token);
-                            sendfcm(token);
+                            //sendfcm(token);
 
                             Map<String, Object> fcmtoken = new HashMap<>();
                             fcmtoken.put("token", token);
@@ -183,50 +200,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-//        In-app updates
-        appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
-        com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.updatePriority() >= 2
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-
-                try {
-                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
-                            AppUpdateType.IMMEDIATE,
-                            this,
-                            MY_REQUEST_CODE);
-                } catch (IntentSender.SendIntentException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        // Create a listener to track request state updates.
-        InstallStateUpdatedListener listener = state -> {
-            if (state.installStatus() == InstallStatus.DOWNLOADING) {
-                long bytesDownloaded = state.bytesDownloaded();
-                long totalBytesToDownload = state.totalBytesToDownload();
-            }
-
-            if (state.installStatus() == InstallStatus.DOWNLOADED) {
-                // After the update is downloaded, show a notification
-                // and request user confirmation to restart the app.
-                popupSnackbarForCompleteUpdate();
-            }
-        };
-        appUpdateManager.registerListener(listener);
-        appUpdateManager.unregisterListener(listener);
-
 
         drawerLayout = activityMainBinding.drawer;
         navigationView = activityMainBinding.navView;
         navigationView.setNavigationItemSelectedListener(this);
         header = navigationView.getHeaderView(0);
 
+
+        float radius = getResources().getDimension(R.dimen.radius_10);
+        MaterialShapeDrawable materialShapeDrawable = (MaterialShapeDrawable) navigationView.getBackground();
+        materialShapeDrawable.setShapeAppearanceModel(materialShapeDrawable.getShapeAppearanceModel()
+        .toBuilder().setTopRightCorner(CornerFamily.ROUNDED, radius)
+        .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+        .build());
+
 //        Bottom Navigation bar
         bottomNavigationView = activityMainBinding.bottomNavBar;
+
+        ConnectivityManager cm =
+                (ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+
+        if (!isConnected) {
+            Snackbar.make(activityMainBinding.getRoot(), "No Internet", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("CLOSE", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
+                    .show();
+        }
 
 
         firestoreDB = FirebaseFirestore.getInstance();
@@ -238,11 +244,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
         status("Online");
 
-//        getUserData();
-
-//        homeFragment = new HomeFragment();
-//        findFragment = new FindFragment();
-        teamFragment = new TeamFragment();
         profileFragment = new ProfileFragment();
         eventPalFragment = new EventPalFragment();
 
@@ -304,15 +305,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            if(extras.getString("e").equals("event"))
+            if(extras.getString("notification").equals("chat"))
             {
-                loadFragment(eventFragment);
-            }
-            else if(extras.getString("c").equals("chat"))
-            {
+                Log.d("fragment test","passed_chat");
+                bottomNavigationView.setSelectedItemId(R.id.inboxNewFragment);
                 loadFragment(inboxNewFragment);
             }
-        }*/
+            else if(extras.getString("notification").equals("event"))
+            {
+                Log.d("fragment test","passed_event");
+                onViewAllEventsClick();
+            }
+        }*/// TODO: 28-10-2021 abhi karna he 
+
     }
 
     private void popupSnackbarForCompleteUpdate() {
@@ -492,11 +497,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.menu_addEvent)
             startActivity(new Intent(MainActivity.this, ManageEventActivity.class));
 
+        else if (id == R.id.menu_faq)
+            startActivity(new Intent(MainActivity.this, FAQActivity.class));
+
+        else if (id == R.id.menu_about_us)
+            startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+
         return true;
     }
 
     private void logout() {
         onPause();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("Event");
+        FirebaseMessaging.getInstance().deleteToken();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
@@ -574,16 +587,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         status("Online");
         Log.d("status", "onResume: Online");
 
-
-        appUpdateManager
-                .getAppUpdateInfo()
-                .addOnSuccessListener(appUpdateInfo -> {
-                    // If the update is downloaded but not installed,
-                    // notify the user to complete the update.
-                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                        popupSnackbarForCompleteUpdate();
-                    }
-                });
     }
 
     private void status(String status) {

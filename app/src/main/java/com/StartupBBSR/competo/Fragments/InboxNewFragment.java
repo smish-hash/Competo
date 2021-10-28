@@ -10,10 +10,14 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.transition.Fade;
+import androidx.transition.Transition;
+import androidx.transition.TransitionManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Models.UserModel;
+import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentInboxNewBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -65,6 +69,24 @@ public class InboxNewFragment extends Fragment {
 
         constant = new Constant();
         userModel = new UserModel();
+
+        Transition transition = new Fade();
+        transition.setDuration(600);
+        transition.addTarget(R.id.tvInboxInfo);
+
+        binding.btnInboxInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (binding.tvInboxInfo.getVisibility() == View.VISIBLE) {
+                    TransitionManager.beginDelayedTransition(binding.getRoot(), transition);
+                    binding.tvInboxInfo.setVisibility(View.GONE);
+                }
+                else {
+                    TransitionManager.beginDelayedTransition(binding.getRoot(), transition);
+                    binding.tvInboxInfo.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         return view;
     }

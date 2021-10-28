@@ -1,5 +1,6 @@
 package com.StartupBBSR.competo.Activity;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,11 +40,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,6 +82,10 @@ public class ChatDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
         super.onCreate(savedInstanceState);
         binding = ActivityChatDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -168,12 +170,26 @@ public class ChatDetailActivity extends AppCompatActivity {
                                                     binding.btnSendChat.setVisibility(View.VISIBLE);
                                                     binding.sendMessageProgressBar.setVisibility(View.GONE);
 
+//                                                    Updating timestamp of users for sorting
+                                                    firestoreDB.collection(constant.getUsers())
+                                                            .document(senderID)
+                                                            .update("time", timestamp)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    firestoreDB.collection(constant.getUsers())
+                                                                            .document(receiverID)
+                                                                            .update("time", timestamp);
+
+                                                                }
+                                                            });
+
                                                     firestoreDB.collection("token").document(receiverID).get().addOnCompleteListener(task -> {
                                                         if (task.isSuccessful()) {
                                                             DocumentSnapshot document = task.getResult();
                                                             if (document.exists()) {
                                                                 Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
-                                                                firestoreDB.collection("Users").document(firebaseAuth.getUid()).get().addOnCompleteListener(task3 -> {
+                                                                firestoreDB.collection("Users").document(senderID).get().addOnCompleteListener(task3 -> {
                                                                     if (task3.isSuccessful()) {
                                                                         DocumentSnapshot document3 = task3.getResult();
                                                                         if (document3.exists()) {
@@ -181,7 +197,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                                                                             sendfcm(document.getString("token"),message,document3.getString("Name"));
                                                                         }
                                                                     }
-                                                                        });
+                                                                });
                                                             } else {
                                                                 Log.d("data", "No such document");
                                                             }
@@ -189,6 +205,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                                                             Log.d("data", "get failed with ", task.getException());
                                                         }
                                                     });
+
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -348,7 +365,6 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void seenMessage(String senderID, String receiverID) {
 

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Competo">
         <activity
+            android:name=".Activity.AboutUsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.FAQActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activity.ChatDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -51,9 +57,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <service android:name=".jobscheduler.jobscheduler"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <service
             android:name=".Firebasemessaging.firebasemessagingservice"

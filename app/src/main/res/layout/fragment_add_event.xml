@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="200dp"
+        android:paddingBottom="150dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +70,7 @@
                 android:id="@+id/tvThumbnailImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Thumbnail Image - optional\n(100dp x 100dp)"
+                android:text="Add Thumbnail Image - mandatory\n(100dp x 100dp)"
                 android:maxLines="2"
                 android:textColor="@color/text_gray"
                 android:layout_marginTop="@dimen/grid_4x"
