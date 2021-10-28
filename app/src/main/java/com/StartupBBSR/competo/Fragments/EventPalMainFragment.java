@@ -32,9 +32,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -198,6 +204,7 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                                 if (!connectionList.contains(model.getUserID())) {
 //                                    Create new request
                                     showCreateRequestDialog(model);
+
                                 } else {
 //                                    Chat already present
                                     Intent intent = new Intent(getContext(), ChatDetailActivity.class);
@@ -243,6 +250,29 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(getContext(), "Request Sent", Toast.LENGTH_SHORT).show();
+
+                                            firestoreDB.collection("token").document(model.getUserID()).get().addOnCompleteListener(task -> {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+                                                        Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
+                                                        firestoreDB.collection("Users").document(userID).get().addOnCompleteListener(task3 -> {
+                                                            if (task3.isSuccessful()) {
+                                                                DocumentSnapshot document3 = task3.getResult();
+                                                                if (document3.exists()) {
+                                                                    Log.d("data", "DocumentSnapshot data: " + document3.getString("Name"));
+                                                                    sendfcm(document.getString("token"),document3.getString("Name"));
+                                                                }
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Log.d("data", "No such document");
+                                                    }
+                                                } else {
+                                                    Log.d("data", "get failed with ", task.getException());
+                                                }
+                                            });
+
                                         }
                                     });
                         }
@@ -291,5 +321,37 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
             initData();
             initRecycler();
         }
+    }
+
+    public void sendfcm(String token,String name)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Request\",\n" +
+                    "      \"body\":\"You have a new message request from "+name+"\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"request\",\n" +
+                    "    },\n" +
+                    "    \"to\":\""+token+"\"\n" +
+                    "}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }

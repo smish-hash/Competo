@@ -33,12 +33,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -321,6 +327,27 @@ public class CreateTeamFragment extends Fragment {
                         }
                         binding.progressBar.setVisibility(View.GONE);
                         binding.btnCreateTeam.setVisibility(View.VISIBLE);
+
+                        for(String uid:teamMembers)
+                        {
+                            if(!uid.equals(userID))
+                            {
+                                firestoreDB.collection("token").document(uid).get().addOnCompleteListener(work -> {
+                                    if (work.isSuccessful()) {
+                                        DocumentSnapshot document = work.getResult();
+                                        if (document.exists()) {
+                                            Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
+                                            sendfcm(document.getString("token"));
+                                        } else {
+                                            Log.d("data", "No such document");
+                                        }
+                                    } else {
+                                        Log.d("data", "get failed with ", task.getException());
+                                    }
+                                });
+                            }
+                        }
+
                         navController.navigate(R.id.action_createTeamFragment_to_teamMainFragment);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -406,5 +433,37 @@ public class CreateTeamFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void sendfcm(String token)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Team\",\n" +
+                    "      \"body\":\"You are added on a new TEAM\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"team\",\n" +
+                    "    },\n" +
+                    "    \"to\":\""+token+"\"\n" +
+                    "}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }

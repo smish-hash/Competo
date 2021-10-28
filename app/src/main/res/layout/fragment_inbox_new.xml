@@ -94,7 +94,7 @@
             android:background="@drawable/rounded_tv_background"
             app:layout_constraintEnd_toEndOf="@id/btnInboxInfo"
             app:layout_constraintStart_toEndOf="@id/textViewInbox"
-            android:text="If any particular chat is not visible, consider sending them a request again."/>
+            android:text="If any particular chat is not visible, consider sending them a request again from Team Finder."/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

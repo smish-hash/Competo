@@ -1,6 +1,7 @@
 package com.StartupBBSR.competo.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,11 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +36,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.IOException;
 
 public class MessageRequestFragment extends Fragment {
 
@@ -168,6 +176,28 @@ public class MessageRequestFragment extends Fragment {
                                                                                                                 Toast.makeText(getContext(), "Request moved to Inbox", Toast.LENGTH_SHORT).show();
                                                                                                                 binding.progressBar.setVisibility(View.GONE);
                                                                                                                 checkRequestCount();
+
+                                                                                                                firestoreDB.collection("token").document(senderID).get().addOnCompleteListener(task1 -> {
+                                                                                                                    if (task1.isSuccessful()) {
+                                                                                                                        DocumentSnapshot document = task1.getResult();
+                                                                                                                        if (document.exists()) {
+                                                                                                                            Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
+                                                                                                                            firestoreDB.collection("Users").document(userID).get().addOnCompleteListener(task3 -> {
+                                                                                                                                if (task3.isSuccessful()) {
+                                                                                                                                    DocumentSnapshot document3 = task3.getResult();
+                                                                                                                                    if (document3.exists()) {
+                                                                                                                                        Log.d("data", "DocumentSnapshot data: " + document3.getString("Name"));
+                                                                                                                                        sendfcm(document.getString("token"),document3.getString("Name"));
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            });
+                                                                                                                        } else {
+                                                                                                                            Log.d("data", "No such document");
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        Log.d("data", "get failed with ", task.getException());
+                                                                                                                    }
+                                                                                                                });
                                                                                                             }
                                                                                                         });
                                                                                             }
@@ -207,5 +237,37 @@ public class MessageRequestFragment extends Fragment {
         if (adapter != null) {
             adapter.startListening();
         }
+    }
+
+    public void sendfcm(String token,String name)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Request\",\n" +
+                    "      \"body\":\""+name+" has accepted your message request\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"request\",\n" +
+                    "    },\n" +
+                    "    \"to\":\""+token+"\"\n" +
+                    "}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }
