@@ -11,7 +11,7 @@ public class Constant {
     String eventDate = "eventDate";
 
     String MessageRequests = "MessageRequests";
-    String Chats = "Chats", Messages = "Messages", Requests = "Requests", ChatConnections = "ChatConnections";
+    String Chats = "Chats", Messages = "Messages", Requests = "Requests", Connections = "Connections", ChatConnections = "ChatConnections";
     String lastMessage = "LastMessage";
 
     String Teams = "Teams", TeamNameField = "teamName", TeamImageField = "teamImage", TeamIDField = "teamID", TeamMemberField = "teamMembers";
@@ -19,7 +19,7 @@ public class Constant {
     String TeamChats = "TeamChats", TeamMessages = "TeamMessages";
     String TeamConnections = "TeamConnection";
 
-//    Notofication
+//    Notification
     String messageNumber = "messagenumber";
 
     String eventOrganizerID = "eventOrganizerID";
@@ -39,6 +39,13 @@ public class Constant {
     String userMyEventField = "MyEvents";
 
     String userModelObject = "userModelObject";
+
+
+//    FAQ
+    String FAQ = "FAQ";
+    String faqId = "faqId";
+    String faqQuestion = "faqQuestion";
+    String faqAnswer = "faqAnswer";
 
 
     public String getUserInterestedChipsField() {
@@ -137,6 +144,10 @@ public class Constant {
         return ChatConnections;
     }
 
+    public String getConnections() {
+        return Connections;
+    }
+
     public String getLastMessage() {
         return lastMessage;
     }
@@ -183,5 +194,25 @@ public class Constant {
 
     public String getMessageNumber() {
         return messageNumber;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public String getFAQ() {
+        return FAQ;
+    }
+
+    public String getFaqId() {
+        return faqId;
+    }
+
+    public String getFaqQuestion() {
+        return faqQuestion;
+    }
+
+    public String getFaqAnswer() {
+        return faqAnswer;
     }
 }

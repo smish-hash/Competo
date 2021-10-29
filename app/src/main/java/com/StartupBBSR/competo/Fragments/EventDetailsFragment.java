@@ -72,8 +72,6 @@ public class EventDetailsFragment extends Fragment {
                     navController.navigate(R.id.action_eventDetailsFragment_to_eventMainFragment);
                 else if (flag == 1) {
                     navController.navigate(R.id.action_eventDetailsFragment2_to_profileMainFragment);
-                } else if (flag == 2) {
-                    navController.navigate(R.id.action_eventDetailsFragment3_to_findMainFragment);
                 } else {
                     navController.navigate(R.id.action_eventDetailsFragment4_to_feedMainFragment);
                 }
@@ -131,13 +129,9 @@ public class EventDetailsFragment extends Fragment {
 //            Coming from my event section
             flag = 1;
             navController = Navigation.findNavController(getActivity(), R.id.fragment_profile);
-        } else if (from.equals("find")) {
-//            Coming from find section
-            flag = 2;
-            navController = Navigation.findNavController(getActivity(), R.id.find_fragment);
         } else {
 //            Coming from feed
-            flag = 3;
+            flag = 2;
             navController = Navigation.findNavController(getActivity(), R.id.fragment_feed);
         }
 

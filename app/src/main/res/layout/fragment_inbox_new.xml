@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:layout_margin="@dimen/grid_2x"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/radius_10"
     tools:context=".Fragments.InboxNewFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,6 +65,37 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnInboxInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_3x"
+            android:layout_marginEnd="@dimen/grid_3x"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_baseline_info_24"
+            app:tint="@color/text_gray" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvInboxInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btnInboxInfo"
+            android:layout_margin="@dimen/grid_1x"
+            android:backgroundTint="@color/text_gray"
+            android:padding="@dimen/grid_2x"
+            android:elevation="@dimen/grid_2x"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="4sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_tv_background"
+            app:layout_constraintEnd_toEndOf="@id/btnInboxInfo"
+            app:layout_constraintStart_toEndOf="@id/textViewInbox"
+            android:text="If any particular chat is not visible, consider sending them a request again from Team Finder."/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

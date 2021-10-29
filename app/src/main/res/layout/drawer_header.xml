@@ -1,64 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="180dp">
+    android:layout_height="180dp"
+    android:layout_margin="@dimen/grid_2x"
+    app:cardElevation="@dimen/grid_1x"
+    app:cardCornerRadius="@dimen/radius_10">
 
-    <ImageView
-        android:id="@+id/headerBackgroundImage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background_default" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvHeaderName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/grid_3x"
-        android:layout_marginEnd="@dimen/grid_2x"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:maxLines="1"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvHeaderRole"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/headerBackgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_default" />
 
-    <TextView
-        android:id="@+id/tvHeaderRole"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/grid_3x"
-        android:layout_marginEnd="@dimen/grid_2x"
-        android:layout_marginBottom="@dimen/grid_2x"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:scrollHorizontally="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvHeaderName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:layout_marginEnd="@dimen/grid_2x"
+            android:layout_marginBottom="@dimen/grid_1x"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvHeaderRole"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHeaderRole"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:layout_marginEnd="@dimen/grid_2x"
+            android:layout_marginBottom="@dimen/grid_2x"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:scrollHorizontally="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_gradient" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_gradient" />
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/header_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="@dimen/grid_3x"
-        android:src="@drawable/ic_baseline_person_24"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="1dp"
-        app:civ_circle_background_color="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/tvHeaderName"
-        app:layout_constraintStart_toStartOf="parent" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/header_image"
+            android:layout_width="@dimen/grid_5x"
+            android:layout_height="@dimen/grid_5x"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:layout_marginBottom="@dimen/grid_1x"
+            android:src="@drawable/ic_baseline_person_24"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="1dp"
+            app:civ_circle_background_color="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/tvHeaderName"
+            app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -2,17 +2,21 @@ package com.StartupBBSR.competo.Activity;
 
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.content.IntentSender;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.Message;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -20,46 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.StartupBBSR.competo.Fragments.EventFragment;
-import com.StartupBBSR.competo.Fragments.EventPalFragment;
-import com.StartupBBSR.competo.Fragments.FeedFragment;
-import com.StartupBBSR.competo.Fragments.FindFragment;
-import com.StartupBBSR.competo.Fragments.HomeFragment;
-import com.StartupBBSR.competo.Fragments.InboxNewFragment;
-import com.StartupBBSR.competo.Fragments.ProfileFragment;
-import com.StartupBBSR.competo.Fragments.TeamFragment;
-import com.StartupBBSR.competo.Models.UserModel;
-import com.StartupBBSR.competo.R;
-import com.StartupBBSR.competo.Utils.Constant;
-import com.StartupBBSR.competo.alarmmanager.alarmmanager;
-import com.StartupBBSR.competo.databinding.ActivityMainBinding;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,6 +34,64 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.StartupBBSR.competo.Fragments.EventFragment;
+import com.StartupBBSR.competo.Fragments.EventPalFragment;
+import com.StartupBBSR.competo.Fragments.FeedFragment;
+import com.StartupBBSR.competo.Fragments.InboxNewFragment;
+import com.StartupBBSR.competo.Fragments.ProfileFragment;
+import com.StartupBBSR.competo.Models.UserModel;
+import com.StartupBBSR.competo.R;
+import com.StartupBBSR.competo.Utils.Constant;
+import com.StartupBBSR.competo.databinding.ActivityMainBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -78,7 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     Menu menu;
 
+    private boolean isConnected;
+
     private DrawerLayout drawerLayout;
+
     private NavigationView navigationView;
     private View header;
     private NavHostFragment navHostFragment;
@@ -99,9 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String testTAG = "empty";
 
     private Fragment fragment;
-    private TeamFragment teamFragment;
-    private HomeFragment homeFragment;
-    private FindFragment findFragment;
     private ProfileFragment profileFragment;
 
     private FeedFragment feedFragment;
@@ -115,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AlertDialog.Builder builder1;
     private AlertDialog.Builder builder2;
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,67 +162,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
 
+        FirebaseMessaging.getInstance().subscribeToTopic("Event")
+                .addOnCompleteListener(task -> {
+                    String msg = "Success";
+                    Log.d("subscribe success", "token");
+                    if (!task.isSuccessful()) {
+                        msg = "Failed";
+                        Log.d("subscribe failed", "token");
+                    }
+                });
 
-        //chat notification channel
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("token failed", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        else
+                        {
+                            // Get new FCM registration token
+                            String token = task.getResult();
 
-            NotificationManager notificationmanager1 = (NotificationManager) getSystemService(NotificationManager.class);
+                            // Log and toast
+                            Log.d("token success", token);
+                            //sendfcm(token);
 
-            NotificationChannel channel1 = new NotificationChannel("chatnotification", "chat notification", NotificationManager.IMPORTANCE_HIGH);
-            channel1.setDescription("channel for chat notifications");
+                            Map<String, Object> fcmtoken = new HashMap<>();
+                            fcmtoken.put("token", token);
 
-            notificationmanager1.createNotificationChannel(channel1);
-        }*/
-
-
-        //alarm manager implementation
-       /* alarmManager = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
-        Intent intent = new Intent(this, alarmmanager.class);
-
-        pendingIntent = PendingIntent.getBroadcast(this, 12, intent, 0);
-
-        long systemtime = SystemClock.elapsedRealtime();
-
-        alarmManager.setRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP, systemtime, 5000, pendingIntent
-        );*/
-
-
-//        In-app updates
-        appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
-        com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.updatePriority() >= 2
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-
-                try {
-                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
-                            AppUpdateType.IMMEDIATE,
-                            this,
-                            MY_REQUEST_CODE);
-                } catch (IntentSender.SendIntentException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        // Create a listener to track request state updates.
-        InstallStateUpdatedListener listener = state -> {
-            if (state.installStatus() == InstallStatus.DOWNLOADING) {
-                long bytesDownloaded = state.bytesDownloaded();
-                long totalBytesToDownload = state.totalBytesToDownload();
-            }
-
-            if (state.installStatus() == InstallStatus.DOWNLOADED) {
-                // After the update is downloaded, show a notification
-                // and request user confirmation to restart the app.
-                popupSnackbarForCompleteUpdate();
-            }
-        };
-        appUpdateManager.registerListener(listener);
-        appUpdateManager.unregisterListener(listener);
+                            firestoreDB.collection("token").document(firebaseAuth.getUid())
+                                    .set(fcmtoken)
+                                    .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> Log.d("token uploading", "DocumentSnapshot successfully written!"))
+                                    .addOnFailureListener((OnFailureListener) e -> Log.w("token uploading", "Error writing document", e));
+                        }
+                    }
+                });
 
 
         drawerLayout = activityMainBinding.drawer;
@@ -198,8 +206,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         header = navigationView.getHeaderView(0);
 
+
+        float radius = getResources().getDimension(R.dimen.radius_10);
+        MaterialShapeDrawable materialShapeDrawable = (MaterialShapeDrawable) navigationView.getBackground();
+        materialShapeDrawable.setShapeAppearanceModel(materialShapeDrawable.getShapeAppearanceModel()
+        .toBuilder().setTopRightCorner(CornerFamily.ROUNDED, radius)
+        .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+        .build());
+
 //        Bottom Navigation bar
         bottomNavigationView = activityMainBinding.bottomNavBar;
+
+        ConnectivityManager cm =
+                (ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+
+        if (!isConnected) {
+            Snackbar.make(activityMainBinding.getRoot(), "No Internet", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("CLOSE", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
+                    .show();
+        }
 
 
         firestoreDB = FirebaseFirestore.getInstance();
@@ -211,11 +244,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
         status("Online");
 
-//        getUserData();
-
-//        homeFragment = new HomeFragment();
-//        findFragment = new FindFragment();
-        teamFragment = new TeamFragment();
         profileFragment = new ProfileFragment();
         eventPalFragment = new EventPalFragment();
 
@@ -225,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
+
 
         activityMainBinding.btnTeamFinder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,16 +303,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Success";
-                        if (!task.isSuccessful()) {
-                            msg = "Failed";
-                        }
-                    }
-                });
+        /*Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.getString("notification").equals("chat"))
+            {
+                Log.d("fragment test","passed_chat");
+                bottomNavigationView.setSelectedItemId(R.id.inboxNewFragment);
+                loadFragment(inboxNewFragment);
+            }
+            else if(extras.getString("notification").equals("event"))
+            {
+                Log.d("fragment test","passed_event");
+                onViewAllEventsClick();
+            }
+        }*/// TODO: 28-10-2021 abhi karna he 
+
     }
 
     private void popupSnackbarForCompleteUpdate() {
@@ -298,6 +332,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         snackbar.show();
     }
 
+    public void sendfcm(String token)
+    {
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,"{\n" +
+                    "    \"notification\":{\n" +
+                    "      \"title\":\"Portugal vs. Denmark\",\n" +
+                    "      \"body\":\"great match!\"\n" +
+                    "    },\n" +
+                    "    \"data\" : {\n" +
+                    "      \"category\" : \"chat\",\n" +
+                    "    },\n" +
+                    "    \"to\":\"/topics/test\"\n" +
+                    "}");
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=AAAABmOW__8:APA91bFEiWxr4rRQa3M_5n-w-5XDjLnQ9nf2IgAs1r0ppfwgTLZoGgOJmRAF1pt59hHqdMZ74AmAx1lkk0HaCuLwUCsHi_M_BWEZAGwkXyp-57YJk_pGmGWwJKNEU_bnJLl7bv7VDPzy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                Log.d("response",response.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -306,7 +372,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(testTAG, "onStart: ");
     }
 
+
     private void getUserData() {
+
 //      get realtime data and store it in a class
         Log.d(testTAG, "getUserData: ");
         documentReference.addSnapshotListener(MainActivity.this, new EventListener<DocumentSnapshot>() {
@@ -429,11 +497,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.menu_addEvent)
             startActivity(new Intent(MainActivity.this, ManageEventActivity.class));
 
+        else if (id == R.id.menu_faq)
+            startActivity(new Intent(MainActivity.this, FAQActivity.class));
+
+        else if (id == R.id.menu_about_us)
+            startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+
         return true;
     }
 
     private void logout() {
         onPause();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("Event");
+        FirebaseMessaging.getInstance().deleteToken();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
@@ -511,19 +587,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         status("Online");
         Log.d("status", "onResume: Online");
 
-
-        appUpdateManager
-                .getAppUpdateInfo()
-                .addOnSuccessListener(appUpdateInfo -> {
-                    // If the update is downloaded but not installed,
-                    // notify the user to complete the update.
-                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                        popupSnackbarForCompleteUpdate();
-                    }
-                });
     }
 
     private void status(String status) {
         documentReference.update("status", status);
     }
-}
+
+    }

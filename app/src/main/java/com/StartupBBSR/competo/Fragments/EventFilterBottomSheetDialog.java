@@ -65,7 +65,7 @@ public class EventFilterBottomSheetDialog extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] filters = getResources().getStringArray(R.array.FilterChips);
+        String[] filters = getResources().getStringArray(R.array.eventTags);
 
         for (String filter : filters) {
             Chip chip = new Chip(getContext());

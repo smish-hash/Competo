@@ -114,18 +114,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEventPal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnExplore"
-                android:layout_width="90dp"
-                android:layout_height="45dp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginBottom="@dimen/grid_2x"
                 android:backgroundTint="@color/white"
+                app:cornerRadius="10dp"
+                android:elevation="@dimen/grid_2x"
                 android:text="Explore"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:fontFamily="@font/palanquin_semibold"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:textAllCaps="false"
-                android:alpha="0.9"
                 android:textColor="@color/ui_light_blue" />
 
             <ImageView
@@ -133,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/teamos_cover_doc" />
+                android:src="@drawable/cover_compressed" />
 
         </soup.neumorphism.NeumorphCardView>
 

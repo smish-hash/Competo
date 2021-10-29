@@ -25,15 +25,4 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void findTeamMate() {
-        Bundle bundle = new Bundle();
-        bundle.putString("ft", "teamMate");
-        Fragment homeFragment = new HomeFragment();
-        homeFragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, homeFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
 }
