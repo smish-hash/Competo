@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_border"
                     android:hint="Enter Email"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_dark_gray"
                     android:inputType="textEmailAddress"
                     android:textColorHint="@color/text_gray" />
             </com.google.android.material.textfield.TextInputLayout>

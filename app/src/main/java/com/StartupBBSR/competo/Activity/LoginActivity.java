@@ -7,7 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.Models.ChatConnectionModel;
@@ -30,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
@@ -48,11 +55,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -62,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     //    Firebase
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseDB;
+    private FirebaseUser firebaseUser;
 
 
     private int temp_flag = 0;
@@ -82,6 +85,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Constant constant;
 
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseFirestore.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         constant = new Constant();
 
@@ -192,7 +198,6 @@ public class LoginActivity extends AppCompatActivity {
                             LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email", "public_profile"));
 //                            fbLogIn();
                         }
-
                         dialogInterface.dismiss();
                     }
                 }
@@ -406,7 +411,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (firebaseAuth.getCurrentUser() != null) {
+        if (firebaseAuth.getCurrentUser() != null && firebaseUser.isEmailVerified()) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
@@ -433,11 +438,40 @@ public class LoginActivity extends AppCompatActivity {
             ).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    Toast.makeText(LoginActivity.this, "LogIn Successful", Toast.LENGTH_SHORT).show();
-                    activityLoginBinding.loginProgressLayout.setVisibility(View.GONE);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
 
+                    if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        Toast.makeText(LoginActivity.this, "LogIn Successful", Toast.LENGTH_SHORT).show();
+                        activityLoginBinding.loginProgressLayout.setVisibility(View.GONE);
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        activityLoginBinding.loginProgressLayout.setVisibility(View.GONE);
+
+                        Snackbar snackbar = Snackbar.make(activityLoginBinding.loginCoOrdinatorLayout, "Please verify your account.", Snackbar.LENGTH_LONG).setAction("Verify", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                firebaseAuth.getCurrentUser().sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "email sent");
+
+                                                    Toast.makeText(getApplicationContext(), "An email is sent for verification.", Toast.LENGTH_LONG).show();
+
+                                                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                                                    finish();
+                                                } else {
+                                                    Log.d(TAG, "error in email sent");
+                                                }
+                                            }
+                                        });
+                            }
+                        });
+
+                        snackbar.show();
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -512,26 +546,16 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void checkemailformat(EditText et, TextInputLayout til)
-    {
-        if(Pattern.compile("gmail\\.com$").matcher(et.getText().toString()).find())
-        {
+    private void checkemailformat(EditText et, TextInputLayout til) {
+        if (Pattern.compile("gmail\\.com$").matcher(et.getText().toString()).find()) {
             flag++;
-        }
-        else if(Pattern.compile("hotmail\\.com$").matcher(et.getText().toString()).find())
-        {
+        } else if (Pattern.compile("hotmail\\.com$").matcher(et.getText().toString()).find()) {
             flag++;
-        }
-        else if(Pattern.compile("yahoo\\.com$").matcher(et.getText().toString()).find())
-        {
+        } else if (Pattern.compile("yahoo\\.com$").matcher(et.getText().toString()).find()) {
             flag++;
-        }
-        else if(Pattern.compile("kiit\\.ac\\.in$").matcher(et.getText().toString()).find())
-        {
+        } else if (Pattern.compile("kiit\\.ac\\.in$").matcher(et.getText().toString()).find()) {
             flag++;
-        }
-        else
-        {
+        } else {
             til.setError("Please enter correct format");
             til.setErrorEnabled(true);
         }

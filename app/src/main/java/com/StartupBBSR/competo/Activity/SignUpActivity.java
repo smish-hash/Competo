@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.Models.ChatConnectionModel;
 import com.StartupBBSR.competo.R;
@@ -47,11 +52,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 
  public class SignUpActivity extends AppCompatActivity {
@@ -377,6 +377,11 @@ import androidx.appcompat.app.AppCompatDelegate;
         checkphonenumber(activitySignUpBinding.numberET, activitySignUpBinding.numberTIL);
 
 
+        String NAME_ET=activitySignUpBinding.nameET.getText().toString()
+                ,NUMBER_ET=activitySignUpBinding.numberET.getText().toString(),EMAIL_ET=activitySignUpBinding.emailET.getText().toString(),
+                PASSWORD_ET=activitySignUpBinding.passwordET.getText().toString();
+
+
         if (flag == 6) {
 //            We can now register the user
             activitySignUpBinding.signUpProgressLayout.setVisibility(View.VISIBLE);
@@ -387,16 +392,37 @@ import androidx.appcompat.app.AppCompatDelegate;
             ).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    Toast.makeText(SignUpActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SignUpActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
+
+                    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+
+                    assert firebaseUser != null;
+                    firebaseUser.sendEmailVerification()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "email sent");
+                                        Toast.makeText(SignUpActivity.this, "We have sent an email to your registered "+EMAIL_ET+" for confirmation. After receiving email, follow the link provided" +
+                                                "to complete email verification.", Toast.LENGTH_LONG).show();
+
+                                        startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+                                    }
+                                    else
+                                    {
+                                        Log.d(TAG, "error in email sent");
+                                    }
+                                }
+                            });
 
 //                    Now to store data into the database
                     DocumentReference documentReference = firebaseDB.collection("Users")
                             .document(firebaseAuth.getCurrentUser().getUid());
 
                     Map<String, Object> userInfo = new HashMap<>();
-                    userInfo.put(constant.getUserNameField(), activitySignUpBinding.nameET.getText().toString());
-                    userInfo.put(constant.getUserPhoneField(), activitySignUpBinding.numberET.getText().toString());
-                    userInfo.put(constant.getUserEmailField(), activitySignUpBinding.emailET.getText().toString());
+                    userInfo.put(constant.getUserNameField(), NAME_ET);
+                    userInfo.put(constant.getUserPhoneField(), NUMBER_ET);
+                    userInfo.put(constant.getUserEmailField(), EMAIL_ET);
                     userInfo.put(constant.getUserPhotoField(), null);
                     userInfo.put(constant.getUserBioField(), null);
                     userInfo.put(constant.getUserLinkedinField(), null);
@@ -433,8 +459,6 @@ import androidx.appcompat.app.AppCompatDelegate;
                 Toast.makeText(SignUpActivity.this, "Account creation failed:\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 activitySignUpBinding.signUpProgressLayout.setVisibility(View.GONE);
             });
-
-
         }
     }
 
