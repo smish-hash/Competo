@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 
@@ -22,6 +23,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -132,6 +135,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private InboxNewFragment inboxNewFragment;
     private EventPalFragment eventPalFragment;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private int isDarkModeOn ;
+    private SwitchCompat switchCompat;
+    private MenuItem menuItem;
+
     private AlarmManager alarmManager;
 
     private PendingIntent pendingIntent;
@@ -153,11 +162,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
 
-//        Disable night mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
+
+        drawerLayout = activityMainBinding.drawer;
+        navigationView = activityMainBinding.navView;
+        navigationView.setNavigationItemSelectedListener(this);
+        header = navigationView.getHeaderView(0);
+
+//        Disable night mode
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        sharedPreferences = getSharedPreferences("dark_mode_check", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        isDarkModeOn = sharedPreferences.getInt("isdarkmodeON", 0);
+
+        menuItem = navigationView.getMenu().findItem(R.id.Night_mode_switch);
+        switchCompat = (SwitchCompat) menuItem.getActionView().findViewById(R.id.Night_mode_switch);
+
+        if (isDarkModeOn == 1) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            switchCompat.setChecked(true);
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            switchCompat.setChecked(false);
+        }
+
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editor.putInt("isdarkmodeON", 1);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    editor.putInt("isdarkmodeON", 0);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                }
+                editor.apply();
+                int check=sharedPreferences.getInt("isdarkmodeON", 0);
+                //Toast.makeText(getApplicationContext(), "value :-" + check, Toast.LENGTH_SHORT).show();
+                Log.d("DARK_MODE_VALUE", String.valueOf(check));
+            }
+        });
 
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
@@ -199,12 +248,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
-
-
-        drawerLayout = activityMainBinding.drawer;
-        navigationView = activityMainBinding.navView;
-        navigationView.setNavigationItemSelectedListener(this);
-        header = navigationView.getHeaderView(0);
 
 
         float radius = getResources().getDimension(R.dimen.radius_10);
@@ -252,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inboxNewFragment = new InboxNewFragment();
 
         navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+                 .findFragmentById(R.id.nav_host_fragment);
 
 
         activityMainBinding.btnTeamFinder.setOnClickListener(new View.OnClickListener() {

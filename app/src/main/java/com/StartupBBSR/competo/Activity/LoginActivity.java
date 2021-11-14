@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.StartupBBSR.competo.Listeners.addOnTextChangeListener;
 import com.StartupBBSR.competo.Models.ChatConnectionModel;
@@ -92,7 +94,43 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        Disable nightmode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+//        sharedPreferences = getSharedPreferences("dark_mode_check", MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//
+//        isDarkModeOn = sharedPreferences.getInt("isdarkmodeON", 0);
+//
+//        menuItem = navigationView.getMenu().findItem(R.id.Night_mode_switch);
+//        switchCompat = (SwitchCompat) menuItem.getActionView().findViewById(R.id.Night_mode_switch);
+//
+//        if (isDarkModeOn == 1) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            switchCompat.setChecked(true);
+//
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//            switchCompat.setChecked(false);
+//        }
+//
+//        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    editor.putInt("isdarkmodeON", 1);
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                } else {
+//                    editor.putInt("isdarkmodeON", 0);
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//
+//                }
+//                editor.apply();
+//                int check=sharedPreferences.getInt("isdarkmodeON", 0);
+//                //Toast.makeText(getApplicationContext(), "value :-" + check, Toast.LENGTH_SHORT).show();
+//                Log.d("DARK_MODE_VALUE", String.valueOf(check));
+//            }
+//        });
+
         activityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(activityLoginBinding.getRoot());
 
