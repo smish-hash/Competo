@@ -92,7 +92,7 @@
             android:maxLines="2"
             android:paddingBottom="@dimen/grid_1x"
             android:text="Iron Man"
-            android:textColor="@color/black" />
+            android:textColor="@color/text_gray" />
 
     </LinearLayout>
 </soup.neumorphism.NeumorphCardView>

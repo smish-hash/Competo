@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_white"
     tools:context=".Fragments.InterestChipFragment">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -15,7 +14,7 @@
         android:background="@drawable/button_round_shape"
         android:text="Apply Changes"
         android:backgroundTint="@color/ui_blue"
-        android:textColor="@color/white"
+        android:textColor="@color/white_ui"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,11 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginTop="@dimen/grid_3x"
-        android:textColor="@color/black"
+        android:textColor="@color/text_gray"
         android:fontFamily="sans-serif"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_left_24"
-        android:drawableTint="@color/black"
+        android:drawableTint="@color/text_gray"
         android:text="Select Skills"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +50,6 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/light_white"
         app:layout_constraintBottom_toTopOf="@+id/btnFilterApplyChanges"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

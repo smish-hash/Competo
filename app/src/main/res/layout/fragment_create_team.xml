@@ -43,7 +43,7 @@
             android:layout_marginTop="@dimen/grid_1x"
             android:layout_marginStart="@dimen/grid_1x"
             android:text="Create a team"
-            android:textColor="@color/black"
+            android:textColor="@color/text_gray"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +72,7 @@
             android:drawableLeft="@drawable/ic_baseline_done_24"
             android:text="Done"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/white_ui"
             android:textSize="18sp"
             app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -114,7 +114,7 @@
             android:layout_marginStart="@dimen/grid_1x"
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_baseline_add_a_photo_24"
-            app:civ_border_color="@color/main_background"
+            app:civ_border_color="@color/text_gray"
             app:civ_border_width="1dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
