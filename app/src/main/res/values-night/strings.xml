@@ -92,6 +92,22 @@ and organizations.</string>
         <item>Cultural</item>
     </string-array>
 
+    <string-array name="theme_types">
+
+        <item>light</item>
+        <item>Dark</item>
+        <item>System Default</item>
+
+    </string-array>
+
+    <string-array name="theme_types_values">
+
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+
+    </string-array>
+
 
 
 
