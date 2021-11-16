@@ -28,7 +28,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView3"
-                app:tint="@color/black" />
+                app:tint="@color/text_gray" />
 
             <ScrollView
                 android:layout_width="0dp"
@@ -63,7 +63,7 @@
                                 android:gravity="center"
                                 android:padding="@dimen/grid_2x"
                                 android:text="@string/AboutUsAbout"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                 android:textColor="@color/ui_blue" />
 
                             <TextView
@@ -71,7 +71,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/grid_3x"
                                 android:gravity="center"
-                                android:lineSpacingExtra="@dimen/grid_2x"
+                                android:lineSpacingExtra="6dp"
                                 android:padding="@dimen/grid_2x"
                                 android:text="@string/AboutUsAboutDetail"
                                 android:textAlignment="center"
@@ -110,7 +110,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/grid_3x"
                                 android:gravity="center"
-                                android:lineSpacingExtra="@dimen/grid_2x"
+                                android:lineSpacingExtra="6dp"
                                 android:padding="@dimen/grid_2x"
                                 android:text="@string/AboutUsMissionDetail"
                                 android:textAlignment="center"
@@ -149,7 +149,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/grid_3x"
                                 android:gravity="center"
-                                android:lineSpacingExtra="@dimen/grid_2x"
+                                android:lineSpacingExtra="6dp"
                                 android:padding="@dimen/grid_2x"
                                 android:text="@string/AboutUsVisionDetail"
                                 android:textAlignment="center"
@@ -173,7 +173,7 @@
                 android:fontFamily="@font/palanquin_semibold"
                 android:text="About Us"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/black"
+                android:textColor="@color/text_gray"
                 app:layout_constraintEnd_toStartOf="@+id/btnCloseAboutUs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -186,11 +186,11 @@
                 android:background="@drawable/rounded_tv_background"
                 android:backgroundTint="@color/ui_blue"
                 android:gravity="center"
-                android:padding="@dimen/grid_2x"
+                android:padding="10dp"
                 android:text="Meet The Team"
                 android:letterSpacing="0.1"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-                android:textColor="@color/white"
+                android:textColor="@color/white_ui"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

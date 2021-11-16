@@ -30,7 +30,7 @@
                 android:autoLink="all"
                 android:fontFamily="sans-serif"
                 android:padding="@dimen/grid_3x"
-                android:textColor="@color/black" />
+                android:textColor="@color/text_gray" />
 
         </LinearLayout>
 

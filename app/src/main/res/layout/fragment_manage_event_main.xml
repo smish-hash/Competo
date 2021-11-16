@@ -23,6 +23,7 @@
             android:layout_height="?actionBarSize"
             android:background="@color/accent_blue"
             app:menu="@menu/manage_event_menu"
+            app:titleTextColor="@color/text_gray"
             app:navigationIcon="@drawable/ic_baseline_keyboard_arrow_left_24"
             app:title="Manage Events" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +49,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:tabIndicator="@color/main_background"
         app:tabTextAppearance="@style/ProfileCustomTabText"
-        app:tabTextColor="@color/white">
+        app:tabTextColor="@color/white_ui">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

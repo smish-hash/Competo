@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#292D32</color>
     <color name="light_white">#F8F8F8</color>
+    <color name="white_ui">#FFFFFF</color>
     <color name="chat_background_color">#292D32</color>
 
     <color name="dark_grey">#777777</color>
@@ -32,8 +33,8 @@
     <color name="accent_blue">#5991FB</color>
     <color name="ui_light_blue">#33B5E5</color>
     <color name="ui_blue">#007BFF</color>
-    <color name="text_gray">#ADADAD</color>
-    <color name="text_dark_gray">#FFFFFF</color>
+    <color name="text_gray">#FFFFFF</color>
+    <color name="text_dark_gray">#ADADAD</color>
 
 
     <color name="main_accent_1">#264757</color>

@@ -19,7 +19,8 @@
             android:background="@color/accent_blue"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_baseline_keyboard_arrow_left_24"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="@color/text_gray"
+            app:titleTextColor="@color/white_ui"
             app:title="Add Event" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -46,7 +47,7 @@
                 android:text="Main poster image"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/text_dark_gray"
+                android:textColor="@color/text_gray"
                 android:layout_marginTop="@dimen/grid_4x"
                 app:layout_constraintStart_toStartOf="@+id/ivPoster"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="Add Thumbnail Image - mandatory\n(100dp x 100dp)"
                 android:maxLines="2"
-                android:textColor="@color/text_gray"
+                android:textColor="@color/text_dark_gray"
                 android:layout_marginTop="@dimen/grid_4x"
                 app:layout_constraintStart_toStartOf="@+id/ivPoster"
                 app:layout_constraintTop_toBottomOf="@id/ivPoster" />
@@ -278,6 +279,7 @@
             android:layout_gravity="end"
             android:background="@drawable/eventpal_button_round"
             android:text="Upload Event"
+            android:textColor="@color/white_ui"
             android:textAllCaps="false" />
 
         <ProgressBar

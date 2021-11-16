@@ -30,7 +30,7 @@
                 android:layout_marginTop="@dimen/grid_1x"
                 android:fontFamily="sans-serif-medium"
                 android:text="Name"
-                android:textColor="@color/black"
+                android:textColor="@color/text_gray"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/chat_user_status"
                 app:layout_constraintStart_toEndOf="@+id/chat_user_image"
@@ -53,8 +53,8 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
                 android:background="?selectableItemBackground"
                 android:backgroundTint="@color/transparent"
                 android:src="@drawable/ic_baseline_arrow_back_24"

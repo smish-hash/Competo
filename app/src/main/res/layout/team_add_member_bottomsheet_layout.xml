@@ -16,6 +16,7 @@
             android:layout_margin="@dimen/grid_3x"
             android:background="@drawable/button_round_shape"
             android:text="Add"
+            android:textColor="@color/white_ui"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +29,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Add Members"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black"
+            android:textColor="@color/text_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
