@@ -10,6 +10,12 @@
     <color name="light_white">#F8F8F8</color>
     <color name="white_ui">#FFFFFF</color>
     <color name="chat_background_color">#EBEEF5</color>
+    <color name="neumorph_bgcolor">#EBEEF5</color>
+    <color name="neumorph_shadowColorDark">#D1D9E6</color>
+    <color name="neumorph_shadowColoright">#FFF</color>
+
+
+
 
     <color name="dark_grey">#777777</color>
     <color name="transparent_grey">#70CCCCCC</color>
