@@ -3,7 +3,7 @@
     <item>
 
         <shape android:shape="rectangle">
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/Message_bg"/>
             <corners android:topRightRadius="25dp"
                 android:topLeftRadius="45dp"
                 android:bottomRightRadius="45dp"
@@ -12,7 +12,7 @@
     </item>
     <item android:left="8dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/Message_bg"/>
             <corners android:topRightRadius="25dp"
                 android:topLeftRadius="45dp"
                 android:bottomRightRadius="45dp"
