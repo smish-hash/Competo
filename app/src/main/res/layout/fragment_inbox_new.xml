@@ -7,6 +7,7 @@
     android:animateLayoutChanges="true"
     android:layout_margin="@dimen/grid_2x"
     app:cardCornerRadius="@dimen/radius_10"
+    app:cardBackgroundColor="@color/white"
     tools:context=".Fragments.InboxNewFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +38,7 @@
                 android:layout_marginTop="20dp"
                 app:tabTextAppearance="@style/ProfileCustomTabText"
                 app:tabIndicator="@color/transparent"
-                app:tabTextColor="@color/text_dark_gray"
+                app:tabTextColor="@color/text_gray"
                 app:tabSelectedTextColor="@color/white"
                 app:tabRippleColor="@null">
 

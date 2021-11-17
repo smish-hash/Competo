@@ -103,7 +103,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
 
                 <EditText
@@ -145,6 +146,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_sendbutton_icon"
+                    android:background="@color/white"
                     app:civ_circle_background_color="@color/ui_light_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

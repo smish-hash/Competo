@@ -6,8 +6,9 @@
 
     <androidx.appcompat.widget.Toolbar
         style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
-        android:background="@color/light_white"
+        android:background="@color/chat_background_color"
         app:title="Settings"
+        app:titleTextColor="@color/text_gray"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
