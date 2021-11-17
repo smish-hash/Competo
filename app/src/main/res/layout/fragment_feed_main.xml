@@ -130,7 +130,7 @@
                 android:fontFamily="@font/palanquin_semibold"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:textAllCaps="false"
-                android:textColor="@color/ui_light_blue" />
+                android:textColor="@color/Explore" />
 
             <ImageView
                 android:id="@+id/cvPosterImage"
