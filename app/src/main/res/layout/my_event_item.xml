@@ -60,6 +60,7 @@
                     android:maxLines="1"
                     android:textAllCaps="true"
                     android:text="DEC"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
             </LinearLayout>
 
