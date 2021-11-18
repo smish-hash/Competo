@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.StartupBBSR.competo.Adapters.CreateTeamAdapter;
 import com.StartupBBSR.competo.Adapters.CreateTeamUserListAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Models.TeamModel;
@@ -37,6 +38,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -49,11 +52,11 @@ import com.squareup.okhttp.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -78,6 +81,9 @@ public class CreateTeamFragment extends Fragment {
     private CollectionReference collectionReference;
     private CreateTeamUserListAdapter adapter;
     private FirestoreRecyclerOptions<EventPalModel> options;
+
+    private CreateTeamAdapter createTeamAdapter;
+    private List<EventPalModel> mList;
 
     private ArrayList<String> selectedUserIds, selectedNames;
     private ListView memberNameListView;
@@ -112,8 +118,11 @@ public class CreateTeamFragment extends Fragment {
 
         collectionReference = firestoreDB.collection(constant.getUsers());
 
-        initData();
-        initRecyclerView();
+        /*initData();
+        initRecyclerView();*/
+
+        initNewData();
+        initNewRecyclerView();
 
         binding.ivTeamImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,55 +131,40 @@ public class CreateTeamFragment extends Fragment {
             }
         });
 
+        binding.tvClearAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createTeamAdapter.unSelectAll();
+                createTeamAdapter = new CreateTeamAdapter(getContext(), mList, binding);
+                binding.createTeamRecyclerView.setAdapter(createTeamAdapter);
+                binding.tvTeamTally.setText("0/6");
+            }
+        });
+
         binding.btnCreateTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!binding.etTeamName.getText().toString().equals("")) {
                     if (imageUri != null) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d(TAG, "running: ");
-                                ArrayList<EventPalModel> selectedUsers = adapter.getSelected();
 
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (selectedUsers.size() >= 2 && selectedUsers.size() <= 6) {
-                                            Log.d(TAG, "run: " + selectedUsers.size());
+                        ArrayList<EventPalModel> selectedUsers = createTeamAdapter.getSelected();
 
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    selectedUserIds = new ArrayList<>();
-                                                    selectedNames = new ArrayList<>();
+                        if (selectedUsers.size() > 1 && selectedUsers.size() < 7) {
+                            selectedUserIds = new ArrayList<>();
+                            selectedNames = new ArrayList<>();
 
-                                                    for (EventPalModel model : selectedUsers) {
-                                                        selectedUserIds.add(model.getUserID());
-                                                        selectedNames.add(model.getName());
-                                                    }
-
-                                                    getActivity().runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            if (!selectedUserIds.contains(userID))
-                                                                selectedUserIds.add(userID);
-
-                                                            Log.d(TAG, "run2: " + selectedUserIds);
-                                                            showSelectedNames();
-                                                        }
-                                                    });
-                                                }
-                                            }).start();
-                                        } else if (selectedUsers.size() < 2)
-                                            Toast.makeText(getContext(), "Select more than 1 member", Toast.LENGTH_SHORT).show();
-                                        else
-                                            Toast.makeText(getContext(), "Cannot add more than 6 members", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
+                            for (EventPalModel model : selectedUsers) {
+                                selectedUserIds.add(model.getUserID());
+                                selectedNames.add(model.getName());
                             }
-                        }).start();
+
+                            selectedUserIds.add(userID);
+
+                            showSelectedNames();
+                        } else if (selectedUsers.size() < 2) {
+                            Toast.makeText(getContext(), "Select more than 1 member", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(getContext(), "Cannot add more than 6 members", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Select a team image", Toast.LENGTH_SHORT).show();
                     }
@@ -181,27 +175,13 @@ public class CreateTeamFragment extends Fragment {
             }
         });
 
-
-        /*binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                search(newText);
-                return false;
-            }
-        });*/
-
         return view;
     }
 
     private void showSelectedNames() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Create new team?");
-        builder.setMessage("Team Name: " + binding.etTeamName.getText().toString().trim() + "\nSelected Names:");
+        builder.setMessage("Team Name: " + binding.etTeamName.getText().toString().trim() + "\n\nSelected Members");
         ViewmembersAlertLayoutBinding viewmembersAlertLayoutBinding = ViewmembersAlertLayoutBinding.inflate(getLayoutInflater());
         View view = viewmembersAlertLayoutBinding.getRoot();
         memberNameListView = viewmembersAlertLayoutBinding.membersListView;
@@ -238,6 +218,32 @@ public class CreateTeamFragment extends Fragment {
         adapter = new CreateTeamUserListAdapter(options, getContext());
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+    }
+
+    private void initNewData() {
+        mList = new ArrayList<>();
+        collectionReference.orderBy(constant.getUserNameField()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mList.clear();
+
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    EventPalModel model = snapshot.toObject(EventPalModel.class);
+                    if (!model.getUserID().equals(userID) && (model.getPhoto() != null))
+                        mList.add(model);
+                }
+                initNewRecyclerView();
+            }
+        });
+    }
+
+    private void initNewRecyclerView() {
+        RecyclerView recyclerView = binding.createTeamRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+
+        createTeamAdapter = new CreateTeamAdapter(getContext(), mList, binding);
+        recyclerView.setAdapter(createTeamAdapter);
     }
 
     private void uploadPhoto() {
@@ -328,10 +334,8 @@ public class CreateTeamFragment extends Fragment {
                         binding.progressBar.setVisibility(View.GONE);
                         binding.btnCreateTeam.setVisibility(View.VISIBLE);
 
-                        for(String uid:teamMembers)
-                        {
-                            if(!uid.equals(userID))
-                            {
+                        for (String uid : teamMembers) {
+                            if (!uid.equals(userID)) {
                                 firestoreDB.collection("token").document(uid).get().addOnCompleteListener(work -> {
                                     if (work.isSuccessful()) {
                                         DocumentSnapshot document = work.getResult();
@@ -359,18 +363,6 @@ public class CreateTeamFragment extends Fragment {
             }
         });
     }
-
-
-    /*private void search(String newText) {
-        Query teamUserSearchQuery = collectionReference.orderBy(constant.getUserNameField())
-                .whereGreaterThanOrEqualTo(constant.getUserNameField(), newText);
-
-        options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
-                .setQuery(teamUserSearchQuery, EventPalModel.class)
-                .build();
-
-        initRecyclerView();
-    }*/
 
     private void pickImage() {
         Intent intent = new Intent();
@@ -435,12 +427,11 @@ public class CreateTeamFragment extends Fragment {
         });
     }
 
-    public void sendfcm(String token)
-    {
+    public void sendfcm(String token) {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,"{\n" +
+            RequestBody body = RequestBody.create(JSON, "{\n" +
                     "    \"notification\":{\n" +
                     "      \"title\":\"Team\",\n" +
                     "      \"body\":\"You are added on a new TEAM\"\n" +
@@ -448,7 +439,7 @@ public class CreateTeamFragment extends Fragment {
                     "    \"data\" : {\n" +
                     "      \"category\" : \"team\",\n" +
                     "    },\n" +
-                    "    \"to\":\""+token+"\"\n" +
+                    "    \"to\":\"" + token + "\"\n" +
                     "}");
             Request request = new Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")
@@ -458,7 +449,7 @@ public class CreateTeamFragment extends Fragment {
                     .build();
             try {
                 Response response = client.newCall(request).execute();
-                Log.d("response",response.toString());
+                Log.d("response", response.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -8,15 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.StartupBBSR.competo.Adapters.CreateTeamAdapter;
 import com.StartupBBSR.competo.Adapters.CreateTeamUserListAdapter;
 import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.TeamAddMemberBottomsheetLayoutBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,12 +37,15 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
     private TeamAddMemberBottomsheetLayoutBinding binding;
     private Context context;
     private List<String> memberIds;
+    private List<EventPalModel> mList;
 
     private FirebaseFirestore firestoreDB;
+    private FirebaseAuth firebaseAuth;
+    private String userID;
     private Constant constant;
 
     private CollectionReference collectionReference;
-    private CreateTeamUserListAdapter adapter;
+    private CreateTeamAdapter adapter;
     private FirestoreRecyclerOptions<EventPalModel> options;
 
     public static final String TAG = "addTeam";
@@ -67,6 +75,8 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
         View view = binding.getRoot();
 
         firestoreDB = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getUid();
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getUsers());
 
@@ -110,12 +120,24 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
     }
 
     private void initData() {
-        Query query = collectionReference.orderBy(constant.getUserIdField()).whereNotIn(constant.getUserIdField(), memberIds);
-        options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
-                .setQuery(query, EventPalModel.class)
-                .build();
+        mList = new ArrayList<>();
+        collectionReference.orderBy(constant.getUserNameField()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mList.clear();
 
-        initRecyclerView();
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    EventPalModel model = snapshot.toObject(EventPalModel.class);
+
+                    if (!memberIds.contains(model.getUserID())) {
+                        if (model.getPhoto() != null) {
+                            mList.add(model);
+                        }
+                    }
+                }
+                initRecyclerView();
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -123,9 +145,8 @@ public class AddTeamBottomSheetDialog extends BottomSheetDialogFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new CreateTeamUserListAdapter(options, context);
+        adapter = new CreateTeamAdapter(context, mList, binding);
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
     }
 
     @Override

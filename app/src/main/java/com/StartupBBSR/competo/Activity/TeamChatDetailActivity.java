@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -226,9 +227,9 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
 
 
 //        Setting the menu.
-        /*if (teamCreatorID.equals(userID)) {
+        if (teamCreatorID.equals(userID)) {
             binding.toolbar2.getMenu().add(Menu.NONE, 1, Menu.NONE, "Add Members");
-        }*/
+        }
 
         binding.toolbar2.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -242,17 +243,16 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                         exitTeam();
                         return true;
 
-                    /*case 1:
+                    case 1:
                         addMembers();
-                        return true;*/
+                        return true;
+
                     default:
                         return false;
                 }
             }
         });
 
-        /*initData();
-        initRecyclerview();*/
         initNewRecycler();
         getMembers();
     }
@@ -287,27 +287,6 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             }
         });
     }
-
-
-/*
-=======
-
->>>>>>> 7a78d6751741877d074c1733914e8093e72f5657
-    private void initData() {
-        Query query = collectionReference.orderBy("timestamp");
-        options = new FirestoreRecyclerOptions.Builder<TeamMessageModel>()
-                .setQuery(query, TeamMessageModel.class)
-                .build();
-    }
-
-    private void initRecyclerview() {
-        RecyclerView chatRecyclerView = binding.teamChatRecyclerView;
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        chatRecyclerView.setHasFixedSize(true);
-        adapter = new TeamChatAdapter(options, this);
-        chatRecyclerView.setAdapter(adapter);
-    }
-*/
 
     private void initNewRecycler() {
         recyclerView = binding.teamChatRecyclerView;
@@ -468,12 +447,12 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot snapshot = task.getResult();
-                List<String> membersIDs = (List<String>) snapshot.get("teamMembers");
+                List<String> membersIDs = (List<String>) snapshot.get(constant.getTeamMemberField());
                 Log.d(TAG, "onComplete: " + membersIDs);
                 dialog.dismiss();
 
 
-                if (membersIDs.size() < 6) {
+                if (membersIDs.size() < 7) {
                     addTeamBottomSheetDialog = new AddTeamBottomSheetDialog(TeamChatDetailActivity.this, membersIDs);
                     addTeamBottomSheetDialog.show(getSupportFragmentManager(), "AddMemberBottomSheet");
                 } else {

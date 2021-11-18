@@ -48,6 +48,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/createTeamRecyclerView"
             android:layout_width="0dp"
@@ -55,12 +56,33 @@
             android:layout_margin="@dimen/grid_2x"
             android:paddingTop="@dimen/grid_2x"
             android:paddingBottom="@dimen/grid_3x"
+            android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TILTeamName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTeamTally"
             tools:listitem="@layout/create_team_user_item" />
 
+        <TextView
+            android:id="@+id/tvTeamTally"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/6"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvClearAll" />
+
+        <TextView
+            android:id="@+id/tvClearAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1x"
+            android:layout_marginEnd="@dimen/grid_1x"
+            android:text="Clear all"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="@+id/TILTeamName"
+            app:layout_constraintTop_toBottomOf="@+id/TILTeamName" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/btn_create_team"

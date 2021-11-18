@@ -33,8 +33,23 @@ with people sharing the same interests or the required skill set for students, y
 and organizations.</string>
 
 
+    <string name="title_activity_settings">SettingsActivity</string>
 
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
 
+    <!-- Preference Titles -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Messages Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+
+    <!-- Sync Preferences -->
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string-array name="FilterChips">
         <item>Web Development</item>
         <item>Social Science</item>
@@ -80,7 +95,6 @@ and organizations.</string>
         <item>Law</item>
         <item>Modelling</item>
     </string-array>
-
     <string-array name="eventTags">
         <item>Technical</item>
         <item>Design</item>
@@ -91,9 +105,6 @@ and organizations.</string>
         <item>Art and Crafts</item>
         <item>Cultural</item>
     </string-array>
-
-
-
 
 
 </resources>

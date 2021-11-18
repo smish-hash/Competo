@@ -95,8 +95,8 @@
             android:layout_marginLeft="@dimen/grid_1x"
             android:layout_marginRight="@dimen/grid_1x"
             android:layout_marginBottom="@dimen/grid_1x"
-            android:elevation="10dp"
-            app:cardCornerRadius="10dp"
+            android:elevation="@dimen/radius_10"
+            app:cardCornerRadius="@dimen/radius_10"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">

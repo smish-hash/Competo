@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.StartupBBSR.competo.Models.MessageModel;
 import com.StartupBBSR.competo.databinding.ReceiverTextItemBinding;
 import com.StartupBBSR.competo.databinding.SenderTextItemBinding;
+import com.StartupBBSR.competo.databinding.TeamMemberAddedItemBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,7 +31,7 @@ public class NewChatAdapter extends RecyclerView.Adapter {
     private Context context;
     private FirebaseUser fUser;
 
-    private int SENDER_VIEW_TYPE = 1, RECEIVER_VIEW_TYPE = 2;
+    private int SENDER_VIEW_TYPE = 1, RECEIVER_VIEW_TYPE = 2, MEMBER_ADDED_VIEW_TYPE = 3;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yy KK:mm a", Locale.US);
 
     private List<MessageModel> mMessage;

@@ -9,13 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddMembers"
             android:layout_width="72dp"
             android:layout_height="48dp"
             android:layout_margin="@dimen/grid_3x"
             android:background="@drawable/button_round_shape"
+            android:backgroundTint="@color/ui_blue"
             android:text="Add"
+            android:textColor="@color/light_white"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,6 +39,7 @@
             android:layout_height="450dp"
             android:layout_marginStart="@dimen/grid_2x"
             android:layout_marginEnd="@dimen/grid_2x"
+            android:fillViewport="true"
             android:layout_marginBottom="@dimen/grid_2x"
             android:layout_marginTop="@dimen/grid_3x"
             app:layout_constraintBottom_toBottomOf="parent"
