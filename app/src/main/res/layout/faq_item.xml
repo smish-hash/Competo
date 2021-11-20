@@ -7,7 +7,7 @@
     app:cardCornerRadius="@dimen/grid_1x"
     app:cardElevation="@dimen/grid_1x"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#f2f2f2"
+    app:cardBackgroundColor="@color/greyToDarkgrey"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -20,9 +20,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_about_question"
             android:text="What is teamos?"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:padding="@dimen/grid_2x"
-            android:fontFamily="@font/palanquin_semibold"
             android:textColor="@color/ui_blue"/>
 
         <RelativeLayout
@@ -34,13 +33,13 @@
                 android:id="@+id/tv_about_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
                 android:paddingStart="@dimen/grid_2x"
                 android:paddingEnd="@dimen/grid_2x"
-                android:visibility="gone"
                 android:paddingBottom="@dimen/grid_2x"
                 android:text="Teamos is a platform that can enable people to connect with others."
-                android:textColor="#6B6B6B"
-                android:textSize="13sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
 
 

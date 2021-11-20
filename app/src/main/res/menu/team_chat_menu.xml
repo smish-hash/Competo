@@ -3,10 +3,12 @@
 
     <item
         android:id="@+id/viewMembers"
-        android:title="View Members" />
+        android:title="View Members"
+        android:iconTint="@color/text_gray"/>
 
     <item
         android:id="@+id/exitTeam"
-        android:title="Exit Team"/>
+        android:title="Exit Team"
+        android:iconTint="@color/text_gray" />
 
 </menu>

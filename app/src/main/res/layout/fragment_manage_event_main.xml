@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/accent_blue"
+    android:background="@color/main_background"
     tools:context=".Fragments.ManageEventMainFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,14 +16,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
+            android:background="@color/chat_background_color"
             android:layout_width="match_parent"
+            app:titleTextColor="@color/text_gray"
             android:layout_height="?actionBarSize"
-            android:background="@color/accent_blue"
             app:menu="@menu/manage_event_menu"
-            app:navigationIcon="@drawable/ic_baseline_keyboard_arrow_left_24"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:title="Manage Events" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,14 +42,13 @@
         android:id="@+id/manageEventTabLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/accent_blue"
+        app:tabBackground="@color/chat_background_color"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tabIndicator="@color/main_background"
         app:tabTextAppearance="@style/ProfileCustomTabText"
-        app:tabTextColor="@color/white">
+        app:tabTextColor="@color/text_gray">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

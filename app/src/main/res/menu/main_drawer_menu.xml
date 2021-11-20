@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_logOut"
-        android:title="Log Out"
-        android:icon="@drawable/ic_baseline_login_24"/>
+        android:icon="@drawable/ic_baseline_login_24"
+        android:title="Log Out" />
 
     <item
         android:id="@+id/menu_addEvent"
-        android:title="Manage Events"
-        android:icon="@drawable/ic_baseline_manage_24"/>
+        android:icon="@drawable/ic_baseline_manage_24"
+        android:title="Manage Events" />
 
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
 
-    <group
-        android:id="@+id/About">
-        <item
-            android:title="More">
+    <group android:id="@+id/About">
+        <item android:title="More">
             <menu>
                 <item
                     android:id="@+id/menu_faq"
-                    android:title="FAQs"
-                    android:icon="@drawable/ic_baseline_faq_24"/>
+                    android:icon="@drawable/ic_baseline_faq_24"
+                    android:title="FAQs" />
 
                 <item
                     android:id="@+id/menu_about_us"
-                    android:title="About Us"
-                    android:icon="@drawable/ic_baseline_info_24"/>
+                    android:icon="@drawable/ic_baseline_info_24"
+                    android:title="About Us" />
 
             </menu>
         </item>

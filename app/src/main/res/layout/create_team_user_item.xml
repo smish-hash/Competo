@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/grid_1x"
             android:layout_marginRight="@dimen/grid_1x"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/userCheckBox"
             app:layout_constraintStart_toEndOf="@+id/userImage"

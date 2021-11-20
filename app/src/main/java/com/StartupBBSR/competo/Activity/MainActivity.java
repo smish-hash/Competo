@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 
@@ -91,6 +92,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -107,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private NavigationView navigationView;
     private View header;
-    private NavHostFragment navHostFragment;
     private BottomNavigationView bottomNavigationView;
 
     private DocumentReference documentReference;
@@ -132,12 +133,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private InboxNewFragment inboxNewFragment;
     private EventPalFragment eventPalFragment;
 
-    private AlarmManager alarmManager;
-
-    private PendingIntent pendingIntent;
-
     private AlertDialog.Builder builder1;
     private AlertDialog.Builder builder2;
+
+
+    private SharedPreferences sharedPreferences;
+    private String theme;
 
 
     @Override
@@ -154,13 +155,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
 //        Disable night mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        theme = sharedPreferences.getString("THEME", "1");
+
+        if (theme.equals("1")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (theme.equals("2")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
 
         FirebaseMessaging.getInstance().subscribeToTopic("Event")
                 .addOnCompleteListener(task -> {
@@ -210,9 +222,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         float radius = getResources().getDimension(R.dimen.radius_10);
         MaterialShapeDrawable materialShapeDrawable = (MaterialShapeDrawable) navigationView.getBackground();
         materialShapeDrawable.setShapeAppearanceModel(materialShapeDrawable.getShapeAppearanceModel()
-        .toBuilder().setTopRightCorner(CornerFamily.ROUNDED, radius)
-        .setBottomRightCorner(CornerFamily.ROUNDED, radius)
-        .build());
+                .toBuilder().setTopRightCorner(CornerFamily.ROUNDED, radius)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+                .build());
 
 //        Bottom Navigation bar
         bottomNavigationView = activityMainBinding.bottomNavBar;
@@ -250,9 +262,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         feedFragment = new FeedFragment();
         eventFragment = new EventFragment();
         inboxNewFragment = new InboxNewFragment();
-
-        navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
 
 
         activityMainBinding.btnTeamFinder.setOnClickListener(new View.OnClickListener() {
@@ -316,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("fragment test","passed_event");
                 onViewAllEventsClick();
             }
-        }*/// TODO: 28-10-2021 abhi karna he 
+        }*/// TODO: 28-10-2021 abhi karna he
 
     }
 
@@ -490,6 +499,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }).show();
         }
+        else if (id == R.id.settings)
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
         else if (id == R.id.menu_addEvent)
             startActivity(new Intent(MainActivity.this, ManageEventActivity.class));
@@ -590,4 +601,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         documentReference.update("status", status);
     }
 
-    }
+}

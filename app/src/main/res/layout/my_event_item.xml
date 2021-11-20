@@ -60,6 +60,7 @@
                     android:maxLines="1"
                     android:textAllCaps="true"
                     android:text="DEC"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -73,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_gravity="start"
         android:layout_marginStart="@dimen/grid_2x"
-        android:textColor="@color/black"
+        android:textColor="@color/text_gray"
         android:paddingBottom="@dimen/grid_1x"
         style="@style/TextAppearance.AppCompat.Small"
         android:maxLines="2"

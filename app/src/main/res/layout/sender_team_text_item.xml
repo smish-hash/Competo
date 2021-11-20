@@ -30,7 +30,7 @@
             android:paddingEnd="@dimen/grid_1x"
             android:paddingStart="@dimen/grid_2x"
             android:text="Sent Message"
-            android:textColor="@color/white"
+            android:textColor="@color/white_ui"
             android:textColorLink="@color/onboarding_pink"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"

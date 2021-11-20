@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">Teamos</string>
+
+
+    <string name="facebook_app_id">299720761533766</string>
+    <string name="fb_login_protocol_scheme">fb299720761533766</string>
+
+
+    <string name="inbox">Inbox</string>
+    <string name="event_pal">Event Pal</string>
+    <string name="team_finder">Team Finder</string>
+    <string name="events">Events</string>
+    <string name="feed">Feed</string>
+    <string name="user_activity">User Activity</string>
+    <string name="logout">LogOut</string>
+    <string name="conversation">conversations</string>
+    <string name="message_request">Message Request</string>
+    <string name="more">more</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Team_finder">Team Finder</string>
+
+    <string name="AboutUsMission">Mission</string>
+    <string name="AboutUsMissionDetail">Our mission is to provide each person with the platform for the selection of teams so
+that the lack of options never impairs their growth.</string>
+    <string name="AboutUsAbout">About</string>
+    <string name="AboutUsAboutDetail">Teamos is an ideal platform to help you find the right teammate based on your
+required skill set, for an event, a project, or a startup from a vast community of students and
+startup enthusiasts.</string>
+    <string name="AboutUsVision">Vision</string>
+    <string name="AboutUsVisionDetail">Teamos aims at developing a community that provides a perfect platform to form teams
+with people sharing the same interests or the required skill set for students, young entrepreneurs,
+and organizations.</string>
+
+
+
+
+    <string-array name="FilterChips">
+        <item>Web Development</item>
+        <item>Social Science</item>
+        <item>Marketing</item>
+        <item>App Development</item>
+        <item>UI/UX</item>
+        <item>Coder</item>
+        <item>Hackathon</item>
+        <item>Photowalk</item>
+        <item>HR</item>
+        <item>Workshop</item>
+        <item>AI</item>
+        <item>Robotics</item>
+        <item>Content Writing</item>
+        <item>Graphic Designer</item>
+        <item>Video Editor</item>
+        <item>Photo Editor</item>
+        <item>Virtual Reality</item>
+        <item>Machine Learning</item>
+        <item>Data Science</item>
+        <item>IoT</item>
+        <item>Problem Solving</item>
+        <item>Event Planning</item>
+        <item>Logo Design</item>
+        <item>Strategy</item>
+        <item>Backend Development</item>
+        <item>Operation Management</item>
+        <item>Management</item>
+        <item>Leadership</item>
+        <item>HOD</item>
+        <item>Cloud Computing</item>
+        <item>Cyber Security</item>
+        <item>Communication</item>
+        <item>Public Speaking</item>
+        <item>Architecture</item>
+        <item>SEO</item>
+        <item>Aeronautical</item>
+        <item>Finance</item>
+        <item>Business</item>
+        <item>Sales</item>
+        <item>Social Service</item>
+        <item>Gaming</item>
+        <item>Law</item>
+        <item>Modelling</item>
+    </string-array>
+
+    <string-array name="eventTags">
+        <item>Technical</item>
+        <item>Design</item>
+        <item>Public Speaking</item>
+        <item>School Student</item>
+        <item>Entrepreneurial</item>
+        <item>Vocabulary</item>
+        <item>Art and Crafts</item>
+        <item>Cultural</item>
+    </string-array>
+
+    <string-array name="theme_types">
+
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System Default</item>
+
+    </string-array>
+
+    <string-array name="theme_types_values">
+
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+
+    </string-array>
+
+
+
+
+
+</resources>

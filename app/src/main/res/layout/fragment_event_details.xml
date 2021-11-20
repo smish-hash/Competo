@@ -152,7 +152,7 @@
                     android:layout_marginEnd="@dimen/grid_2x"
                     android:layout_marginTop="@dimen/grid_2x"
                     android:text="About"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_gray"
                     android:textSize="18sp" />
 
 
@@ -170,7 +170,7 @@
                     android:maxLength="325"
                     android:minHeight="115dp"
                     android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
-                    android:textColor="@color/dark_grey" />
+                    android:textColor="@color/text_dark_gray" />
 
 
                 <androidx.recyclerview.widget.RecyclerView

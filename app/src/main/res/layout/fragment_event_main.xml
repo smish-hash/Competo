@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecf0F3"
     tools:context=".Fragments.EventMainFragment">
 
     <ImageView
         android:id="@+id/btnEventFilter"
-        android:layout_width="@dimen/grid_4x"
-        android:layout_height="@dimen/grid_4x"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="@dimen/grid_3x"
         android:contentDescription="Filter Events"
         android:src="@drawable/ic_baseline_filter_list_24"
-        app:tint = "@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/searchView" />
+        app:layout_constraintTop_toTopOf="@+id/searchView"
+        app:tint="@color/text_gray" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"

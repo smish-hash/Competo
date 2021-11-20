@@ -30,7 +30,7 @@
                 android:layout_marginTop="@dimen/grid_1x"
                 android:fontFamily="sans-serif-medium"
                 android:text="Name"
-                android:textColor="@color/black"
+                android:textColor="@color/text_gray"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/chat_user_status"
                 app:layout_constraintStart_toEndOf="@+id/chat_user_image"
@@ -53,8 +53,8 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
                 android:background="?selectableItemBackground"
                 android:backgroundTint="@color/transparent"
                 android:src="@drawable/ic_baseline_arrow_back_24"
@@ -103,7 +103,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/greyToDarkgrey">
 
 
                 <EditText
@@ -114,12 +115,12 @@
                     android:background="@drawable/rounded_tv_background"
                     android:ems="10"
                     android:hint="Type Something..."
+                    android:backgroundTint="@color/greyToDarkgrey"
                     android:inputType="textMultiLine|textLongMessage|textAutoComplete|textAutoCorrect|textCapSentences"
                     android:maxHeight="135dp"
                     android:maxLength="200"
                     android:padding="12dp"
                     android:scrollbars="vertical"
-                    android:textColor="@color/black"
                     android:textColorHint="#adadad"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnSendChat"

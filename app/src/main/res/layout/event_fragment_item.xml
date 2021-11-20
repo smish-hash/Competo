@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:neumorph_shapeType="flat"
+    app:neumorph_backgroundColor="@color/neumorph_bgcolor"
+    app:neumorph_shadowColorDark="@color/neumorph_shadowColorDark"
+    app:neumorph_shadowColorLight="@color/neumorph_shadowColoright"
     app:neumorph_shadowElevation="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -20,6 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:neumorph_shapeType="basin"
+            app:neumorph_backgroundColor="@color/neumorph_bgcolor"
+            app:neumorph_shadowColorDark="@color/neumorph_shadowColorDark"
+            app:neumorph_shadowColorLight="@color/neumorph_shadowColoright"
             android:layout_gravity="center"
             android:layout_margin="@dimen/grid_2x"
             app:cardCornerRadius="10dp"
@@ -70,6 +76,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:text="SEP"
+                        android:textColor="@color/black"
                         android:textAllCaps="true"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -92,7 +99,7 @@
             android:maxLines="2"
             android:paddingBottom="@dimen/grid_1x"
             android:text="Iron Man"
-            android:textColor="@color/black" />
+            android:textColor="@color/text_gray" />
 
     </LinearLayout>
 </soup.neumorphism.NeumorphCardView>

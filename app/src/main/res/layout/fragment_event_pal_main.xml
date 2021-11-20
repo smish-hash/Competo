@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F1F1"
     tools:context=".Fragments.EventPalMainFragment">
 
     <androidx.appcompat.widget.SearchView
@@ -29,7 +28,7 @@
         android:layout_height="@dimen/grid_4x"
         android:layout_marginEnd="@dimen/grid_3x"
         android:src="@drawable/ic_baseline_filter_list_24"
-        app:tint = "@color/black"
+        app:tint = "@color/text_gray"
         app:layout_constraintBottom_toBottomOf="@+id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchView" />

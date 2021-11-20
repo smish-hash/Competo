@@ -40,7 +40,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/black"
+            android:textColor="@color/text_gray"
             app:layout_constraintEnd_toStartOf="@+id/cvImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +52,7 @@
             android:fontFamily="@font/palanquin_semibold"
             android:layout_marginStart="@dimen/grid_3x"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="#808080"
+            android:textColor="@color/text_dark_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFeedHello" />
 
@@ -103,7 +103,8 @@
             android:layout_width="0dp"
             android:layout_height="250dp"
             app:neumorph_shapeType="basin"
-            app:neumorph_shadowColorDark="@color/accent_gray"
+            app:neumorph_shadowColorDark="@color/chat_background_color"
+            app:neumorph_shadowColorLight="@color/chat_background_color"
             app:neumorph_shadowElevation="6dp"
             app:neumorph_inset="12dp"
             app:neumorph_insetStart="12dp"
@@ -129,7 +130,7 @@
                 android:fontFamily="@font/palanquin_semibold"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:textAllCaps="false"
-                android:textColor="@color/ui_light_blue" />
+                android:textColor="@color/Explore" />
 
             <ImageView
                 android:id="@+id/cvPosterImage"

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/grid_2x"
-    android:backgroundTint="@color/light_white"
-    app:cardCornerRadius="10dp"
+    android:backgroundTint="@color/greyToDarkgrey"
+    app:cardCornerRadius="@dimen/radius_10"
     app:cardElevation="@dimen/grid_1x">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,9 +45,9 @@
             android:layout_marginTop="@dimen/grid_2x"
             android:layout_marginEnd="@dimen/grid_3x"
             android:ellipsize="end"
+            android:text="Name"
             android:fontFamily="sans-serif"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivSenderImage"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +61,6 @@
             android:layout_marginEnd="@dimen/grid_3x"
             android:fontFamily="sans-serif-condensed"
             android:text="Messages"
-            android:textColor="@color/text_dark_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivSenderImage"
             app:layout_constraintTop_toBottomOf="@+id/tvSenderName" />
@@ -74,7 +73,6 @@
             android:layout_marginEnd="@dimen/grid_2x"
             android:fontFamily="sans-serif-condensed"
             android:text="12:35 PM"
-            android:textColor="@color/text_dark_gray"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSenderMessage" />

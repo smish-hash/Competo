@@ -27,6 +27,7 @@
             android:paddingEnd="@dimen/grid_1x"
             android:text="Sender Name"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            android:textColor="@color/text_gray"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="parent" />

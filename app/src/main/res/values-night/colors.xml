@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#33B5E5</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#292D32</color>
+    <color name="light_white">#F8F8F8</color>
+    <color name="white_ui">#FFFFFF</color>
+    <color name="chat_background_color">#292D32</color>
+    <color name="neumorph_bgcolor">#292D32</color>
+    <color name="neumorph_shadowColorDark">#30343A</color>
+    <color name="neumorph_shadowColoright">#30343A</color>
+    <color name="Explore">#FFFFFF</color>
+    <color name="Message_bg">#3c3c3e</color>
+
+
+
+
+    <color name="dark_grey">#777777</color>
+    <color name="transparent_grey">#70CCCCCC</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="shadow_color">#cadddddd</color>
+
+    <color name="blue">#00B8D4</color>
+    <color name="faded_blue">#C5E1E4</color>
+    <color name="faded_light_blue">#F6F9FA</color>
+    <color name="light_blue">#0091EA</color>
+    <color name="background_blue">#1868A6</color>
+
+    <color name="onboarding_blue">#33B5E5</color>
+    <color name="onboarding_pink">#E31A74</color>
+    <color name="onboarding_green">#12BFA8</color>
+
+
+    <color name="main_background">#292D32</color>
+    <color name="main_background2">#34373F</color>
+    <color name="accent_gray">#c4cbcc</color>
+    <color name="accent_blue">#5991FB</color>
+    <color name="ui_light_blue">#33B5E5</color>
+    <color name="ui_blue">#007BFF</color>
+    <color name="text_gray">#FFFFFF</color>
+    <color name="text_dark_gray">#ADADAD</color>
+
+
+    <color name="main_accent_1">#264757</color>
+    <color name="main_accent_2">#303F47</color>
+
+    <color name="greyToDarkgrey">#454545</color>
+
+</resources>

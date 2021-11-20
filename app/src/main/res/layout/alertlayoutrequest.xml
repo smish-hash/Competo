@@ -24,7 +24,7 @@
             android:maxLength="100"
             android:maxHeight="130dp"
             android:hint="Enter Request Message"
-            android:textColor="@color/black"
+            android:textColor="@color/text_gray"
             android:maxLines="10"
             android:scrollbars="vertical"
             android:inputType="textMultiLine|textCapSentences|textAutoComplete|textAutoCorrect|textLongMessage" />

@@ -81,7 +81,7 @@ import java.util.regex.Pattern;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //        Disable nightmode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         activitySignUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(activitySignUpBinding.getRoot());
