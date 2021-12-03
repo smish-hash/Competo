@@ -166,9 +166,6 @@
                     android:layout_marginTop="@dimen/grid_1x"
                     android:background="@drawable/rounded_tv_background"
                     android:backgroundTint="@color/main_background2"
-                    android:lineHeight="20dp"
-                    android:maxLength="325"
-                    android:minHeight="115dp"
                     android:text="This is example of a long description. This is used to test how some descriptions of events can possibly look like"
                     android:textColor="@color/text_dark_gray" />
 
