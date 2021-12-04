@@ -185,30 +185,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
 
         FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("token failed", "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
-                        else
-                        {
-                            // Get new FCM registration token
-                            String token = task.getResult();
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("token failed", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    else
+                    {
+                        // Get new FCM registration token
+                        String token = task.getResult();
 
-                            // Log and toast
-                            Log.d("token success", token);
-                            //sendfcm(token);
+                        // Log and toast
+                        Log.d("token success", token);
+                        //sendfcm(token);
 
-                            Map<String, Object> fcmtoken = new HashMap<>();
-                            fcmtoken.put("token", token);
+                        Map<String, Object> fcmtoken = new HashMap<>();
+                        fcmtoken.put("token", token);
 
-                            firestoreDB.collection("token").document(firebaseAuth.getUid())
-                                    .set(fcmtoken)
-                                    .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> Log.d("token uploading", "DocumentSnapshot successfully written!"))
-                                    .addOnFailureListener((OnFailureListener) e -> Log.w("token uploading", "Error writing document", e));
-                        }
+                        firestoreDB.collection("token").document(firebaseAuth.getUid())
+                                .set(fcmtoken)
+                                .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> Log.d("token uploading", "DocumentSnapshot successfully written!"))
+                                .addOnFailureListener((OnFailureListener) e -> Log.w("token uploading", "Error writing document", e));
                     }
                 });
 
