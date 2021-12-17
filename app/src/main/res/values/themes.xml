@@ -13,7 +13,10 @@
         <item name="android:statusBarColor" tools:targetApi="l"> #EBEEF5</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
+
     </style>
+
+
 
     <style name="SwitchTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorControlActivated">#1868A6</item>

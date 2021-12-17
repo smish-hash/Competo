@@ -174,41 +174,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("Event")
-                .addOnCompleteListener(task -> {
-                    String msg = "Success";
-                    Log.d("subscribe success", "token");
-                    if (!task.isSuccessful()) {
-                        msg = "Failed";
-                        Log.d("subscribe failed", "token");
-                    }
-                });
+        Runnable runnable1 = new Runnable() {
+            @Override
+            public void run() {
+                FirebaseMessaging.getInstance().subscribeToTopic("Event")
+                        .addOnCompleteListener(task -> {
+                            String msg = "Success";
+                            Log.d("subscribe success", "token");
+                            if (!task.isSuccessful()) {
+                                msg = "Failed";
+                                Log.d("subscribe failed", "token");
+                            }
+                        });
+            }
+        };
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w("token failed", "Fetching FCM registration token failed", task.getException());
-                        return;
-                    }
-                    else
-                    {
-                        // Get new FCM registration token
-                        String token = task.getResult();
+        Thread thread1 = new Thread(runnable1);
+        thread1.start();
 
-                        // Log and toast
-                        Log.d("token success", token);
-                        //sendfcm(token);
+        Runnable runnable2 = new Runnable() {
+            @Override
+            public void run() {
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                Log.w("token failed", "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            else
+                            {
+                                // Get new FCM registration token
+                                String token = task.getResult();
 
-                        Map<String, Object> fcmtoken = new HashMap<>();
-                        fcmtoken.put("token", token);
+                                // Log and toast
+                                Log.d("token success", token);
 
-                        firestoreDB.collection("token").document(firebaseAuth.getUid())
-                                .set(fcmtoken)
-                                .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> Log.d("token uploading", "DocumentSnapshot successfully written!"))
-                                .addOnFailureListener((OnFailureListener) e -> Log.w("token uploading", "Error writing document", e));
-                    }
-                });
+                                Map<String, Object> fcmtoken = new HashMap<>();
+                                fcmtoken.put("token", token);
 
+                                firestoreDB.collection("token").document(firebaseAuth.getUid())
+                                        .set(fcmtoken)
+                                        .addOnSuccessListener((OnSuccessListener<Void>) aVoid -> Log.d("token uploading", "DocumentSnapshot successfully written!"))
+                                        .addOnFailureListener((OnFailureListener) e -> Log.w("token uploading", "Error writing document", e));
+                            }
+                        });
+            }
+        };
+
+        Thread thread2 = new Thread(runnable2);
+        thread2.start();
 
         drawerLayout = activityMainBinding.drawer;
         navigationView = activityMainBinding.navView;
@@ -309,21 +323,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        /*Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            if(extras.getString("notification").equals("chat"))
-            {
-                Log.d("fragment test","passed_chat");
-                bottomNavigationView.setSelectedItemId(R.id.inboxNewFragment);
-                loadFragment(inboxNewFragment);
-            }
-            else if(extras.getString("notification").equals("event"))
-            {
-                Log.d("fragment test","passed_event");
-                onViewAllEventsClick();
-            }
-        }*/// TODO: 28-10-2021 abhi karna he
-
     }
 
     private void popupSnackbarForCompleteUpdate() {
@@ -338,7 +337,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         snackbar.show();
     }
 
-    public void sendfcm(String token)
+    // TODO : do not remove this commented section
+    /*public void sendfcm(String token)
     {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
@@ -368,12 +368,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         Thread thread = new Thread(runnable);
         thread.start();
-    }
+    }*/
 
     @Override
     protected void onStart() {
         super.onStart();
-//        Get Data when this activity starts
+        //Get Data when this activity starts
         getUserData();
         Log.d(testTAG, "onStart: ");
     }
@@ -381,87 +381,97 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getUserData() {
 
+        Runnable runnable3 = new Runnable() {
+            @Override
+            public void run() {
+
 //      get realtime data and store it in a class
-        Log.d(testTAG, "getUserData: ");
-        documentReference.addSnapshotListener(MainActivity.this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                Log.d(testTAG, "getUserData: ");
+                documentReference.addSnapshotListener(MainActivity.this, new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                if (error != null) {
-                    Log.d(TAG, "onEvent: " + error.toString());
-                    return;
-                }
+                        if (error != null) {
+                            Log.d(TAG, "onEvent: " + error.toString());
+                            return;
+                        }
 
-                if (value != null && value.exists()) {
-                    documentSnapshot = value;
-                    saveDataToClass();
-                    Log.d(TAG, "onEvent: " + value.getData());
-                }
-            }
-        });
-
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NotNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot alertSnapshot = task.getResult();
-                    int temp = 0;
-                    if (alertSnapshot.getString(constant.getUserPhotoField()) == null || alertSnapshot.getString(constant.getUserBioField()) == null) {
-                        Log.d(testTAG, "onCompleteAlert: Photo or bio null: " + alertSnapshot.getString(constant.getUserPhotoField()) + ", " + alertSnapshot.getString(constant.getUserBioField()));
-
-                        builder1.setTitle("Tell us a bit about yourself");
-                        builder1.setMessage("Let others know a bit about you\nAdd a photo and a bio to continue.\nA profile picture is necessary to make your profile visible to others.");
-                        builder1.setIcon(R.drawable.ic_baseline_settings_24);
-                        builder1.setCancelable(false);
-                        builder1.setPositiveButton("Go to my profile", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class).putExtra(constant.getUserModelObject(), userModel);
-                                startActivity(intent);
-                            }
-                        }).show();
-
-                        temp = 1;
+                        if (value != null && value.exists()) {
+                            documentSnapshot = value;
+                            saveDataToClass();
+                            Log.d(TAG, "onEvent: " + value.getData());
+                        }
                     }
+                });
 
-                    if (temp != 1 && (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()) == null) {
-                        Log.d(testTAG, "onCompleteAlert: Chips null: " + (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()));
-                        builder2.setTitle("Add your skills");
-                        builder2.setMessage("Add the skills most relevant to you\nTap on the 'Add skills' button in the profile page");
-                        builder2.setIcon(R.drawable.ic_baseline_settings_24);
-                        builder2.setCancelable(false);
-                        builder2.setPositiveButton("Add skills", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                loadFragment(profileFragment);
-                                dialogInterface.dismiss();
+
+                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NotNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot alertSnapshot = task.getResult();
+                            int temp = 0;
+                            if (alertSnapshot.getString(constant.getUserPhotoField()) == null || alertSnapshot.getString(constant.getUserBioField()) == null) {
+                                Log.d(testTAG, "onCompleteAlert: Photo or bio null: " + alertSnapshot.getString(constant.getUserPhotoField()) + ", " + alertSnapshot.getString(constant.getUserBioField()));
+
+                                builder1.setTitle("Tell us a bit about yourself");
+                                builder1.setMessage("Let others know a bit about you\nAdd a photo and a bio to continue.\nA profile picture is necessary to make your profile visible to others.");
+                                builder1.setIcon(R.drawable.ic_baseline_settings_24);
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("Go to my profile", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        Intent intent = new Intent(MainActivity.this, EditProfileActivity.class).putExtra(constant.getUserModelObject(), userModel);
+                                        startActivity(intent);
+                                    }
+                                }).show();
+
+                                temp = 1;
                             }
-                        }).show();
+
+                            if (temp != 1 && (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()) == null) {
+                                Log.d(testTAG, "onCompleteAlert: Chips null: " + (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()));
+                                builder2.setTitle("Add your skills");
+                                builder2.setMessage("Add the skills most relevant to you\nTap on the 'Add skills' button in the profile page");
+                                builder2.setIcon(R.drawable.ic_baseline_settings_24);
+                                builder2.setCancelable(false);
+                                builder2.setPositiveButton("Add skills", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        loadFragment(profileFragment);
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+                            }
+                        }
                     }
-                }
+                });
             }
-        });
+        };
+
+        Thread thread3 = new Thread(runnable3);
+        thread3.start();
     }
 
     private void saveDataToClass() {
-        getIntent().putExtra(constant.getUserModelObject(), userModel);
 
-        userModel.setUserName(documentSnapshot.getString(constant.getUserNameField()));
-        userModel.setUserEmail(documentSnapshot.getString(constant.getUserEmailField()));
-        userModel.setUserPhoto(documentSnapshot.getString(constant.getUserPhotoField()));
-        userModel.setUserBio(documentSnapshot.getString(constant.getUserBioField()));
-        userModel.setUserLinkedin(documentSnapshot.getString(constant.getUserLinkedinField()));
-        userModel.setUserPhone(documentSnapshot.getString(constant.getUserPhoneField()));
-        userModel.setUserRole(documentSnapshot.getString(constant.getUserisUserField()));
-        userModel.setOrganizerRole(documentSnapshot.getString(constant.getUserisOrganizerField()));
-        userModel.setUserChips((List<String>) documentSnapshot.get(constant.getUserInterestedChipsField()));
-        userModel.setUserID(documentSnapshot.getString(constant.getUserIdField()));
+            getIntent().putExtra(constant.getUserModelObject(), userModel);
 
-        Log.d(TAG, "saveDataToClass: " + userModel.getUserChips());
+            userModel.setUserName(documentSnapshot.getString(constant.getUserNameField()));
+            userModel.setUserEmail(documentSnapshot.getString(constant.getUserEmailField()));
+            userModel.setUserPhoto(documentSnapshot.getString(constant.getUserPhotoField()));
+            userModel.setUserBio(documentSnapshot.getString(constant.getUserBioField()));
+            userModel.setUserLinkedin(documentSnapshot.getString(constant.getUserLinkedinField()));
+            userModel.setUserPhone(documentSnapshot.getString(constant.getUserPhoneField()));
+            userModel.setUserRole(documentSnapshot.getString(constant.getUserisUserField()));
+            userModel.setOrganizerRole(documentSnapshot.getString(constant.getUserisOrganizerField()));
+            userModel.setUserChips((List<String>) documentSnapshot.get(constant.getUserInterestedChipsField()));
+            userModel.setUserID(documentSnapshot.getString(constant.getUserIdField()));
+            Log.d(TAG, "saveDataToClass: " + userModel.getUserChips());
 
-        checkRole();
-        updateHeader();
+            checkRole();
+            updateHeader();
     }
 
 
@@ -475,18 +485,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_logOut) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic("weather");
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Log Out");
             builder.setMessage("Are you sure you want to log out?");
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("Event");
                     logout();
                 }
             }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -573,10 +582,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void loadUsingGlide(String imgurl, ImageView imageView, int radius, int sampling) {
-        Glide.with(this).
-                load(imgurl).
-                apply(RequestOptions.bitmapTransform(new BlurTransformation(radius, sampling)))
-                .into(imageView);
+            Glide.with(this).
+                    load(imgurl).
+                    apply(RequestOptions.bitmapTransform(new BlurTransformation(radius, sampling)))
+                    .into(imageView);
     }
 
     @Override

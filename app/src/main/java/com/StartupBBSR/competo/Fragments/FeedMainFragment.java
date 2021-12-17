@@ -40,7 +40,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-
 public class FeedMainFragment extends Fragment {
     private FragmentFeedMainBinding binding;
     private EventFeedAdapter adapter;
@@ -66,7 +65,6 @@ public class FeedMainFragment extends Fragment {
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
 
-
         initGreetings();
         initData();
 
@@ -80,9 +78,6 @@ public class FeedMainFragment extends Fragment {
         binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.onClickViewAllEvents();*/
                 ((MainActivity) getActivity()).onViewAllEventsClick();
             }
         });
@@ -91,9 +86,6 @@ public class FeedMainFragment extends Fragment {
         binding.btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.findTeamMate();*/
                 ((MainActivity) getActivity()).onExploreClick();
             }
         });
@@ -168,23 +160,10 @@ public class FeedMainFragment extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
 
         RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
         snapHelper.attachToRecyclerView(recyclerView);
-
-
-/*        adapter = new EventFragmentAdapter(getContext(), options);
-        adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot snapshot) {
-                EventModel model = snapshot.toObject(EventModel.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("eventDetails", model);
-                bundle.putString("from", "feed");
-                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
-            }
-        });*/
 
         adapter = new EventFeedAdapter(getContext(), options);
         adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
@@ -215,7 +194,7 @@ public class FeedMainFragment extends Fragment {
     public void onStop() {
         super.onStop();
         if (adapter != null) {
-            adapter.stopListening();
+            //adapter.stopListening();
         }
     }
 

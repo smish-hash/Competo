@@ -128,6 +128,7 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
     private void initRecycler() {
         binding.eventRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         binding.eventRecyclerView.setHasFixedSize(true);
+        //binding.eventRecyclerView.setNestedScrollingEnabled(false);
         adapter = new EventFragmentAdapter(getContext(), options);
 
         adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
