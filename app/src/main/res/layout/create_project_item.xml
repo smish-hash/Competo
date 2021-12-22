@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnuploadpost"
+        android:layout_width="@dimen/standard_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/grid_3x"
+        android:background="@drawable/button_round_shape"
+        android:text="Upload Post"
+        android:textColor="@color/white_ui"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/editPostToolbar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/main_background2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="Create a Post"
+        app:titleTextColor="@color/text_gray" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/grid_3x"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/btnuploadpost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPostToolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etPostName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:backgroundTint="@color/text_dark_gray"
+                android:ems="10"
+                android:hint="Enter Title"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textMultiLine|textCapSentences|textAutoComplete|textAutoCorrect"
+                android:maxLines="2"
+                android:textColor="@color/text_gray"
+                android:textColorHint="@color/text_dark_gray"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView15"
+                app:layout_constraintBottom_toTopOf="@id/textView16"/>
+
+            <EditText
+                android:id="@+id/etPostTags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:backgroundTint="@color/accent_gray"
+                android:ems="10"
+                android:hint="Enter Tags"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:textColor="@color/text_gray"
+                android:textColorHint="@color/text_dark_gray"
+                app:layout_constraintTop_toBottomOf="@id/textView18"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+
+
+
+
+            <ProgressBar
+                android:id="@+id/uploadingProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/grid_4x"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/image_rel_layout2"
+                android:layout_marginTop="20dp"
+                android:layout_width="350dp"
+                android:layout_height="250dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView15">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Add a photo"
+                    android:textColor="@color/text_gray" />
+
+                <ImageView
+                    android:id="@+id/post_image"
+                    android:layout_width="350dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/imageview_background_round"
+                    android:maxWidth="@dimen/standard_width"
+                    android:maxHeight="@dimen/standard_width"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_baseline_add_a_photo_24"
+                    app:civ_border_width="1dp"
+                    app:civ_circle_background_color="@color/white" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Description"
+                android:textColor="@color/text_gray"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/PostDescription"
+                app:layout_constraintTop_toBottomOf="@id/etPostName"
+                app:layout_constraintBottom_toTopOf="@id/PostDescription"/>
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Title"
+                android:textColor="@color/text_gray"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/etPostName"
+                app:layout_constraintTop_toBottomOf="@id/image_rel_layout2"
+                app:layout_constraintBottom_toTopOf="@id/etPostName"/>
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Tags"
+                android:textColor="@color/text_gray"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/PostDescription"
+                app:layout_constraintLeft_toLeftOf="@id/etPostTags"
+                app:layout_constraintBottom_toTopOf="@id/etPostTags"/>
+
+
+
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/grid_2x"
+                android:layout_marginBottom="@dimen/grid_3x"
+                android:background="@color/accent_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etPostTags" />
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/PostDescription"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="@dimen/grid_3x"
+                android:maxHeight="150dp"
+                app:hintEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/textView16"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView18">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_border"
+                    android:gravity="start"
+                    android:hint="Enter Description"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textNoSuggestions"
+                    android:maxHeight="200dp"
+                    android:maxLength="200"
+                    android:maxLines="15"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/text_gray"
+                    android:textColorHint="@color/text_dark_gray" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
