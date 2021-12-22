@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/share"
+        android:title="Share"
+        android:iconTint="@color/text_gray"/>
+
+    <item
+        android:id="@+id/report"
+        android:title="Report"
+        android:iconTint="@color/text_gray" />
+
+</menu>
