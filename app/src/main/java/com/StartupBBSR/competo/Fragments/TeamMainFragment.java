@@ -62,18 +62,6 @@ public class TeamMainFragment extends Fragment {
     private TeamListAdapter adapter;
     private Query query;
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-//                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
-                ((StartFragment)getParentFragment()).onGoHomeOnBackPressed();
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

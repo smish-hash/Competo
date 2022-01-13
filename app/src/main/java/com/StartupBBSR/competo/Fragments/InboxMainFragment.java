@@ -59,7 +59,7 @@ public class InboxMainFragment extends Fragment {
 
     private NavController navController;
 
-//    private ChatUserListAdapter adapter;
+//  private ChatUserListAdapter adapter;
     private NewChatUserListAdapter adapter;
     private FirestoreRecyclerOptions<EventPalModel> options;
 
@@ -151,12 +151,6 @@ public class InboxMainFragment extends Fragment {
     private void initData() {
 
         chatList = chatUsers;
-
-        /*query = collectionReference.whereIn(constant.getUserIdField(), chatList);
-
-        options = new FirestoreRecyclerOptions.Builder<EventPalModel>()
-                .setQuery(query, EventPalModel.class)
-                .build();*/
 
         mList = new ArrayList<>();
 

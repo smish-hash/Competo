@@ -41,7 +41,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-
 public class FeedMainFragment extends Fragment {
     private FragmentFeedMainBinding binding;
     private EventFeedAdapter adapter;
@@ -66,7 +65,6 @@ public class FeedMainFragment extends Fragment {
         userID = firebaseAuth.getUid();
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
-
 
         initGreetings();
         initData();
@@ -169,23 +167,10 @@ public class FeedMainFragment extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
 
         RecyclerView recyclerView = binding.unpcomingEventsRecyclerView;
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
         snapHelper.attachToRecyclerView(recyclerView);
-
-
-/*        adapter = new EventFragmentAdapter(getContext(), options);
-        adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot snapshot) {
-                EventModel model = snapshot.toObject(EventModel.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("eventDetails", model);
-                bundle.putString("from", "feed");
-                navController.navigate(R.id.action_feedMainFragment_to_eventDetailsFragment4, bundle);
-            }
-        });*/
 
         adapter = new EventFeedAdapter(getContext(), options);
         adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {

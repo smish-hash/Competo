@@ -55,7 +55,7 @@ public class MessageRequestFragment extends Fragment {
     private FirestoreRecyclerOptions<RequestModel> options;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMessageRequestBinding.inflate(inflater, container, false);
         View view = binding.getRoot();

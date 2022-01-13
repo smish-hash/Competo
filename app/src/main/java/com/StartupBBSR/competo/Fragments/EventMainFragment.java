@@ -1,6 +1,8 @@
 package com.StartupBBSR.competo.Fragments;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
+import com.StartupBBSR.competo.Activity.ManageEventActivity;
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
@@ -17,6 +20,7 @@ import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentEventMainBinding;
 import com.airbnb.lottie.model.content.ShapeStroke;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,15 +37,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
 public class EventMainFragment extends Fragment implements EventFilterBottomSheetDialog.BottomSheetListener {
 
     private FragmentEventMainBinding binding;
-
     private EventFragmentAdapter adapter;
-
     private FirebaseFirestore firestoreDB;
 
     private NavController navController;
@@ -89,6 +92,16 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
             }
         });
 
+        binding.AddEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intend = new Intent (getActivity (), ManageEventActivity.class);
+                ((MainActivity)getActivity ()).startActivity (intend);
+            }
+        });
+
+
+
         bottomSheetDialog = new EventFilterBottomSheetDialog(getContext());
         bottomSheetDialog.setTargetFragment(this, 0);
 
@@ -123,6 +136,18 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
+
+        binding.eventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && binding.AddEvent.getVisibility() == View.VISIBLE) {
+                    binding.AddEvent.hide();
+                } else if (dy < 0 && binding.AddEvent.getVisibility() != View.VISIBLE) {
+                    binding.AddEvent.show();
+                }
+            }
+        });
     }
 
     private void initRecycler() {
@@ -138,7 +163,6 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("eventDetails", model);
                 bundle.putString("from", "event");
-
                 navController.navigate(R.id.action_eventMainFragment_to_eventDetailsFragment, bundle);
             }
         });

@@ -13,10 +13,10 @@
         <action
             android:id="@+id/action_startFragment_to_inboxNewFragment3"
             app:destination="@id/inboxNewFragment3"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_exit"
-            app:popExitAnim="@anim/fragment_fade_enter" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/inboxNewFragment3"
@@ -26,9 +26,9 @@
         <action
             android:id="@+id/action_inboxNewFragment3_to_startFragment"
             app:destination="@id/startFragment"
-            app:enterAnim="@anim/fragment_fade_exit"
-            app:exitAnim="@anim/fragment_fade_enter"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 </navigation>
