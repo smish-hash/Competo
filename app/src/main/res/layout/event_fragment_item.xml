@@ -12,7 +12,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_margin="@dimen/grid_1x"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -27,9 +26,9 @@
             app:neumorph_shadowColorDark="@color/neumorph_shadowColorDark"
             app:neumorph_shadowColorLight="@color/neumorph_shadowColoright"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/grid_2x"
+            android:layout_margin="@dimen/grid_1x"
             app:cardCornerRadius="10dp"
-            app:cardElevation="@dimen/grid_2x">
+            app:cardElevation="@dimen/grid_1x">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

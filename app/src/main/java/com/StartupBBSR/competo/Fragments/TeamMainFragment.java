@@ -68,7 +68,8 @@ public class TeamMainFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+//                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+                ((StartFragment)getParentFragment()).onGoHomeOnBackPressed();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

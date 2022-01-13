@@ -10,6 +10,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.transition.Fade;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
@@ -40,6 +42,7 @@ public class InboxNewFragment extends Fragment {
     private UserModel userModel;
     private Constant constant;
     private TabLayout inbox_tablayout;
+    private NavController navController;
 
     //    Tab titles
     private String[] inboxTabTitles = new String[]{"Messages", "Groups", "Message Requests"};
@@ -50,7 +53,8 @@ public class InboxNewFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+                navController.navigate(R.id.action_inboxNewFragment3_to_startFragment);
+
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -94,6 +98,7 @@ public class InboxNewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
         init();
         getRequestCounts();
     }

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -73,17 +74,18 @@ public class FeedMainFragment extends Fragment {
         binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).onProfileImageClick();
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                feedFragment.onProfileImageClick();
             }
         });
 
         binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.onClickViewAllEvents();*/
-                ((MainActivity) getActivity()).onViewAllEventsClick();
+                feedFragment.onClickViewAllEvents();
             }
         });
 
@@ -91,10 +93,9 @@ public class FeedMainFragment extends Fragment {
         binding.btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.findTeamMate();*/
-                ((MainActivity) getActivity()).onExploreClick();
+                feedFragment.findTeamMate();
             }
         });
 
@@ -131,9 +132,9 @@ public class FeedMainFragment extends Fragment {
 
                     if (name.contains(" ")) {
                         String[] names = name.split(" ");
-                        binding.tvFeedHello.setText(greetings[randomNumber] + " " + names[0] + "!");
+                        binding.tvFeedHello.setText(getString(R.string.greeting, greetings[randomNumber], names[0]));
                     } else {
-                        binding.tvFeedHello.setText(greetings[randomNumber] + " " + name + "!");
+                        binding.tvFeedHello.setText(getString(R.string.greeting, greetings[randomNumber], name));
                     }
                 }
             }
@@ -142,12 +143,12 @@ public class FeedMainFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if (timeOfDay >= 0 && timeOfDay < 12) {
-            binding.tvFeedGreeting.setText("Good Morning");
-        } else if (timeOfDay >= 12 && timeOfDay < 16) {
-            binding.tvFeedGreeting.setText("Good Afternoon");
-        } else if (timeOfDay >= 16 && timeOfDay < 24) {
-            binding.tvFeedGreeting.setText("Good Evening");
+        if (timeOfDay < 12) {
+            binding.tvFeedGreeting.setText(R.string.goodMorning);
+        } else if (timeOfDay < 16) {
+            binding.tvFeedGreeting.setText(R.string.goodAfternoon);
+        } else {
+            binding.tvFeedGreeting.setText(R.string.goodEvening);
         }
     }
 

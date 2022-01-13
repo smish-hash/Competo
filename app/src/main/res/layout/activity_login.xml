@@ -76,7 +76,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="@dimen/grid_2x"
-                    android:text="Don't have an account? Register"
+                    android:text="@string/don_t_have_an_account_register"
                     android:textColor="@color/white_ui"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@+id/buttonLogin"

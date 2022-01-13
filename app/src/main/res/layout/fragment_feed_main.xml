@@ -19,7 +19,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="@dimen/grid_3x"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/radius_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -65,7 +65,7 @@
             android:fontFamily="sans-serif"
             android:text="Team Finder"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-            android:textColor="@color/text_dark_gray"
+            android:textColor="@color/text_gray"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFeedGreeting" />
@@ -79,7 +79,7 @@
             android:fontFamily="sans-serif"
             android:text="Upcoming Events"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
-            android:textColor="@color/text_dark_gray"
+            android:textColor="@color/text_gray"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cvPoster" />
@@ -147,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/grid_1x"
                 android:paddingBottom="@dimen/grid_3x"
+                android:nestedScrollingEnabled="false"
                 android:orientation="vertical"
                 tools:listitem="@layout/event_feed_item"
                 app:layout_constraintEnd_toEndOf="parent"

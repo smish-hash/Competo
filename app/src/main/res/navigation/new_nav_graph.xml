@@ -25,4 +25,9 @@
         android:name="com.StartupBBSR.competo.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/projectFragment"
+        android:name="com.StartupBBSR.competo.Fragments.ProjectFragment"
+        android:label="fragment_project"
+        tools:layout="@layout/fragment_project" />
 </navigation>

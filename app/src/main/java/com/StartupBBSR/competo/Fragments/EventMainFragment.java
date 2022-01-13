@@ -59,7 +59,7 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+//                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

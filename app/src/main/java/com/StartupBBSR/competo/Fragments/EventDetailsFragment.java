@@ -174,7 +174,8 @@ public class EventDetailsFragment extends Fragment {
                     FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
                     feedFragment.findTeamMate();
                 }*/
-                ((MainActivity)getActivity()).onExploreClick();
+//                ((MainActivity)getActivity()).onExploreClick();
+                ((StartFragment)getParentFragment()).onExploreClick();
 
             }
         });

@@ -82,7 +82,7 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+//                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

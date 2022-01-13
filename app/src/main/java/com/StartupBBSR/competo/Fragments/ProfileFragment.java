@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.databinding.FragmentProfileBinding;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 public class ProfileFragment extends Fragment {
 
@@ -25,4 +29,9 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    public void onGoHomeOnBackPressed() {
+        /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
+        fragment.onGoHomeOnBackPressed();*/
+    }
 }

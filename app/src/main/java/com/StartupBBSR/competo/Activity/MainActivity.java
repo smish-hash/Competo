@@ -53,6 +53,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
@@ -96,12 +97,12 @@ import androidx.preference.PreferenceManager;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
-    private static final int MY_REQUEST_CODE = 132;
+//    private static final int MY_REQUEST_CODE = 132;
     private ActivityMainBinding activityMainBinding;
 
-    Menu menu;
+/*    Menu menu;
 
     private boolean isConnected;
 
@@ -138,29 +139,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private SharedPreferences sharedPreferences;
-    private String theme;
+    private String theme;*/
 
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-//        Disable night mode
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
-        builder1 = new AlertDialog.Builder(MainActivity.this);
+        /*builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -298,16 +296,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
             }
             return true;
-        });
+        });*/
 
-        activityMainBinding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
+        /*activityMainBinding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
                 if (!drawerLayout.isDrawerOpen(Gravity.START))
                     drawerLayout.openDrawer(Gravity.START);
             }
-        });
+        });*/
 
         /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -326,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void popupSnackbarForCompleteUpdate() {
+/*    private void popupSnackbarForCompleteUpdate() {
         Snackbar snackbar =
                 Snackbar.make(
                         activityMainBinding.getRoot(),
@@ -562,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onExploreClick() {
         bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
-        bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
         loadFragment(eventPalFragment);
     }
 
@@ -596,6 +594,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void status(String status) {
         documentReference.update("status", status);
-    }
+    }*/
 
 }

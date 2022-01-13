@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.databinding.FragmentFeedBinding;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 public class FeedFragment extends Fragment {
 
@@ -31,13 +33,21 @@ public class FeedFragment extends Fragment {
     }
 
     public void onClickViewAllEvents() {
-        /*HomeFragment homeFragment = (HomeFragment) getParentFragment();
-        homeFragment.viewAllEvents();*/
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+        startFragment.onViewAllEventsClick();
     }
 
     public void findTeamMate() {
-        /*HomeFragment homeFragment = (HomeFragment) getParentFragment();
-        homeFragment.findTeamMate();*/
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+        startFragment.onExploreClick();
+    }
+
+    public void onProfileImageClick() {
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+        startFragment.onProfileImageClick();
     }
 
 }
