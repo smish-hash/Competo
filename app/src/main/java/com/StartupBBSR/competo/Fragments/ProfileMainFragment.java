@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -61,7 +62,14 @@ public class ProfileMainFragment extends Fragment {
                 /*NavHostFragment navHostFragment = (NavHostFragment)getParentFragment();
                 ProfileFragment profileFragment = (ProfileFragment) navHostFragment.getParentFragment();
                 profileFragment.onGoHomeOnBackPressed();*/
-            }
+
+                //Fragment fragment = new tasks();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, new FeedFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+           }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
