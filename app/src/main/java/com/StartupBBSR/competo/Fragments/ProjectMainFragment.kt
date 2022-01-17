@@ -1,10 +1,12 @@
 package com.StartupBBSR.competo.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -28,6 +30,15 @@ class ProjectMainFragment : Fragment() {
 
     private var projectList: ArrayList<ProjectModel> = ArrayList()
     private lateinit var adapter: ProjectAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
