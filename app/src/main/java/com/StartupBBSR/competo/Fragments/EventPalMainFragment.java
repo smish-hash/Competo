@@ -165,7 +165,7 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
 
         mList = new ArrayList<>();
 
-        collectionReference.orderBy(constant.getUserNameField()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 mList.clear();

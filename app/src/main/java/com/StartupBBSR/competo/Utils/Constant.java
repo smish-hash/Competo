@@ -48,6 +48,107 @@ public class Constant {
     String faqAnswer = "faqAnswer";
 
 
+//    Project
+    String project = "Projects";
+    String createdProjects = "Created Projects";
+    String likedProjects = "Liked Projects";
+    String projectID = "projectID";
+    String projectOrganizerID = "projectOrganizerID";
+    String projectImage = "projectImage";
+    String projectTitle = "projectTitle";
+    String projectDescription = "projectDescription";
+    String projectTags = "projectTags";
+    String projectTimeStamp = "projectTimeStamp";
+    String projectLikeCount = "projectLikeCount";
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public String getCreatedProjects() {
+        return createdProjects;
+    }
+
+    public void setCreatedProjects(String createdProjects) {
+        this.createdProjects = createdProjects;
+    }
+
+    public String getLikedProjects() {
+        return likedProjects;
+    }
+
+    public void setLikedProjects(String likedProjects) {
+        this.likedProjects = likedProjects;
+    }
+
+    public String getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(String projectID) {
+        this.projectID = projectID;
+    }
+
+    public String getProjectOrganizerID() {
+        return projectOrganizerID;
+    }
+
+    public void setProjectOrganizerID(String projectOrganizerID) {
+        this.projectOrganizerID = projectOrganizerID;
+    }
+
+    public String getProjectImage() {
+        return projectImage;
+    }
+
+    public void setProjectImage(String projectImage) {
+        this.projectImage = projectImage;
+    }
+
+    public String getProjectTitle() {
+        return projectTitle;
+    }
+
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public String getProjectTags() {
+        return projectTags;
+    }
+
+    public void setProjectTags(String projectTags) {
+        this.projectTags = projectTags;
+    }
+
+    public String getProjectTimeStamp() {
+        return projectTimeStamp;
+    }
+
+    public void setProjectTimeStamp(String projectTimeStamp) {
+        this.projectTimeStamp = projectTimeStamp;
+    }
+
+    public String getProjectLikeCount() {
+        return projectLikeCount;
+    }
+
+    public void setProjectLikeCount(String projectLikeCount) {
+        this.projectLikeCount = projectLikeCount;
+    }
+
     public String getUserInterestedChipsField() {
         return userInterestedChipsField;
     }

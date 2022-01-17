@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -737,7 +738,8 @@ public class AddEventFragment extends Fragment {
                             return false;
                         }
                     }).into(binding.ivPoster);
-        } else
+            binding.ivPoster.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } else {
             Glide.with(this).
                     load(imgurl).
                     listener(new RequestListener<Drawable>() {
@@ -753,6 +755,9 @@ public class AddEventFragment extends Fragment {
                             return false;
                         }
                     }).into(binding.ivThumbnailPoster);
+
+            binding.ivThumbnailPoster.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
     }
 
     private void textChangedListener(TextInputEditText ET, TextInputLayout TIL) {

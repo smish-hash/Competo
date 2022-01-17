@@ -98,7 +98,7 @@ public class CreateTeamFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                navController.navigate(R.id.action_createTeamFragment_to_teamMainFragment);
+                navController.navigateUp();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

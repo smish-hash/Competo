@@ -8,5 +8,26 @@
         android:id="@+id/projectMainFragment"
         android:name="com.StartupBBSR.competo.Fragments.ProjectMainFragment"
         android:label="fragment_project_main"
-        tools:layout="@layout/fragment_project_main" />
+        tools:layout="@layout/fragment_project_main" >
+        <action
+            android:id="@+id/action_projectMainFragment_to_addProjectFragment"
+            app:destination="@id/addProjectFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/projectMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProjectFragment"
+        android:name="com.StartupBBSR.competo.Fragments.AddProjectFragment"
+        android:label="fragment_add_project"
+        tools:layout="@layout/fragment_add_project" >
+        <action
+            android:id="@+id/action_addProjectFragment_to_projectMainFragment"
+            app:destination="@id/projectMainFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/projectMainFragment"/>
+    </fragment>
 </navigation>

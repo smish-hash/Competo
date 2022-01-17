@@ -53,7 +53,7 @@ public class InboxNewFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                navController.navigate(R.id.action_inboxNewFragment3_to_startFragment);
+                navController.navigateUp();
 
             }
         };

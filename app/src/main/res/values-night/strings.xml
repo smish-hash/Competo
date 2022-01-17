@@ -42,8 +42,9 @@ and organizations.</string>
         <item>App Development</item>
         <item>UI/UX</item>
         <item>Coder</item>
+        <item>Augmented Reality</item>
         <item>Hackathon</item>
-        <item>Photowalk</item>
+        <item>Photo-Walk</item>
         <item>HR</item>
         <item>Workshop</item>
         <item>AI</item>
@@ -84,6 +85,7 @@ and organizations.</string>
     <string-array name="eventTags">
         <item>Technical</item>
         <item>Design</item>
+        <item>Hackathon</item>
         <item>Public Speaking</item>
         <item>School Student</item>
         <item>Entrepreneurial</item>

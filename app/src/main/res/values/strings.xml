@@ -53,6 +53,10 @@ and organizations.</string>
     <string name="goodEvening">Good Evening</string>
 
     <!-- Sync Preferences -->
+    <string name="greeting">%s %s!</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? <b>Register</b></string>
+    <string name="projectDateFormat">%s\n%s</string>
+
     <string-array name="FilterChips">
         <item>Web Development</item>
         <item>Social Science</item>
@@ -60,8 +64,9 @@ and organizations.</string>
         <item>App Development</item>
         <item>UI/UX</item>
         <item>Coder</item>
+        <item>Augmented Reality</item>
         <item>Hackathon</item>
-        <item>Photowalk</item>
+        <item>Photo-Walk</item>
         <item>HR</item>
         <item>Workshop</item>
         <item>AI</item>
@@ -98,9 +103,11 @@ and organizations.</string>
         <item>Law</item>
         <item>Modelling</item>
     </string-array>
+
     <string-array name="eventTags">
         <item>Technical</item>
         <item>Design</item>
+        <item>Hackathon</item>
         <item>Public Speaking</item>
         <item>School Student</item>
         <item>Entrepreneurial</item>
@@ -108,22 +115,20 @@ and organizations.</string>
         <item>Art and Crafts</item>
         <item>Cultural</item>
     </string-array>
-    <string-array name="theme_types">
 
+
+    <string-array name="theme_types">
         <item>Light</item>
         <item>Dark</item>
         <item>System Default</item>
-
     </string-array>
-    <string-array name="theme_types_values">
 
+
+    <string-array name="theme_types_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
-    
-    <string name="greeting">%s %s!</string>
-    <string name="don_t_have_an_account_register">Don\'t have an account? <b>Register</b></string>
 
 
 </resources>

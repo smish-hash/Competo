@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs'
+    id 'kotlin-android'
 }
 
 android {
@@ -41,10 +42,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
-    implementation 'com.google.android.gms:play-services-auth:20.0.0'
+    implementation 'com.google.android.gms:play-services-auth:20.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-database:20.0.3'
-    implementation 'com.google.android.play:core:1.10.2'
+    implementation 'com.google.android.play:core:1.10.3'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'androidx.preference:preference:1.1.1'
@@ -57,10 +58,16 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
+
+//    Firebase JAVA
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
+
+//    Firebase kotlin
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -72,6 +79,9 @@ dependencies {
     //Navigation Component
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //    Facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:6.0.0'
@@ -89,9 +99,10 @@ dependencies {
     //Firebase cloud messaging
     implementation 'com.google.firebase:firebase-messaging:23.0.0'
 
-    //neumorphism
+    //neu-morphism
     implementation 'com.github.fornewid:neumorphism:0.3.0'
 
+//    Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 

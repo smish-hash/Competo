@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.AddEventFragment">
 
-
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,20 +31,12 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
-
-
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-
-
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,10 +105,10 @@
                     android:id="@+id/recyclerViewTags"
                     android:layout_width="@dimen/standard_width"
                     android:layout_height="135dp"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivThumbnailPoster"
+                    app:layout_constraintTop_toBottomOf="@id/TagTIL"
                     tools:listitem="@layout/tag_item_layout" />
 
                 <LinearLayout
@@ -223,10 +213,6 @@
                         android:inputType="textPostalAddress|textCapSentences|textAutoComplete|textAutoCorrect" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/TagTIL"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -235,8 +221,7 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linkTIL"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout6">
+                    app:layout_constraintTop_toBottomOf="@+id/linkTIL">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/tagsChipGroup"
@@ -302,7 +287,6 @@
                     app:layout_constraintTop_toTopOf="@+id/ivPoster" />
 
 
-
                 <LinearLayout
                     android:id="@+id/linearLayout6"
                     android:layout_width="match_parent"
@@ -310,8 +294,9 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/btnUploadEvent"
+                    app:layout_constraintTop_toBottomOf="@id/recyclerViewTags"
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/grid_2x"
                     android:backgroundTint="@color/white"
                     app:hideOnScroll="false">
 
@@ -325,7 +310,7 @@
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switchStatus"
-                        android:padding="@dimen/grid_1x"
+                        android:padding="@dimen/grid_2x"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true" />
@@ -339,40 +324,19 @@
                 </LinearLayout>
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUploadEvent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/eventpal_button_round"
                     android:text="Upload Event"
+                    android:layout_margin="@dimen/grid_3x"
                     android:textColor="@color/white_ui"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
-
-
-
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </androidx.core.widget.NestedScrollView>
-
-
     </androidx.cardview.widget.CardView>
-
-
-
-
-
-
-
-
-
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
