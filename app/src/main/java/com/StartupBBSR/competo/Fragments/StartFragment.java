@@ -141,9 +141,7 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
             @Override
             public void handleOnBackPressed() {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START))
-                {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                }
                 else
                     getActivity().finish();
             }
