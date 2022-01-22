@@ -1,6 +1,9 @@
 package com.StartupBBSR.competo.Models
 
+
 import android.os.Parcelable
+import java.io.Serializable
+
 
 data class ProjectModel(
     val projectID: String? = null,
@@ -11,4 +14,4 @@ data class ProjectModel(
     val projectTags: List<String>? = null,
     val projectTimeStamp: Long? = null,
     val likeCount: Int? = null
-)
+): Serializable

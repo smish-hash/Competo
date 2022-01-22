@@ -73,8 +73,11 @@ public class FeedMainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.onProfileImageClick();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.onProfileImageClick();
+                }
             }
         });
 
@@ -82,8 +85,11 @@ public class FeedMainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.onClickViewAllEvents();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.onClickViewAllEvents();
+                }
             }
         });
 
@@ -92,8 +98,17 @@ public class FeedMainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                feedFragment.findTeamMate();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.findTeamMate();
+                }
+
+//                This also works, but cannot unselect selected icon in bottom bar :)
+                /*if (getActivity() != null) {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.eventPalFragmentMenu);
+                }*/
             }
         });
 
@@ -173,6 +188,7 @@ public class FeedMainFragment extends Fragment {
         snapHelper.attachToRecyclerView(recyclerView);
 
         adapter = new EventFeedAdapter(getContext(), options);
+
         adapter.setOnItemClickListener(new EventFeedAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot snapshot) {
@@ -208,6 +224,6 @@ public class FeedMainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(getActivity(), R.id.fragment_feed);
+        navController = Navigation.findNavController(view);
     }
 }

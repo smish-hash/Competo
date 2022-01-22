@@ -34,4 +34,13 @@ public class ProfileFragment extends Fragment {
         StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
         fragment.onGoHomeOnBackPressed();*/
     }
+
+    protected void findTeamMate() {
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment) navHostFragment.getParentFragment();
+            if (startFragment != null)
+                startFragment.loadFragment(3);
+        }
+    }
 }

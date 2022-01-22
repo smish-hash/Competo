@@ -20,22 +20,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar3"
-                style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:backgroundTint="@color/white"
-                android:elevation="@dimen/grid_1x"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/add_project_menu">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/grid_1x">
 
                     <TextView
                         android:id="@+id/tvProfileName"
@@ -43,10 +31,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/grid_2x"
+                        android:layout_marginEnd="@dimen/grid_2x"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:maxLines="2"
                         android:ellipsize="end"
-                        android:text="Dummy Name"
                         android:textColor="@color/text_gray"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/profile_image"
@@ -63,7 +51,7 @@
                         android:textSize="11sp"
                         android:gravity="center"
                         app:layout_constraintBottom_toBottomOf="@id/tvProfileName"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/projectMenu"
                         app:layout_constraintRight_toLeftOf="@+id/tvProfileName"
                         app:layout_constraintTop_toTopOf="@+id/tvProfileName" />
 
@@ -78,9 +66,19 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/projectMenu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_round_more_vert_24"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:tint="@color/text_gray"
+                        />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
 
 
         </LinearLayout>
@@ -163,7 +161,7 @@
                 android:id="@+id/btnFavoriteProject"
                 android:layout_width="0dp"
                 android:layout_height="28dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:background="@drawable/button_favorite"
                 android:checked="false"
                 android:layout_gravity="center_vertical"
@@ -182,18 +180,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:padding="@dimen/grid_2x"
+            android:paddingStart="@dimen/grid_2x"
+            android:paddingEnd="@dimen/grid_2x"
             android:text="This is a demo description"
             android:textColor="@color/text_dark_gray"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/projectTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/grid_1x"
+            android:padding="@dimen/grid_2x"
+            app:chipSpacingHorizontal="@dimen/grid_1x"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/interest_chip_item" />
+            tools:listitem="@layout/project_tag_item" />
 
 
     </LinearLayout>

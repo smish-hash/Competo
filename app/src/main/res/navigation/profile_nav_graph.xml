@@ -67,5 +67,13 @@
             app:popEnterAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_in_right"
             app:popUpTo="@id/profileMainFragment" />
+        <action
+            android:id="@+id/action_eventDetailsFragment2_to_eventPalFragment2"
+            app:destination="@id/eventPalFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/eventPalFragment2"
+        android:name="com.StartupBBSR.competo.Fragments.EventPalFragment"
+        android:label="fragment_event_pal"
+        tools:layout="@layout/fragment_event_pal" />
 </navigation>

@@ -3,31 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/new_nav_graph"
-    app:startDestination="@id/feedFragment2">
+    app:startDestination="@id/feedFragmentMenu">
 
     <fragment
-        android:id="@+id/feedFragment2"
+        android:id="@+id/feedFragmentMenu"
         android:name="com.StartupBBSR.competo.Fragments.FeedFragment"
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" />
     <fragment
-        android:id="@+id/eventFragment2"
+        android:id="@+id/eventFragmentMenu"
         android:name="com.StartupBBSR.competo.Fragments.EventFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events" />
     <fragment
-        android:id="@+id/inboxNewFragment2"
-        android:name="com.StartupBBSR.competo.Fragments.InboxNewFragment"
-        android:label="fragment_inbox_new"
-        tools:layout="@layout/fragment_inbox_new" />
-    <fragment
-        android:id="@+id/profileFragment2"
+        android:id="@+id/profileFragmentMenu"
         android:name="com.StartupBBSR.competo.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/projectFragment"
+        android:id="@+id/projectFragmentMenu"
         android:name="com.StartupBBSR.competo.Fragments.ProjectFragment"
         android:label="fragment_project"
         tools:layout="@layout/fragment_project" />
+    <fragment
+        android:id="@+id/eventPalFragmentMenu"
+        android:name="com.StartupBBSR.competo.Fragments.EventPalFragment"
+        android:label="fragment_event_pal"
+        tools:layout="@layout/fragment_event_pal" />
 </navigation>

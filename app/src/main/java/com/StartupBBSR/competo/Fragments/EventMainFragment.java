@@ -95,8 +95,8 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         binding.AddEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intend = new Intent (getActivity (), ManageEventActivity.class);
-                ((MainActivity)getActivity ()).startActivity (intend);
+                Intent intent = new Intent (getContext(), ManageEventActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -112,9 +112,6 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
                 bottomSheetDialog.show(getParentFragmentManager().beginTransaction(), "eventFilterSheet");
             }
         });
-
-        initData();
-        initRecycler();
 
         return view;
     }
@@ -135,6 +132,9 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initData();
+        initRecycler();
+
         navController = Navigation.findNavController(view);
 
         binding.eventRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -151,7 +151,6 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
     }
 
     private void initRecycler() {
-        binding.eventRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         binding.eventRecyclerView.setHasFixedSize(true);
         adapter = new EventFragmentAdapter(getContext(), options);
 

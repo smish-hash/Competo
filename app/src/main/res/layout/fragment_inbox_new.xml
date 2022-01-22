@@ -55,17 +55,29 @@
 
         </LinearLayout>
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnInboxBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_3x"
+            android:layout_marginStart="@dimen/grid_3x"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:tint = "@color/text_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewInbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textViewInbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_3x"
             android:layout_marginTop="@dimen/grid_3x"
+            android:layout_marginStart="@dimen/grid_2x"
             android:fontFamily="sans-serif"
             android:text="@string/inbox"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnInboxBack"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

@@ -13,7 +13,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginTop="@dimen/grid_3x"
-        android:layout_marginEnd="@dimen/grid_3x"
+        android:layout_marginEnd="@dimen/grid_4x"
         android:background="@drawable/btn_search_round"
         android:elevation="@dimen/grid_1x"
         app:iconifiedByDefault="false"
@@ -25,8 +25,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnTeamFinderFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/grid_4x"
+        android:layout_height="@dimen/grid_4x"
         android:layout_marginEnd="@dimen/grid_3x"
         android:src="@drawable/ic_baseline_filter_list_24"
         app:tint = "@color/text_gray"

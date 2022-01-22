@@ -41,6 +41,7 @@ import com.StartupBBSR.competo.Fragments.EventPalFragment;
 import com.StartupBBSR.competo.Fragments.FeedFragment;
 import com.StartupBBSR.competo.Fragments.InboxNewFragment;
 import com.StartupBBSR.competo.Fragments.ProfileFragment;
+import com.StartupBBSR.competo.Fragments.StartFragment;
 import com.StartupBBSR.competo.Models.UserModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
@@ -604,5 +605,4 @@ public class MainActivity extends AppCompatActivity {
     private void status(String status) {
         documentReference.update("status", status);
     }*/
-
 }

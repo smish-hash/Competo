@@ -17,7 +17,24 @@
             app:popEnterAnim="@anim/slide_in_top"
             app:popExitAnim="@anim/slide_out_bottom"
             app:popUpTo="@id/projectMainFragment" />
+        <action
+            android:id="@+id/action_projectMainFragment_to_myProjectsFragment"
+            app:destination="@id/myProjectsFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/projectMainFragment" />
+        <action
+            android:id="@+id/action_projectMainFragment_to_likedProjectsFragment"
+            app:destination="@id/likedProjectsFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/projectMainFragment"/>
     </fragment>
+
     <fragment
         android:id="@+id/addProjectFragment"
         android:name="com.StartupBBSR.competo.Fragments.AddProjectFragment"
@@ -29,5 +46,34 @@
             app:enterAnim="@anim/slide_in_top"
             app:exitAnim="@anim/slide_out_bottom"
             app:popUpTo="@id/projectMainFragment"/>
+
+        <argument
+            android:name="projectData"
+            app:argType="com.StartupBBSR.competo.Models.ProjectModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+
     </fragment>
+
+    <fragment
+        android:id="@+id/myProjectsFragment"
+        android:name="com.StartupBBSR.competo.Fragments.MyProjectsFragment"
+        android:label="fragment_my_projects"
+        tools:layout="@layout/fragment_my_projects" >
+        <action
+            android:id="@+id/action_myProjectsFragment_to_addProjectFragment"
+            app:destination="@id/addProjectFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/myProjectsFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/likedProjectsFragment"
+        android:name="com.StartupBBSR.competo.Fragments.LikedProjectsFragment"
+        android:label="fragment_liked_projects"
+        tools:layout="@layout/fragment_liked_projects" />
 </navigation>

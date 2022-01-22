@@ -18,8 +18,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -30,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +42,6 @@ import com.StartupBBSR.competo.Activity.AboutUsActivity;
 import com.StartupBBSR.competo.Activity.EditProfileActivity;
 import com.StartupBBSR.competo.Activity.FAQActivity;
 import com.StartupBBSR.competo.Activity.LoginActivity;
-import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Activity.ManageEventActivity;
 import com.StartupBBSR.competo.Activity.SettingsActivity;
 import com.StartupBBSR.competo.Models.UserModel;
@@ -52,7 +55,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
@@ -66,15 +68,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,12 +80,11 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
 
     private static final int MY_REQUEST_CODE = 132;
     private FragmentStartBinding binding;
+    private NavController navController;
 
     private Activity activity;
 
     Menu menu;
-
-    private boolean isConnected;
 
     private DrawerLayout drawerLayout;
 
@@ -160,6 +155,7 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                              Bundle savedInstanceState) {
 
         binding = FragmentStartBinding.inflate(inflater, container, false);
+
         View view = binding.getRoot();
 
         builder1 = new AlertDialog.Builder(getContext());
@@ -211,24 +207,6 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                     }
                 });
 
-
-        ConnectivityManager cm =
-                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
-
-        if (!isConnected) {
-            Snackbar.make(binding.getRoot(), "No Internet", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("CLOSE", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                        }
-                    })
-                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
-                    .show();
-        }
-
         firestoreDB = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         userid = firebaseAuth.getUid();
@@ -238,27 +216,14 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         documentReference = firestoreDB.collection(constant.getUsers()).document(userid);
         status("Online");
 
-        profileFragment = new ProfileFragment();
+        /*profileFragment = new ProfileFragment();
         eventPalFragment = new EventPalFragment();
 
         feedFragment = new FeedFragment();
         eventFragment = new EventFragment();
         inboxNewFragment = new InboxNewFragment();
 
-        projectFragment = new ProjectFragment();
-
-
-
-        binding.btnTeamFinder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
-                bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
-                loadFragment(eventPalFragment);
-            }
-        });
-
-
+        projectFragment = new ProjectFragment();*/
 
         return view;
     }
@@ -326,36 +291,67 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
 //        Bottom Navigation bar
         bottomNavigationView = binding.bottomNavBar;
 
+        NavHostFragment nestedNavHostFragment =(NavHostFragment) getChildFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (nestedNavHostFragment != null) {
+            navController = nestedNavHostFragment.getNavController();
+            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        } else {
+            Toast.makeText(getContext(), "Error getting controller", Toast.LENGTH_SHORT).show();
+        }
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
+        bottomNavigationView.setOnItemReselectedListener(item -> {
+            if (item.getItemId() == R.id.btnTeamFinder) {
+                loadFragment(3);
+            }
+        });
+
+        /*navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.projectFragmentMenu) {
+                Toast.makeText(getContext(), "Project", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+        binding.btnTeamFinder.setOnClickListener(view1 -> {
+            /*bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+            bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
+            loadFragment(eventPalFragment);*/
+            loadFragment(3);
+        });
+
+
+        /*bottomNavigationView.setOnItemSelectedListener(item -> {
 
             bottomNavigationView.getMenu().setGroupCheckable(0, true, true);
             bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
 
             switch (item.getItemId()) {
 
-                case R.id.feedFragment:
+                case R.id.feedFragmentMenu:
                     fragment = feedFragment;
                     loadFragment(fragment);
-                    break;
+                    return true;
+
 
                 case R.id.eventFragment:
                     fragment = eventFragment;
                     loadFragment(fragment);
-                    break;
+                    return true;
 
-                case R.id.projectFragment:
+
+                case R.id.projectFragmentMenu:
                     fragment = projectFragment;
                     loadFragment(fragment);
-                    break;
+                    return true;
+
 
                 case R.id.profileFragment:
                     fragment = profileFragment;
                     loadFragment(fragment);
+
                     break;
             }
-            return true;
-        });
+            return false;
+        });*/
 
         binding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
@@ -438,7 +434,7 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                         builder2.setPositiveButton("Add skills", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                loadFragment(profileFragment);
+                                loadFragment(5);
                                 dialogInterface.dismiss();
                             }
                         }).show();
@@ -469,13 +465,38 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         updateHeader();
     }
 
-    private void loadFragment(Fragment fragment) {
+    protected void loadFragment(int position) {
         //switching fragment
-        if (fragment != null) {
+        /*if (fragment != null) {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.nav_host_fragment, fragment)
                     .commit();
+        }*/
+        switch (position) {
+            case 1:
+                bottomNavigationView.setSelectedItemId(R.id.feedFragmentMenu);
+                navController.navigate(R.id.feedFragmentMenu);
+                break;
+            case 2:
+                bottomNavigationView.setSelectedItemId(R.id.eventFragmentMenu);
+                navController.navigate(R.id.eventFragmentMenu);
+                break;
+            case 3:
+                binding.btnTeamFinder.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.button_team_finder_animation));
+                bottomNavigationView.setSelectedItemId(R.id.dummy);
+                navController.navigate(R.id.eventPalFragmentMenu);
+                break;
+            case 4:
+                bottomNavigationView.setSelectedItemId(R.id.projectFragmentMenu);
+                navController.navigate(R.id.projectFragmentMenu);
+                break;
+            case 5:
+                bottomNavigationView.setSelectedItemId(R.id.profileFragmentMenu);
+                navController.navigate(R.id.profileFragmentMenu);
+                break;
+            default:
+                Toast.makeText(getContext(), "Wrong fragment", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -554,24 +575,24 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
     }
 
     public void onProfileImageClick() {
-        bottomNavigationView.setSelectedItemId(R.id.profileFragment);
-        loadFragment(profileFragment);
+//        bottomNavigationView.setSelectedItemId(R.id.profileFragment);
+        loadFragment(5);
     }
 
     public void onViewAllEventsClick() {
-        bottomNavigationView.setSelectedItemId(R.id.eventFragment);
-        loadFragment(eventFragment);
+//        bottomNavigationView.setSelectedItemId(R.id.eventFragment);
+        loadFragment(2);
     }
 
     public void onExploreClick() {
-        bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
-        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
-        loadFragment(eventPalFragment);
+        /*bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);*/
+        loadFragment(3);
     }
 
     public void onGoHomeOnBackPressed() {
-        bottomNavigationView.setSelectedItemId(R.id.feedFragment);
-        loadFragment(feedFragment);
+//        bottomNavigationView.setSelectedItemId(R.id.feedFragmentMenu);
+        loadFragment(1);
     }
 
 

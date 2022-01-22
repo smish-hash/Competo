@@ -9,8 +9,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnEventFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/grid_4x"
+        android:layout_height="@dimen/grid_4x"
         android:layout_marginEnd="@dimen/grid_3x"
         android:contentDescription="Filter Events"
         android:src="@drawable/ic_baseline_filter_list_24"
@@ -25,7 +25,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/grid_3x"
         android:layout_marginTop="@dimen/grid_3x"
-        android:layout_marginEnd="@dimen/grid_2x"
+        android:layout_marginEnd="@dimen/grid_4x"
         app:queryBackground="@color/transparent"
         android:background="@drawable/btn_search_round"
         app:iconifiedByDefault="false"
@@ -41,6 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/grid_2x"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginStart="@dimen/grid_2x"
         android:layout_marginEnd="@dimen/grid_2x"
         app:layout_constraintBottom_toBottomOf="parent"

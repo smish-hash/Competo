@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.InterestChipAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
@@ -54,8 +53,8 @@ public class EventDetailsFragment extends Fragment {
     private NavController navController;
     int flag = 0;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy", Locale.US);
-    private SimpleDateFormat timeFormat = new SimpleDateFormat("KK:mm a", Locale.US);
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy", Locale.US);
+    private final SimpleDateFormat timeFormat = new SimpleDateFormat("KK:mm a", Locale.US);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,13 +67,7 @@ public class EventDetailsFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (flag == 0)
-                    navController.navigate(R.id.action_eventDetailsFragment_to_eventMainFragment);
-                else if (flag == 1) {
-                    navController.navigate(R.id.action_eventDetailsFragment2_to_profileMainFragment);
-                } else {
-                    navController.navigate(R.id.action_eventDetailsFragment4_to_feedMainFragment);
-                }
+                navController.navigateUp();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -119,20 +112,21 @@ public class EventDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
+
         String from = getArguments().getString("from");
 
         if (from.equals("event")) {
 //            Coming from event
             flag = 0;
-            navController = Navigation.findNavController(view);
         } else if (from.equals("myevent")) {
 //            Coming from my event section
             flag = 1;
-            navController = Navigation.findNavController(getActivity(), R.id.fragment_profile);
+//            navController = Navigation.findNavController(getActivity(), R.id.fragment_profile);
         } else {
 //            Coming from feed
             flag = 2;
-            navController = Navigation.findNavController(getActivity(), R.id.fragment_feed);
+//            navController = Navigation.findNavController(getActivity(), R.id.fragment_feed);
         }
 
         eventModel = (EventModel) getArguments().getSerializable("eventDetails");
@@ -160,22 +154,40 @@ public class EventDetailsFragment extends Fragment {
         binding.btnEventFindPal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                if (flag == 0) {
-                    EventFragment eventFragment = (EventFragment) navHostFragment.getParentFragment();
-                    eventFragment.onFindTeamMate();
+                /*if (flag == 0) {
+                    navController.navigate(R.id.action_eventDetailsFragment_to_eventPalFragment);
                 } else if (flag == 1) {
-                    ProfileFragment profileFragment = (ProfileFragment) navHostFragment.getParentFragment();
-                    profileFragment.findTeamMate();
-                } else if (flag == 2) {
-                    FindFragment findFragment = (FindFragment) navHostFragment.getParentFragment();
-                    findFragment.findTeamMate();
-                } else if (flag == 3) {
-                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                    feedFragment.findTeamMate();
+                    navController.navigate(R.id.action_eventDetailsFragment2_to_eventPalFragment2);
+                } else {
+                    try {
+                        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                        FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                        feedFragment.findTeamMate();
+                    }catch (Exception e) {
+                        Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_SHORT).show();
+                    }
                 }*/
-//                ((MainActivity)getActivity()).onExploreClick();
-                ((StartFragment)getParentFragment()).onExploreClick();
+                /*if (getActivity() != null) {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.eventPalFragmentMenu);
+                }*/
+
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    if (flag == 0) {
+                        EventFragment eventFragment = (EventFragment) navHostFragment.getParentFragment();
+                        if (eventFragment != null)
+                            eventFragment.findTeamMate();
+                    } else if (flag == 1) {
+                        ProfileFragment profileFragment = (ProfileFragment) navHostFragment.getParentFragment();
+                        if (profileFragment != null)
+                            profileFragment.findTeamMate();
+                    } else if (flag == 2) {
+                        FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                        if (feedFragment != null)
+                            feedFragment.findTeamMate();
+                    }
+                }
 
             }
         });
@@ -183,9 +195,11 @@ public class EventDetailsFragment extends Fragment {
         binding.btnAddToMyEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                CollectionReference myEventRef = FirebaseFirestore.getInstance().collection(constant.getUsers());
+
                 if (eventPresentFlag == 0) {
 //                    Add event to my event
-                    CollectionReference myEventRef = FirebaseFirestore.getInstance().collection(constant.getUsers());
                     myEventRef.document(FirebaseAuth.getInstance().getUid())
                             .update(constant.getUserMyEventField(), FieldValue.arrayUnion(eventModel.getEventID()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -197,7 +211,6 @@ public class EventDetailsFragment extends Fragment {
                             });
                 } else {
 //                    Remove event from my event
-                    CollectionReference myEventRef = FirebaseFirestore.getInstance().collection(constant.getUsers());
                     myEventRef.document(FirebaseAuth.getInstance().getUid())
                             .update(constant.getUserMyEventField(), FieldValue.arrayRemove(eventModel.getEventID()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

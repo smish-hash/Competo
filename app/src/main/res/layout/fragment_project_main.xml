@@ -28,7 +28,82 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <View
+        android:id="@+id/view_background_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/project_fab_background_gradient"
+        android:elevation="@dimen/grid_1x"
+        android:visibility="gone"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnLikedProjects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/darkOrange"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/button_favorite"
+        android:layout_marginBottom="@dimen/grid_2x"
+        android:elevation="@dimen/grid_2x"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/btnMyProjects"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
+        app:rippleColor="@color/orange"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvLikedProjects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/grid_3x"
+        android:layout_toStartOf="@id/btnLikedProjects"
+        android:elevation="@dimen/grid_2x"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Liked Projects"
+        android:textColor="@color/white_ui"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnLikedProjects"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
+        app:layout_constraintTop_toTopOf="@+id/btnLikedProjects" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnMyProjects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/darkOrange"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_round_my_projects_24"
+        android:layout_marginBottom="@dimen/grid_2x"
+        android:elevation="@dimen/grid_2x"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddProject"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
+        app:rippleColor="@color/orange"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvMyProjects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/grid_3x"
+        android:layout_toStartOf="@id/btnMyProjects"
+        android:elevation="@dimen/grid_2x"
+        android:fontFamily="sans-serif-condensed"
+        android:text="My Projects"
+        android:textColor="@color/white_ui"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMyProjects"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
+        app:layout_constraintTop_toTopOf="@+id/btnMyProjects" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddProject"
@@ -36,14 +111,32 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/grid_3x"
         android:backgroundTint="@color/orange"
-        app:fabSize="mini"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_baseline_add_24"
+        android:src="@drawable/ic_round_workspaces_24"
+        app:elevation="@dimen/grid_2x"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/darkOrange"
         app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvAddProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/btnMyProjects"
+        android:text="Create Project"
+        android:fontFamily="sans-serif-condensed"
+        android:elevation="@dimen/grid_2x"
+        android:textColor="@color/white_ui"
+        android:layout_marginEnd="@dimen/grid_3x"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddProject"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
+        app:layout_constraintTop_toTopOf="@+id/btnAddProject" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

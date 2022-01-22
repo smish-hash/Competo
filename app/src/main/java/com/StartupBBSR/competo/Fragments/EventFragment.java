@@ -3,6 +3,7 @@ package com.StartupBBSR.competo.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,4 +28,15 @@ public class EventFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
+
+    protected void findTeamMate() {
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment) navHostFragment.getParentFragment();
+            if (startFragment != null)
+                startFragment.loadFragment(3);
+        }
+    }
+
+
 }

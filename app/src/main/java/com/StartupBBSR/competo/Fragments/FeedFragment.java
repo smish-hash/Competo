@@ -27,27 +27,38 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFeedBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
 
-        return view;
+        return binding.getRoot();
     }
 
     public void onClickViewAllEvents() {
         NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-        StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
-        startFragment.onViewAllEventsClick();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+            if (startFragment != null) {
+                startFragment.loadFragment(2);
+            }
+        }
     }
 
-    public void findTeamMate() {
+    protected void findTeamMate() {
         NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-        StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
-        startFragment.onExploreClick();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+            if (startFragment != null) {
+                startFragment.loadFragment(3);
+            }
+        }
     }
 
     public void onProfileImageClick() {
         NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-        StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
-        startFragment.onProfileImageClick();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+            if (startFragment != null) {
+                startFragment.loadFragment(5);
+            }
+        }
     }
 
 }

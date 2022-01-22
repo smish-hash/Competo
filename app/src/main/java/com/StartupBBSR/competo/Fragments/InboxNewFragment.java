@@ -54,7 +54,6 @@ public class InboxNewFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 navController.navigateUp();
-
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -99,6 +98,11 @@ public class InboxNewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
+
+        binding.btnInboxBack.setOnClickListener(view1 -> {
+            navController.navigateUp();
+        });
+
         init();
         getRequestCounts();
     }

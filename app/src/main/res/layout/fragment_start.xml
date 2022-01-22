@@ -36,9 +36,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:letterSpacing="0.1"
                     android:text="@string/app_name"
-                    android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/text_gray"
                     android:textStyle="bold" />
@@ -49,7 +49,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/grid_3x"
+                    android:layout_marginStart="@dimen/grid_3x"
+                    android:layout_marginTop="@dimen/grid_3x"
+                    android:layout_marginEnd="@dimen/grid_3x"
+                    android:layout_marginBottom="@dimen/grid_3x"
                     android:src="@drawable/ic_baseline_chat_24" />
             </RelativeLayout>
 
@@ -89,8 +92,7 @@
                 android:layout_marginEnd="@dimen/grid_3x"
                 android:background="@color/white"
                 app:elevation="0dp"
-                app:labelVisibilityMode="labeled"
-                app:itemBackground="@null"
+                app:labelVisibilityMode="selected"
                 app:itemIconTint="@drawable/bottom_nav_selector"
                 app:itemRippleColor="@null"
                 app:itemTextColor="@drawable/bottom_nav_selector"

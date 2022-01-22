@@ -39,7 +39,7 @@
     
     
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
-        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="chipBackgroundColor">@color/onboarding_green</item>
     </style>
 
     <style name="inputChipStyle" parent="Widget.MaterialComponents.Chip.Entry">
@@ -48,6 +48,14 @@
 
     <style name="roundButton_colourLightBlue" parent="Theme.MaterialComponents.Light">
         <item name="android:background">@drawable/eventpal_button_round</item>
+    </style>
+
+    <style name="bottom_dialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/modal</item>
+    </style>
+
+    <style name="modal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/project_bottom_dialog</item>
     </style>
 
 </resources>

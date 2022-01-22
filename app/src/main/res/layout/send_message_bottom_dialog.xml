@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="@dimen/grid_5x"
+            android:layout_height="@dimen/grid_1x"
+            android:layout_marginTop="@dimen/grid_2x"
+            android:background="@color/text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvContact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Contact"
+            android:maxLines="2"
+            android:layout_margin="@dimen/grid_3x"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textColor="@color/text_gray"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/messageTIL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_margin="@dimen/grid_3x"
+            android:hint="Enter Message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvContact">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInputMessage"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:gravity="start"
+                android:maxLength="100"
+                android:background="@drawable/edit_text_border"
+                android:textColor="@color/text_gray"
+                android:maxLines="10"
+                android:scrollbars="vertical"
+                android:inputType="textMultiLine|textCapSentences|textAutoComplete|textAutoCorrect|textLongMessage" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/grid_2x"
+            app:layout_constraintTop_toBottomOf="@id/messageTIL"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="@dimen/grid_2x"
+            android:weightSum="2">
+
+            <ProgressBar
+                android:id="@+id/contactProgressBar"
+                android:layout_width="@dimen/grid_4x"
+                android:layout_height="@dimen/grid_4x"
+                android:visibility="gone"
+                android:layout_weight="2"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelMessage"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:layout_marginEnd="@dimen/grid_1x"
+                android:textColor="@color/text_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeleteMessage" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSendMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/background_blue"
+                android:text="Send Message"
+                android:visibility="visible"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:layout_marginStart="@dimen/grid_2x"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
