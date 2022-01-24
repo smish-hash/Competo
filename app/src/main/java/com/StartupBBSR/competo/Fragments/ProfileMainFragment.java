@@ -43,7 +43,7 @@ public class ProfileMainFragment extends Fragment {
 
     private FragmentProfileMainBinding binding;
     // tab titles
-    private String[] profileTabTitles = new String[]{"About", "Wishlist", "Updates"};
+    private final String[] profileTabTitles = new String[]{"About", "Wishlist", "Updates"};
 
     private List<String> mDataSet;
 
@@ -58,9 +58,13 @@ public class ProfileMainFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                /*NavHostFragment navHostFragment = (NavHostFragment)getParentFragment();
-                ProfileFragment profileFragment = (ProfileFragment) navHostFragment.getParentFragment();
-                profileFragment.onGoHomeOnBackPressed();*/
+                NavHostFragment navHostFragment = (NavHostFragment)getParentFragment();
+                if (navHostFragment != null) {
+                    ProfileFragment profileFragment = (ProfileFragment) navHostFragment.getParentFragment();
+                    if (profileFragment != null) {
+                        profileFragment.onGoHomeOnBackPressed();
+                    }
+                }
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -76,60 +80,11 @@ public class ProfileMainFragment extends Fragment {
 
         constant = new Constant();
 
-        userModel = (UserModel) getActivity().getIntent().getSerializableExtra(constant.getUserModelObject());
+        if (getActivity() != null)
+            userModel = (UserModel) getActivity().getIntent().getSerializableExtra(constant.getUserModelObject());
 
-        binding.btnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), EditProfileActivity.class)
-                        .putExtra(constant.getUserModelObject(), userModel));
-            }
-        });
-
-        binding.btnEditInterests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_profileMainFragment_to_interestChipFragment);
-            }
-        });
-
-
-        init();
-        initDataSet();
-
-        if (userModel.getUserChips() == null)
-            binding.profileBrief.setText("");
-        else {
-            RecyclerView recyclerView = binding.interestChipRecyclerView;
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
-            InterestChipAdapter adapter = new InterestChipAdapter(mDataSet);
-            recyclerView.setAdapter(adapter);
-
-
-            String[] tempData = new String[3];
-            for (int i = 0; i < 3; i++) {
-                tempData[i] = userModel.getUserChips().get(i);
-            }
-
-            binding.profileBrief.setText(Arrays.toString(tempData).replaceAll("\\[|\\]", ""));
-        }
-
-        binding.profileRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-                init();
-                initDataSet();
-
-                if (userModel.getUserLinkedin() == null || userModel.getUserLinkedin().isEmpty()) {
-                    binding.ivGotolinkedin.setVisibility(View.GONE);
-                } else
-                    binding.ivGotolinkedin.setVisibility(View.VISIBLE);
-
-                binding.profileRefreshLayout.setRefreshing(false);
-            }
-        });
-
+        binding.btnEditProfile.setOnClickListener(view1 -> startActivity(new Intent(getContext(), EditProfileActivity.class)
+                .putExtra(constant.getUserModelObject(), userModel)));
 
         return view;
     }
@@ -138,27 +93,21 @@ public class ProfileMainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        loadData();
-
         navController = Navigation.findNavController(view);
 
+        init();
+        initDataSet();
+        loadData();
 
-        if (userModel.getUserLinkedin() == null || userModel.getUserLinkedin().isEmpty()) {
-            binding.ivGotolinkedin.setVisibility(View.GONE);
-        } else
-            binding.ivGotolinkedin.setVisibility(View.VISIBLE);
+        binding.profileRefreshLayout.setOnRefreshListener(() -> {
+            if (getActivity() != null)
+                userModel = (UserModel) getActivity().getIntent().getSerializableExtra(constant.getUserModelObject());
 
-        binding.ivGotolinkedin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!userModel.getUserLinkedin().isEmpty()) {
-                    Uri linkedinUri = Uri.parse(userModel.getUserLinkedin());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, linkedinUri);
-                    startActivity(intent);
+            initDataSet();
+            loadData();
+            init();
 
-                }
-            }
+            binding.profileRefreshLayout.setRefreshing(false);
         });
     }
 
@@ -171,11 +120,28 @@ public class ProfileMainFragment extends Fragment {
             loadUsingGlide(imgurl);
         }
 
+        if (mDataSet == null)
+            binding.profileBrief.setText("");
+        else {
+            RecyclerView recyclerView = binding.interestChipRecyclerView;
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+            InterestChipAdapter adapter = new InterestChipAdapter(mDataSet);
+            recyclerView.setAdapter(adapter);
+
+            String[] tempData = new String[3];
+            for (int i = 0; i < 3; i++) {
+                tempData[i] = userModel.getUserChips().get(i);
+            }
+
+            binding.profileBrief.setText(Arrays.toString(tempData).replaceAll("\\[|\\]", ""));
+        }
+
+
     }
 
     private void loadUsingGlide(String imgurl) {
 
-        Glide.with(getContext()).
+        Glide.with(requireContext()).
                 load(imgurl).
                 listener(new RequestListener<Drawable>() {
                     @Override
@@ -204,8 +170,6 @@ public class ProfileMainFragment extends Fragment {
     private void initDataSet() {
         if (userModel.getUserChips() != null)
             mDataSet = userModel.getUserChips();
-
-//        Log.d("chips", "initDataSet: " + Arrays.asList(mDataSet));
     }
 
     private class ProfileViewPagerFragmentAdapter extends FragmentStateAdapter {

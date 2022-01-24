@@ -51,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnMyProjects"
         app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
         app:rippleColor="@color/orange"
-        app:tint="@color/white" />
+        app:tint="@color/white_ui" />
 
     <TextView
         android:id="@+id/tvLikedProjects"
@@ -86,7 +86,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnAddProject"
         app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
         app:rippleColor="@color/orange"
-        app:tint="@color/white" />
+        app:tint="@color/white_ui" />
 
     <TextView
         android:id="@+id/tvMyProjects"
@@ -117,7 +117,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/darkOrange"
-        app:tint="@color/white" />
+        app:tint="@color/white_ui" />
 
     <TextView
         android:id="@+id/tvAddProject"

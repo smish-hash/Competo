@@ -1,23 +1,28 @@
 package com.StartupBBSR.competo.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.StartupBBSR.competo.BuildConfig;
 import com.StartupBBSR.competo.R;
+import com.StartupBBSR.competo.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private ActivitySplashBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //        Disable night mode
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -25,6 +30,12 @@ public class SplashActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.splash_animation);
+        Animation textAnimation = AnimationUtils.loadAnimation(this, R.anim.project_fab_open);
+        binding.image.startAnimation(animation);
+        binding.textView.startAnimation(textAnimation);
+        binding.textView.startAnimation(textAnimation);
 
         new Handler(Looper.myLooper()).postDelayed(new Runnable() {
             @Override

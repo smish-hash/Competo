@@ -25,14 +25,26 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-        return view;
+
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
+            if (fragment != null) {
+                fragment.setTitleText(5);
+            }
+        }
+
+        return binding.getRoot();
     }
 
     public void onGoHomeOnBackPressed() {
-        /*NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-        StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
-        fragment.onGoHomeOnBackPressed();*/
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
+            if (fragment != null) {
+                fragment.loadFragment(1);
+            }
+        }
     }
 
     protected void findTeamMate() {

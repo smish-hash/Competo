@@ -23,9 +23,6 @@ public class EventFilterBottomSheetDialog extends BottomSheetDialogFragment {
 
     private EventFilterBottomsheetLayoutBinding binding;
     private ChipGroup chipGroup;
-    private String[] selectedFilters;
-
-    private Context mcontext;
 
     private BottomSheetListener listener;
 
@@ -34,7 +31,6 @@ public class EventFilterBottomSheetDialog extends BottomSheetDialogFragment {
     }
 
     public EventFilterBottomSheetDialog(Context context) {
-        this.mcontext = context;
     }
 
     @Override
@@ -87,7 +83,7 @@ public class EventFilterBottomSheetDialog extends BottomSheetDialogFragment {
             }
         }
 
-        selectedFilters = new String[count];
+        String[] selectedFilters = new String[count];
         int index = 0;
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);

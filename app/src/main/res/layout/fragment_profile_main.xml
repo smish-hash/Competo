@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    app:cardCornerRadius="10dp"
-    android:layout_margin="@dimen/grid_2x">
+    app:cardCornerRadius="@dimen/radius_10"
+    app:cardUseCompatPadding="true">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/profile_refresh_layout"
@@ -18,17 +18,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/btnEditInterests"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:text="+ Add Skills"
-                android:layout_marginTop="@dimen/grid_1x"
-                android:textColor="@color/ui_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/interestChipRecyclerView" />
 
              <ImageView
                  android:id="@+id/iv_gotolinkedin"
@@ -58,8 +47,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:fillViewport="true"
-                    app:tabIndicatorColor="@color/ui_light_blue"
-                    app:tabSelectedTextColor="@color/ui_light_blue"
+                    app:tabIndicatorColor="@color/background_blue"
+                    app:tabSelectedTextColor="@color/background_blue"
                     app:tabTextAppearance="@style/ProfileCustomTabText"
                     app:tabTextColor="@color/text_gray">
 
@@ -119,7 +108,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="135dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="@dimen/radius_10">
 
                     <ImageView
                         android:id="@+id/profile_image"
@@ -140,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_3x"
                 android:layout_marginTop="@dimen/grid_1x"
-                android:layout_marginEnd="@dimen/grid_1x"
+                android:layout_marginEnd="@dimen/grid_3x"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:scrollHorizontally="true"
@@ -148,7 +137,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/text_gray"
                 android:fontFamily="@font/palanquin_semibold"
-                app:layout_constraintEnd_toStartOf="@+id/btnEditInterests"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_rel_layout" />
 
@@ -157,25 +146,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+
                 android:fontFamily="sans-serif-condensed"
                 android:maxLines="1"
                 android:scrollHorizontally="true"
                 android:text="profile brief"
                 android:textColor="@color/text_dark_gray"
                 android:textSize="13sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/profile_name"
                 app:layout_constraintStart_toStartOf="@id/profile_name"
                 app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="@dimen/grid_3x"
                 android:layout_marginTop="@dimen/grid_3x"
                 android:layout_marginRight="@dimen/grid_3x"
-                android:background="@drawable/profile_edit_button"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/text_gray"
+                android:backgroundTint="@color/white"
                 android:text="Edit Profile"
                 android:textAllCaps="false"
                 android:textColor="@color/text_gray"

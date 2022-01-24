@@ -28,6 +28,14 @@ public class FeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentFeedBinding.inflate(inflater, container, false);
 
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
+            if (fragment != null) {
+                fragment.setTitleText(1);
+            }
+        }
+
         return binding.getRoot();
     }
 

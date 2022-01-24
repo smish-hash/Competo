@@ -52,6 +52,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
@@ -82,7 +83,13 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-//                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    EventPalFragment eventPalFragment = (EventPalFragment) navHostFragment.getParentFragment();
+                    if (eventPalFragment != null) {
+                        eventPalFragment.onGoHomeBackPressed();
+                    }
+                }
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -146,7 +153,6 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                         if (model.getName().toLowerCase().contains(newText.toLowerCase()))
                             mList.add(model);
                     }
-
                 }
                 if (mList.size() == 0) {
                     binding.eventPalRecyclerView.setVisibility(View.GONE);
@@ -156,7 +162,6 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                     binding.eventPalRecyclerView.setVisibility(View.VISIBLE);
                     initRecycler();
                 }
-
             }
         });
     }
@@ -301,7 +306,6 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                                 for (String filter : selectedFilters) {
                                     if (eventPalModel.getChips().contains(filter)) {
                                         mList.add(eventPalModel);
-                                        continue;
                                     }
                                 }
                             }

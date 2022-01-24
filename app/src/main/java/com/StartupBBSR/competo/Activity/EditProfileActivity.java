@@ -7,13 +7,18 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.StartupBBSR.competo.Adapters.TagRecyclerAdapter;
 import com.StartupBBSR.competo.Models.UserModel;
+import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.ActivityEditProfileBinding;
 import com.bumptech.glide.Glide;
@@ -26,6 +31,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,7 +45,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -57,6 +67,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseDB;
     private FirebaseStorage firebaseStorage;
+    private FirebaseUser firebaseUser;
 
     private String userId;
 
@@ -65,13 +76,18 @@ public class EditProfileActivity extends AppCompatActivity {
     private Constant constant;
     private UserModel userModel;
 
-    private int REQUEST_PHOTO_CODE = 123;
+    private final int REQUEST_PHOTO_CODE = 123;
     private Uri profileImageUri, downloadUri;
     private UploadTask uploadTask;
 
-    private FirebaseUser firebaseUser;
+    private TagRecyclerAdapter skillAdapter;
+    private List<String> skillDataSet, skills;
+    private ChipGroup skillsChipGroup;
 
-    public static final String TAG = "deleteacc";
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,47 +134,109 @@ public class EditProfileActivity extends AppCompatActivity {
         activityEditProfileBinding.btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!activityEditProfileBinding.etLinkedIn.getText().toString().isEmpty())
-                    checkaddress();
                 verifyInput();
             }
         });
 
+        activityEditProfileBinding.recyclerViewSkills.setHasFixedSize(true);
+
         activityEditProfileBinding.editProfileToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditProfileActivity.super.onBackPressed();
+                finish();
             }
         });
 
+        skillDataSet = Arrays.asList(getResources().getStringArray(R.array.FilterChips));
+        skillsChipGroup = activityEditProfileBinding.skillsChipGroup;
 
-        activityEditProfileBinding.btnDeleteProfile.setOnClickListener(new View.OnClickListener() {
+        skillAdapter = new TagRecyclerAdapter(skillDataSet);
+        skillAdapter.setOnTagClickListener((itemView, position) -> {
+            Chip chip = new Chip(this);
+            TextView skill = itemView.findViewById(R.id.tvTag);
+            chip.setText(skill.getText().toString());
+            chip.setCloseIconVisible(true);
+            chip.setCheckable(false);
+            chip.setClickable(false);
+            skillsChipGroup.addView(chip);
+            chip.setOnCloseIconClickListener(view -> {
+                skillsChipGroup.removeView(view);
+            });
+            skillsChipGroup.setVisibility(View.VISIBLE);
+        });
+        activityEditProfileBinding.recyclerViewSkills.setAdapter(skillAdapter);
+
+        activityEditProfileBinding.etSkills.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                deleteProfile();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                activityEditProfileBinding.recyclerViewSkills.setVisibility(View.VISIBLE);
+                String input = charSequence.toString().toLowerCase();
+
+                List<String> newSkills = new ArrayList<>();
+                for (String skill: skillDataSet) {
+                    if (skill.toLowerCase().contains(input)) {
+                        newSkills.add(skill);
+                    }
+                }
+
+                skillAdapter = new TagRecyclerAdapter(newSkills);
+
+                skillAdapter.setOnTagClickListener((itemView, position) -> {
+                    Chip chip = new Chip(EditProfileActivity.this);
+                    TextView skill = itemView.findViewById(R.id.tvTag);
+                    chip.setText(skill.getText().toString());
+                    chip.setCloseIconVisible(true);
+                    chip.setCheckable(false);
+                    chip.setClickable(false);
+
+                    skillsChipGroup.addView(chip);
+
+                    chip.setOnCloseIconClickListener(view -> {
+                        skillsChipGroup.removeView(view);
+                    });
+                    skillsChipGroup.setVisibility(View.VISIBLE);
+//                    activityEditProfileBinding.recyclerViewSkills.setVisibility(View.INVISIBLE);
+                });
+                activityEditProfileBinding.recyclerViewSkills.setAdapter(skillAdapter);
+                skillAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
 
         setInitialData();
     }
 
-    private void checkaddress() {
-        String address = activityEditProfileBinding.etLinkedIn.getText().toString();
-        String maddress;
-        if (address.contains("https://"))
-            maddress = address;
-        else
-            maddress = "https://" + address;
-        activityEditProfileBinding.etLinkedIn.setText(maddress);
-    }
-
     private void setInitialData() {
         activityEditProfileBinding.etName.setText(userModel.getUserName());
         activityEditProfileBinding.BioTV.setText(userModel.getUserBio());
         activityEditProfileBinding.etPhone.setText(userModel.getUserPhone());
-        activityEditProfileBinding.etLinkedIn.setText(userModel.getUserLinkedin());
+
         if (userModel.getUserPhoto() != null)
             loadUsingGlide(userModel.getUserPhoto());
+
+        if (userModel.getUserChips() != null) {
+            List<String> userChips = userModel.getUserChips();
+            for (String s: userChips) {
+                Chip chip = new Chip(this);
+                chip.setText(s);
+                chip.setCloseIconVisible(true);
+                chip.setCheckable(false);
+                chip.setClickable(false);
+                skillsChipGroup.addView(chip);
+                chip.setOnCloseIconClickListener(view -> {
+                    skillsChipGroup.removeView(view);
+                });
+                skillsChipGroup.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void pickImage() {
@@ -185,16 +263,40 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void verifyInput() {
         flag = 0;
+
         checkEmptyField(activityEditProfileBinding.etName);
         checkEmptyField(activityEditProfileBinding.BioTV);
         checkEmptyField(activityEditProfileBinding.etPhone);
         checkphonenumber(activityEditProfileBinding.etPhone);
+        checkSkills();
 //        checkEmptyField(activityEditProfileBinding.etLinkedIn);
 
-        if (flag == 3) {
+        if (flag == 4) {
             updateUser();
         } else {
-            Toast.makeText(this, "Fill all required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkSkills() {
+        skills = new ArrayList<>();
+
+        for (int i = 0; i < skillsChipGroup.getChildCount(); ++i) {
+            Chip chip = (Chip) skillsChipGroup.getChildAt(i);
+            skills.add(chip.getText().toString());
+        }
+
+        if (skills.size() != 0) {
+            if (skills.size() > 6) {
+                Toast.makeText(this, "Cannot select more than 6 skills", Toast.LENGTH_SHORT).show();
+                flag--;
+            } else if (skills.size() < 3) {
+                Toast.makeText(this, "Select at least 3 skills", Toast.LENGTH_SHORT).show();
+                flag--;
+            } else
+                flag++;
+        } else {
+            flag--;
         }
     }
 
@@ -292,8 +394,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         userInfo.put(constant.getUserNameField(), activityEditProfileBinding.etName.getText().toString().trim());
         userInfo.put(constant.getUserPhoneField(), activityEditProfileBinding.etPhone.getText().toString().trim());
-        userInfo.put(constant.getUserLinkedinField(), activityEditProfileBinding.etLinkedIn.getText().toString().trim());
         userInfo.put(constant.getUserBioField(), activityEditProfileBinding.BioTV.getText().toString().trim());
+        userInfo.put(constant.getUserInterestedChipsField(), skills);
+
 
         if (downloadUri != null)
             userInfo.put(constant.getUserPhotoField(), downloadUri.toString());
@@ -308,59 +411,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         finish();
                     }
                 });
-    }
-
-    private void deleteProfile() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
-        builder.setTitle("Delete profile");
-        builder.setMessage("Are you sure you want to delete this profile?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                activityEditProfileBinding.uploadingProgressBar.setVisibility(View.VISIBLE);
-                activityEditProfileBinding.btnSaveProfile.setVisibility(View.GONE);
-
-                firebaseDB.collection(constant.getChatConnections()).document(userId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "onClick: User Connection deleted");
-                        firebaseDB.collection(constant.getUsers()).document(userId)
-                                .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d(TAG, "onClick: User Data deleted");
-                                firebaseUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(EditProfileActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull @NotNull Exception e) {
-                                Toast.makeText(EditProfileActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                activityEditProfileBinding.uploadingProgressBar.setVisibility(View.GONE);
-                                activityEditProfileBinding.btnSaveProfile.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    }
-                });
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
     }
 
 

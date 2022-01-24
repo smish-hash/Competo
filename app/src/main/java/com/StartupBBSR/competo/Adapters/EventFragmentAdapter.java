@@ -16,15 +16,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, EventFragmentAdapter.ViewHolder> {
+public class EventFragmentAdapter extends RecyclerView.Adapter<EventFragmentAdapter.ViewHolder> {
 
     private EventFragmentItemBinding binding;
     private Context context;
+    private List<EventModel> mList;
 
 
     private SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.US);
@@ -33,16 +35,16 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
     public OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(DocumentSnapshot snapshot);
+        void onItemClick(EventModel model);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    public EventFragmentAdapter(Context context, @NonNull FirestoreRecyclerOptions<EventModel> options) {
-        super(options);
+    public EventFragmentAdapter(Context context, List<EventModel> mList) {
         this.context = context;
+        this.mList = mList;
     }
 
     @NonNull
@@ -53,9 +55,8 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull EventModel model) {
-//        String date = model.getEventDate();
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final EventModel model = mList.get(position);
         String day = "", month = "";
 
         if (model.getEventDateStamp() != null) {
@@ -68,6 +69,11 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
         holder.title.setText(model.getEventTitle());
         holder.description.setText(model.getEventDescription());
         Glide.with(context).load(model.getEventPoster()).into(holder.image);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
     }
 
 
@@ -86,15 +92,12 @@ public class EventFragmentAdapter extends FirestoreRecyclerAdapter<EventModel, E
             image = binding.ivImage;
 
 
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
-                            listener.onItemClick(snapshot);
-                        }
+            image.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        EventModel model = mList.get(position);
+                        listener.onItemClick(model);
                     }
                 }
             });

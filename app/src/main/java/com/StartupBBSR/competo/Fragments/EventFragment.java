@@ -26,6 +26,15 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment fragment = (StartFragment) navHostFragment.getParentFragment();
+            if (fragment != null) {
+                fragment.setTitleText(2);
+            }
+        }
+
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
@@ -35,6 +44,15 @@ public class EventFragment extends Fragment {
             StartFragment startFragment = (StartFragment) navHostFragment.getParentFragment();
             if (startFragment != null)
                 startFragment.loadFragment(3);
+        }
+    }
+
+    protected void onGoHomeBackPressed() {
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment) navHostFragment.getParentFragment();
+            if (startFragment != null)
+                startFragment.loadFragment(1);
         }
     }
 

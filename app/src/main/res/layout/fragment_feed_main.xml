@@ -125,6 +125,7 @@
                 android:layout_marginBottom="@dimen/grid_2x"
                 android:backgroundTint="@color/white"
                 app:cornerRadius="10dp"
+                android:visibility="invisible"
                 android:elevation="@dimen/grid_2x"
                 android:text="Explore"
                 android:fontFamily="@font/palanquin_semibold"
@@ -132,12 +133,20 @@
                 android:textAllCaps="false"
                 android:textColor="@color/Explore" />
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/cvPosterImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:lottie_rawRes="@raw/teamos_home_anim_01"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"/>
+
+            <!--<ImageView
                 android:id="@+id/cvPosterImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cover_compressed" />
+                android:src="@drawable/cover_compressed" />-->
 
         </soup.neumorphism.NeumorphCardView>
 

@@ -31,7 +31,11 @@ class ProjectAdapter(var mList: List<ProjectModel>) :
     private val tagColorList = arrayOf(
         R.color.onboarding_pink,
         R.color.onboarding_green,
-        R.color.onboarding_blue
+        R.color.onboarding_blue,
+        R.color.projectTag2,
+        R.color.projectTag3,
+        R.color.projectTag4,
+        R.color.projectTag5
     )
 
     interface OnProjectItemClickListener {
@@ -93,8 +97,15 @@ class ProjectAdapter(var mList: List<ProjectModel>) :
                 for (i in project.projectTags) {
                     val chip = Chip(context)
                     chip.text = i
-                    chip.setTextColor(context.resources.getColor(R.color.white, context.theme))
-                    chip.setChipBackgroundColorResource(tagColorList.random())
+                    val color = tagColorList.random()
+                    chip.setTextColor(context.resources.getColor(color))
+                    chip.setChipStrokeColorResource(color)
+                    chip.minWidth = 3
+                    chip.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    chip.minimumWidth = ViewGroup.LayoutParams.WRAP_CONTENT
+                    chip.minWidth = ViewGroup.LayoutParams.WRAP_CONTENT
+                    chip.setChipBackgroundColorResource(R.color.white)
+                    chip.chipStrokeWidth = 4.0f
                     binding.projectTags.addView(chip)
                 }
             }

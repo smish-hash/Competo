@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,6 +93,8 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
     private View header;
     private BottomNavigationView bottomNavigationView;
 
+    private Animation tvFadeOut, tvFadeIn;
+
     private DocumentReference documentReference;
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
@@ -105,16 +108,6 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
 
     private static final String TAG = "test";
     private static final String testTAG = "empty";
-
-    private Fragment fragment;
-    private ProfileFragment profileFragment;
-
-    private FeedFragment feedFragment;
-    private EventFragment eventFragment;
-    private InboxNewFragment inboxNewFragment;
-    private EventPalFragment eventPalFragment;
-
-    private ProjectFragment projectFragment;
 
     private AlertDialog.Builder builder1;
     private AlertDialog.Builder builder2;
@@ -158,7 +151,7 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
 
         View view = binding.getRoot();
 
-        builder1 = new AlertDialog.Builder(getContext());
+        builder1 = new AlertDialog.Builder(requireContext());
         builder2 = new AlertDialog.Builder(getContext());
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -207,6 +200,10 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                     }
                 });
 
+
+        setAnimations();
+        setTitleText(1);
+
         firestoreDB = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         userid = firebaseAuth.getUid();
@@ -226,6 +223,11 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         projectFragment = new ProjectFragment();*/
 
         return view;
+    }
+
+    private void setAnimations() {
+        tvFadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.title_bar_text_animation_fade_up);
+        tvFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.title_bar_text_animation_fade_in);
     }
 
     private void popupSnackbarForCompleteUpdate() {
@@ -312,46 +314,8 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         });*/
 
         binding.btnTeamFinder.setOnClickListener(view1 -> {
-            /*bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
-            bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
-            loadFragment(eventPalFragment);*/
             loadFragment(3);
         });
-
-
-        /*bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            bottomNavigationView.getMenu().setGroupCheckable(0, true, true);
-            bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
-
-            switch (item.getItemId()) {
-
-                case R.id.feedFragmentMenu:
-                    fragment = feedFragment;
-                    loadFragment(fragment);
-                    return true;
-
-
-                case R.id.eventFragment:
-                    fragment = eventFragment;
-                    loadFragment(fragment);
-                    return true;
-
-
-                case R.id.projectFragmentMenu:
-                    fragment = projectFragment;
-                    loadFragment(fragment);
-                    return true;
-
-
-                case R.id.profileFragment:
-                    fragment = profileFragment;
-                    loadFragment(fragment);
-
-                    break;
-            }
-            return false;
-        });*/
 
         binding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
@@ -406,14 +370,14 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                 if (task.isSuccessful()) {
                     DocumentSnapshot alertSnapshot = task.getResult();
                     int temp = 0;
-                    if (alertSnapshot.getString(constant.getUserPhotoField()) == null || alertSnapshot.getString(constant.getUserBioField()) == null) {
-                        Log.d(testTAG, "onCompleteAlert: Photo or bio null: " + alertSnapshot.getString(constant.getUserPhotoField()) + ", " + alertSnapshot.getString(constant.getUserBioField()));
+                    if (alertSnapshot.getString(constant.getUserPhotoField()) == null || alertSnapshot.getString(constant.getUserBioField()) == null || alertSnapshot.get(constant.getUserInterestedChipsField()) == null) {
+                        Log.d(testTAG, "onCompleteAlert: Photo, bio or tags null: " + alertSnapshot.getString(constant.getUserPhotoField()) + ", " + alertSnapshot.getString(constant.getUserBioField()));
 
                         builder1.setTitle("Tell us a bit about yourself");
-                        builder1.setMessage("Let others know a bit about you\nAdd a photo and a bio to continue.\nA profile picture is necessary to make your profile visible to others.");
+                        builder1.setMessage("Complete your profile to continue");
                         builder1.setIcon(R.drawable.ic_baseline_settings_24);
                         builder1.setCancelable(false);
-                        builder1.setPositiveButton("Go to my profile", new DialogInterface.OnClickListener() {
+                        builder1.setPositiveButton("Complete profile", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
@@ -422,10 +386,10 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                             }
                         }).show();
 
-                        temp = 1;
+//                        temp = 1;
                     }
 
-                    if (temp != 1 && (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()) == null) {
+/*                    if (temp != 1 && (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()) == null) {
                         Log.d(testTAG, "onCompleteAlert: Chips null: " + (List<String>) alertSnapshot.get(constant.getUserInterestedChipsField()));
                         builder2.setTitle("Add your skills");
                         builder2.setMessage("Add the skills most relevant to you\nTap on the 'Add skills' button in the profile page");
@@ -438,7 +402,7 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                                 dialogInterface.dismiss();
                             }
                         }).show();
-                    }
+                    }*/
                 }
             }
         });
@@ -465,6 +429,39 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         updateHeader();
     }
 
+    protected void setTitleText(int position) {
+        switch (position) {
+            case 1:
+                binding.tvTitleBar.startAnimation(tvFadeOut);
+                binding.tvTitleBar.setText("Feed");
+                binding.tvTitleBar.startAnimation(tvFadeIn);
+                break;
+            case 2:
+                binding.tvTitleBar.startAnimation(tvFadeOut);
+                binding.tvTitleBar.setText("Events");
+                binding.tvTitleBar.startAnimation(tvFadeIn);
+                break;
+            case 3:
+                binding.tvTitleBar.startAnimation(tvFadeOut);
+                binding.tvTitleBar.setText("Team Finder");
+                binding.tvTitleBar.startAnimation(tvFadeIn);
+                break;
+            case 4:
+                binding.tvTitleBar.startAnimation(tvFadeOut);
+                binding.tvTitleBar.setText("Projects");
+                binding.tvTitleBar.startAnimation(tvFadeIn);
+                break;
+            case 5:
+                binding.tvTitleBar.startAnimation(tvFadeOut);
+                binding.tvTitleBar.setText("Profile");
+                binding.tvTitleBar.startAnimation(tvFadeIn);
+                break;
+            default:
+                Toast.makeText(getContext(), "Wrong fragment", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
     protected void loadFragment(int position) {
         //switching fragment
         /*if (fragment != null) {
@@ -475,23 +472,28 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         }*/
         switch (position) {
             case 1:
+                setTitleText(1);
                 bottomNavigationView.setSelectedItemId(R.id.feedFragmentMenu);
                 navController.navigate(R.id.feedFragmentMenu);
                 break;
             case 2:
+                setTitleText(2);
                 bottomNavigationView.setSelectedItemId(R.id.eventFragmentMenu);
                 navController.navigate(R.id.eventFragmentMenu);
                 break;
             case 3:
+                setTitleText(3);
                 binding.btnTeamFinder.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.button_team_finder_animation));
                 bottomNavigationView.setSelectedItemId(R.id.dummy);
                 navController.navigate(R.id.eventPalFragmentMenu);
                 break;
             case 4:
+                setTitleText(4);
                 bottomNavigationView.setSelectedItemId(R.id.projectFragmentMenu);
                 navController.navigate(R.id.projectFragmentMenu);
                 break;
             case 5:
+                setTitleText(5);
                 bottomNavigationView.setSelectedItemId(R.id.profileFragmentMenu);
                 navController.navigate(R.id.profileFragmentMenu);
                 break;
@@ -572,27 +574,6 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
 //            Blurred Background
             loadUsingGlide(imguri, ivprofilebackground, 25, 5);
         }
-    }
-
-    public void onProfileImageClick() {
-//        bottomNavigationView.setSelectedItemId(R.id.profileFragment);
-        loadFragment(5);
-    }
-
-    public void onViewAllEventsClick() {
-//        bottomNavigationView.setSelectedItemId(R.id.eventFragment);
-        loadFragment(2);
-    }
-
-    public void onExploreClick() {
-        /*bottomNavigationView.getMenu().setGroupCheckable(0, false, true);
-        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);*/
-        loadFragment(3);
-    }
-
-    public void onGoHomeOnBackPressed() {
-//        bottomNavigationView.setSelectedItemId(R.id.feedFragmentMenu);
-        loadFragment(1);
     }
 
 

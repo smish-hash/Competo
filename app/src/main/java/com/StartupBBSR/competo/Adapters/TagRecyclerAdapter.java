@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TagRecyclerAdapter extends RecyclerView.Adapter<TagRecyclerAdapter.ViewHolder> {
 
-    private static TagItemLayoutBinding binding;
+    private TagItemLayoutBinding binding;
     private List<String> localDataSet;
 
     //    Listener

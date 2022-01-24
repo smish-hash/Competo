@@ -39,8 +39,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/orange"
             android:layout_margin="@dimen/grid_3x"
             android:hint="Enter Message"
+            app:hintTextColor="@color/orange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvContact">
@@ -50,8 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="135dp"
                 android:gravity="start"
+                android:textCursorDrawable="@color/orange"
                 android:maxLength="100"
-                android:background="@drawable/edit_text_border"
                 android:textColor="@color/text_gray"
                 android:maxLines="10"
                 android:scrollbars="vertical"
@@ -102,7 +104,7 @@
                 android:layout_weight="1"
                 android:textAllCaps="false"
                 android:layout_marginStart="@dimen/grid_2x"
-                android:textColor="@color/white" />
+                android:textColor="@color/white_ui" />
 
         </LinearLayout>
 

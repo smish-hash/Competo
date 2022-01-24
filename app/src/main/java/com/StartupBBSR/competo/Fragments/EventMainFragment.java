@@ -10,24 +10,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Activity.ManageEventActivity;
 import com.StartupBBSR.competo.Adapters.EventFragmentAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
+import com.StartupBBSR.competo.Models.EventPalModel;
 import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.Utils.Constant;
 import com.StartupBBSR.competo.databinding.FragmentEventMainBinding;
 import com.airbnb.lottie.model.content.ShapeStroke;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -36,8 +43,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
@@ -51,10 +60,10 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
 
     private Constant constant;
     private CollectionReference collectionReference;
-    private FirestoreRecyclerOptions<EventModel> options;
 
     private EventFilterBottomSheetDialog bottomSheetDialog;
-    public static final String TAG = "filter";
+
+    private List<EventModel> eventList;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -62,7 +71,13 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-//                ((MainActivity) getActivity()).onGoHomeOnBackPressed();
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    EventFragment eventFragment = (EventFragment) navHostFragment.getParentFragment();
+                    if (eventFragment != null) {
+                        eventFragment.onGoHomeBackPressed();
+                    }
+                }
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -75,7 +90,6 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         View view = binding.getRoot();
 
         firestoreDB = FirebaseFirestore.getInstance();
-
         constant = new Constant();
         collectionReference = firestoreDB.collection(constant.getEvents());
 
@@ -92,12 +106,9 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
             }
         });
 
-        binding.AddEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent (getContext(), ManageEventActivity.class);
-                startActivity(intent);
-            }
+        binding.AddEvent.setOnClickListener(view1 -> {
+            Intent intent = new Intent (getContext(), ManageEventActivity.class);
+            startActivity(intent);
         });
 
 
@@ -106,26 +117,34 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         bottomSheetDialog.setTargetFragment(this, 0);
 
 
-        binding.btnEventFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomSheetDialog.show(getParentFragmentManager().beginTransaction(), "eventFilterSheet");
-            }
-        });
+        binding.btnEventFilter.setOnClickListener(view12 -> bottomSheetDialog.show(getParentFragmentManager().beginTransaction(), "eventFilterSheet"));
 
         return view;
     }
 
     private void search(String newText) {
-        Query eventSearchQuery = collectionReference
-                .orderBy("eventTitle")
-                .whereGreaterThanOrEqualTo("eventTitle", newText);
+        eventList = new ArrayList<>();
 
-        options = new FirestoreRecyclerOptions.Builder<EventModel>()
-                .setQuery(eventSearchQuery, EventModel.class)
-                .build();
-
-        initRecycler();
+        collectionReference.orderBy("eventDateStamp").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                eventList.clear();
+                for (QueryDocumentSnapshot snapshot: queryDocumentSnapshots) {
+                    EventModel model = snapshot.toObject(EventModel.class);
+                    if (model.getEventDateStamp() > new Date().getTime()) {
+                        if (model.getEventTitle().toLowerCase().contains(newText.toLowerCase()))
+                            eventList.add(model);
+                    }
+                }
+                if (eventList.size() == 0) {
+                    binding.eventRecyclerView.setVisibility(View.GONE);
+                    binding.tvNoEventFound.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvNoEventFound.setVisibility(View.GONE);
+                    binding.eventRecyclerView.setVisibility(View.VISIBLE);
+                    initRecycler();
+                }
+            }
+        });
     }
 
     @Override
@@ -133,7 +152,7 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
         super.onViewCreated(view, savedInstanceState);
 
         initData();
-        initRecycler();
+//        initRecycler();
 
         navController = Navigation.findNavController(view);
 
@@ -148,69 +167,84 @@ public class EventMainFragment extends Fragment implements EventFilterBottomShee
                 }
             }
         });
+
+        binding.eventRefreshLayout.setOnRefreshListener(() -> {
+            initData();
+            binding.eventRefreshLayout.setRefreshing(false);
+        });
     }
 
     private void initRecycler() {
         binding.eventRecyclerView.setHasFixedSize(true);
-        adapter = new EventFragmentAdapter(getContext(), options);
+        adapter = new EventFragmentAdapter(getContext(), eventList);
 
-        adapter.setOnItemClickListener(new EventFragmentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot snapshot) {
-                EventModel model = snapshot.toObject(EventModel.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("eventDetails", model);
-                bundle.putString("from", "event");
-                navController.navigate(R.id.action_eventMainFragment_to_eventDetailsFragment, bundle);
-            }
+        adapter.setOnItemClickListener(model -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("eventDetails", model);
+            bundle.putString("from", "event");
+            navController.navigate(R.id.action_eventMainFragment_to_eventDetailsFragment, bundle);
         });
 
         binding.eventRecyclerView.setAdapter(adapter);
-        adapter.startListening();
     }
 
 
     private void initData() {
-        Query query = collectionReference.orderBy("eventDateStamp")
-                .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime());
+        eventList = new ArrayList<>();
+        collectionReference.orderBy("eventDateStamp").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    EventModel model = snapshot.toObject(EventModel.class);
+                    if (model.getEventDateStamp() > new Date().getTime())
+                        eventList.add(model);
+                }
 
-        options = new FirestoreRecyclerOptions.Builder<EventModel>()
-                .setQuery(query, EventModel.class)
-                .build();
-    }
+                if (eventList.size() > 0) {
+                    binding.eventRecyclerView.setVisibility(View.VISIBLE);
+                    binding.tvEventStatus.setVisibility(View.GONE);
+                    initRecycler();
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (adapter != null) {
-            adapter.startListening();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (adapter != null) {
-            adapter.stopListening();
-        }
+                } else {
+                    binding.eventRecyclerView.setVisibility(View.GONE);
+                    binding.tvEventStatus.setVisibility(View.VISIBLE);
+                }
+            } else {
+                binding.eventRecyclerView.setVisibility(View.GONE);
+                binding.tvEventStatus.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void onApplyButtonClicked(List<String> selectedFilters) {
-        Log.d(TAG, "onApplyButtonClicked: " + selectedFilters);
+        eventList = new ArrayList<>();
 
-        if (selectedFilters.size() != 0) {
-            Query eventFilterQuery = collectionReference.whereArrayContainsAny("eventTags", selectedFilters);
-            options = new FirestoreRecyclerOptions.Builder<EventModel>()
-                    .setQuery(eventFilterQuery, EventModel.class)
-                    .build();
-
-            initRecycler();
+        if (selectedFilters.size() > 0) {
+            collectionReference.orderBy("eventDateStamp").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot snapshot: queryDocumentSnapshots) {
+                        EventModel model = snapshot.toObject(EventModel.class);
+                        if (model.getEventDateStamp() > new Date().getTime()) {
+                            if (model.getEventTags() != null) {
+                                for (String tag: selectedFilters) {
+                                    if (model.getEventTags().contains(tag))
+                                        eventList.add(model);
+                                }
+                            }
+                        }
+                    }
+                    if (eventList.size() == 0) {
+                        binding.eventRecyclerView.setVisibility(View.GONE);
+                        binding.tvNoEventFound.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.tvNoEventFound.setVisibility(View.GONE);
+                        binding.eventRecyclerView.setVisibility(View.VISIBLE);
+                        initRecycler();
+                    }
+                }
+            });
         } else {
             initData();
-            initRecycler();
         }
-
     }
 }

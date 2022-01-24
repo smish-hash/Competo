@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Activity.EditProfileActivity">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveProfile"
         android:layout_width="@dimen/standard_width"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/grid_3x"
-        android:background="@drawable/button_round_shape"
+        android:layout_marginBottom="@dimen/grid_2x"
         android:text="Save Changes"
+        app:cornerRadius="@dimen/radius_10"
         android:textAllCaps="false"
         android:textColor="@color/white_ui"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/grid_3x"
+        android:layout_marginBottom="@dimen/grid_2x"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveProfile"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,8 +31,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/name"
+            android:paddingBottom="@dimen/grid_5x"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/etName"
@@ -67,30 +68,9 @@
                 android:inputType="phone"
                 android:textColor="@color/text_gray"
                 android:textColorHint="@color/text_dark_gray"
-                app:layout_constraintBottom_toTopOf="@id/btnDeleteProfile"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView18" />
-
-
-            <EditText
-                android:id="@+id/etLinkedIn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginTop="@dimen/grid_1x"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:backgroundTint="@color/accent_gray"
-                android:hint="Enter LinkedIn Address"
-                android:imeOptions="actionDone"
-                android:inputType="textUri"
-                android:maxLines="1"
-                android:textColor="@color/text_dark_gray"
-                android:textColorHint="@color/dark_grey"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
 
             <ProgressBar
                 android:id="@+id/uploadingProgressBar"
@@ -180,61 +160,6 @@
                 app:layout_constraintLeft_toLeftOf="@id/etPhone"
                 app:layout_constraintTop_toBottomOf="@id/BioTIL" />
 
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="LinkedIn URL"
-                android:textColor="@color/text_dark_gray"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/etLinkedIn"
-                app:layout_constraintLeft_toLeftOf="@id/etLinkedIn"
-                app:layout_constraintTop_toBottomOf="@+id/etPhone" />
-
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="@dimen/grid_2x"
-                android:background="@color/accent_gray"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnDeleteProfile" />
-
-            <View
-                android:id="@+id/view1"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:layout_marginBottom="@dimen/grid_3x"
-                android:background="@color/accent_gray"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etPhone" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDeleteProfile"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="@dimen/standard_width"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/grid_2x"
-                android:text="Delete Profile"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                app:backgroundTint="#ff0000"
-                app:layout_constraintBottom_toTopOf="@+id/view1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view2" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/BioTIL"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -269,6 +194,62 @@
                     android:textColorHint="@color/text_dark_gray" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/tvSkills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Skills"
+                android:textColor="@color/text_gray"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@id/etPhone"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/etPhone" />
+
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/skillTIL"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1x"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSkills">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/skillsChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSkills"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Add skills"
+                    android:inputType="textCapSentences|textAutoComplete" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSkills"
+                android:layout_width="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_height="135dp"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/grid_3x"
+                android:layout_marginEnd="@dimen/grid_3x"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/skillTIL"
+                tools:listitem="@layout/tag_item_layout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

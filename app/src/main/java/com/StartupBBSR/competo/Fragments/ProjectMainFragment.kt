@@ -1,6 +1,7 @@
 package com.StartupBBSR.competo.Fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,21 +17,30 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import com.StartupBBSR.competo.Activity.ChatDetailActivity
 import com.StartupBBSR.competo.Adapters.ProjectAdapter
 import com.StartupBBSR.competo.Models.ProjectModel
+import com.StartupBBSR.competo.Models.RequestModel
 import com.StartupBBSR.competo.R
 import com.StartupBBSR.competo.R.layout.fragment_liked_projects
 import com.StartupBBSR.competo.R.layout.project_bottom_dialog
 import com.StartupBBSR.competo.Utils.Constant
 import com.StartupBBSR.competo.databinding.FragmentProjectMainBinding
 import com.StartupBBSR.competo.databinding.ProjectBottomDialogBinding
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProjectMainFragment : Fragment() {
 
@@ -58,6 +68,9 @@ class ProjectMainFragment : Fragment() {
         super.onAttach(context)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                val navHostFragment = parentFragment as NavHostFragment
+                val projectFragment = navHostFragment.parentFragment as ProjectFragment
+                projectFragment.onGoHomeBackPressed()
 
             }
         })
@@ -77,6 +90,8 @@ class ProjectMainFragment : Fragment() {
         isFabOpen = false
 
         projectList = ArrayList()
+
+
 
         return binding.root
     }
@@ -140,7 +155,9 @@ class ProjectMainFragment : Fragment() {
                         Log.d("adapter", "loadProjects: ${projectList.size}")
                         if (projectList.size > 0) {
 
-                            projectList.sortBy { constant.projectTimeStamp }
+                            projectList.sortByDescending { p ->
+                                p.projectTimeStamp
+                            }
 
                             adapter = ProjectAdapter(projectList)
 
@@ -155,7 +172,35 @@ class ProjectMainFragment : Fragment() {
                                 }
 
                                 override fun onContactMeClick(organizerID: String) {
-                                    openSendMessageDialog(organizerID)
+                                    firestoreDB.collection(constant.chatConnections).document(userID)
+                                        .get().addOnCompleteListener { task ->
+                                            if (task.isSuccessful && task.result != null) {
+                                                val connectionListSnapshot: DocumentSnapshot = task.result
+                                                val connectionList = connectionListSnapshot.get(constant.connections) as? List<String>
+
+                                                if (connectionList?.isNotEmpty() == true) {
+                                                    if (connectionList.contains(organizerID)) {
+//                                                        Chat present
+                                                        firestoreDB.collection(constant.users).document(organizerID)
+                                                            .get().addOnCompleteListener { user ->
+                                                                if (user.isSuccessful && user.result != null) {
+                                                                    val intent = Intent(context, ChatDetailActivity::class.java)
+                                                                    intent.putExtra("receiverID", organizerID)
+                                                                    intent.putExtra("receiverName", user.result.getString(constant.userNameField))
+                                                                    intent.putExtra("receiverPhoto", user.result.getString(constant.userPhotoField))
+                                                                    startActivity(intent)
+                                                                }
+                                                            }
+                                                    }
+                                                    else {
+//                                                        Create new request
+                                                        openSendMessageDialog(organizerID)
+                                                    }
+                                                } else {
+                                                    openSendMessageDialog(organizerID)
+                                                }
+                                            }
+                                        }
                                 }
                             })
 
@@ -170,7 +215,7 @@ class ProjectMainFragment : Fragment() {
     }
 
     private fun openMenu(project: ProjectModel) {
-        val bottomDialog: BottomSheetDialog = BottomSheetDialog(requireContext(), R.style.bottom_dialog)
+        val bottomDialog = BottomSheetDialog(requireContext(), R.style.bottom_dialog)
         bottomDialog.setContentView(project_bottom_dialog)
 
         val tvEdit = bottomDialog.findViewById<TextView>(R.id.tvEdit)
@@ -181,7 +226,12 @@ class ProjectMainFragment : Fragment() {
         tvDelete?.visibility = View.GONE
 
         tvReport?.setOnClickListener {
-            Toast.makeText(context, "report ${project.projectID}", Toast.LENGTH_SHORT).show()
+            projectRef.document(project.projectOrganizerID.toString()).collection(constant.createdProjects)
+                .document(project.projectID.toString()).update("reportCount", FieldValue.increment(1)).addOnSuccessListener {
+                    Toast.makeText(context, "Project reported", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Error occured", Toast.LENGTH_SHORT).show()
+                }
             bottomDialog.dismiss()
         }
 
@@ -194,7 +244,6 @@ class ProjectMainFragment : Fragment() {
 
         val tvContact = sendMessageBottomDialog.findViewById<TextView>(R.id.tvContact)
         val etMessage = sendMessageBottomDialog.findViewById<TextInputEditText>(R.id.etInputMessage)
-        val progressBar = sendMessageBottomDialog.findViewById<ProgressBar>(R.id.contactProgressBar)
 
         val cancelButton = sendMessageBottomDialog.findViewById<MaterialButton>(R.id.btnCancelMessage)
         val sendButton = sendMessageBottomDialog.findViewById<MaterialButton>(R.id.btnSendMessage)
@@ -207,10 +256,61 @@ class ProjectMainFragment : Fragment() {
         }
 
         sendButton?.setOnClickListener {
-            if (etMessage?.text.isNullOrEmpty()) {
+            if (etMessage?.text?.trim().isNullOrEmpty()) {
                 Toast.makeText(context, "Enter Message", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Sending message to $name", Toast.LENGTH_SHORT).show()
+                sendButton.isEnabled = false
+                val requestMessage: String = etMessage?.text.toString().trim()
+                val requestModel = RequestModel(userID, requestMessage, Date().time)
+
+                firestoreDB.collection(constant.requests)
+                    .document(organizerID)
+                    .collection(constant.requests)
+                    .document(userID)
+                    .set(requestModel)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Request Sent", Toast.LENGTH_SHORT).show()
+                        sendMessageBottomDialog.dismiss();
+//                        todo by aditya for notification
+                        /*firestoreDB.collection("token").document(organizerID).get()
+                            .addOnCompleteListener { task: Task<DocumentSnapshot> ->
+                                if (task.isSuccessful) {
+                                    val document = task.result
+                                    if (document.exists()) {
+                                        Log.d(
+                                            "data",
+                                            "DocumentSnapshot data: " + document.getString("token")
+                                        )
+                                        firestoreDB.collection("Users").document(userID).get()
+                                            .addOnCompleteListener { task3: Task<DocumentSnapshot> ->
+                                                if (task3.isSuccessful) {
+                                                    val document3 = task3.result
+                                                    if (document3.exists()) {
+                                                        Log.d(
+                                                            "data",
+                                                            "DocumentSnapshot data: " + document3.getString(
+                                                                "Name"
+                                                            )
+                                                        )
+                                                        sendfcm(
+                                                            document.getString("token"),
+                                                            document3.getString("Name")
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                    } else {
+                                        Log.d("data", "No such document")
+                                    }
+                                } else {
+                                    Log.d("data", "get failed with ", task.exception)
+                                }
+                            }*/
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Error sending request", Toast.LENGTH_SHORT).show()
+                        sendButton.isEnabled = true
+                    }
             }
         }
 

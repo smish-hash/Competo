@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_border"
                     android:hint="Enter Name"
-                    android:textColor="@color/text_dark_gray"
+                    android:textColor="@color/text_gray"
                     android:inputType="textPersonName"
                     android:textColorHint="@color/dark_grey" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_border"
-                    android:textColor="@color/text_dark_gray"
+                    android:textColor="@color/text_gray"
                     android:hint="Enter Number"
                     android:inputType="number"
                     android:textColorHint="@color/dark_grey" />
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_border"
                     android:hint="Enter Email"
-                    android:textColor="@color/text_dark_gray"
+                    android:textColor="@color/text_gray"
                     android:inputType="textEmailAddress"
                     android:textColorHint="@color/dark_grey" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -207,7 +207,7 @@
                     android:id="@+id/passwordET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_dark_gray"
+                    android:textColor="@color/text_gray"
                     android:background="@drawable/edit_text_border"
                     android:hint="Enter Password"
                     android:inputType="textPassword"
