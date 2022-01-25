@@ -26,9 +26,6 @@ import java.util.Objects;
 
 public class firebasemessagingservice extends FirebaseMessagingService {
 
-    private FirebaseFirestore firestoreDB;
-    private FirebaseAuth firebaseAuth;
-
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
 
