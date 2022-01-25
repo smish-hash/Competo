@@ -248,7 +248,7 @@ public class MessageRequestFragment extends Fragment {
                     "    \"data\" : {\n" +
                     "      \"id\" : \""+firebaseAuth.getUid()+"\",\n" +
                     "      \"category\" : \"request\",\n" +
-                    "      \"title\":\"Request\",\n" +
+                    "      \"title\":\"Request Accepted\",\n" +
                     "      \"body\":\""+name+" has accepted your message request\"\n" +
                     "    },\n" +
                     "    \"to\":\""+token+"\"\n" +

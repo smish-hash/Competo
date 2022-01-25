@@ -266,7 +266,7 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                                                                 DocumentSnapshot document3 = task3.getResult();
                                                                 if (document3.exists()) {
                                                                     Log.d("data", "DocumentSnapshot data: " + document3.getString("Name"));
-                                                                    sendfcm(document.getString("token"),document3.getString("Name"));
+                                                                    sendfcm(document.getString("token"),document3.getString("Name"),requestMesssage);
                                                                 }
                                                             }
                                                         });
@@ -327,7 +327,7 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
         }
     }
 
-    public void sendfcm(String token,String name)
+    public void sendfcm(String token,String name, String requestMessage)
     {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
@@ -336,8 +336,8 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
                     "    \"data\" : {\n" +
                     "      \"id\" : \""+firebaseAuth.getUid()+"\",\n" +
                     "      \"category\" : \"request\",\n" +
-                    "      \"title\":\"Request\",\n" +
-                    "      \"body\":\"You have a new message request from "+name+"\"\n" +
+                    "      \"title\":\"New Message Request\",\n" +
+                    "      \"body\":\""+name+" : "+requestMessage+"\"\n" +
                     "    },\n" +
                     "    \"to\":\""+token+"\"\n" +
                     "}");

@@ -20,7 +20,7 @@ class messagingViewModel : ViewModel() {
 
     val firebaseDB = Firebase.firestore
 
-    fun notification(receiverID : String, senderID : String)
+    fun notification(receiverID : String, senderID : String, requestMessage : String)
     {
         viewModelScope.launch(Dispatchers.IO) {
             val token = firebaseDB.collection("token").document(receiverID).get()
@@ -43,7 +43,7 @@ class messagingViewModel : ViewModel() {
                                 if(name.exists())
                                 {
                                     val senderName = name.getString("Name")
-                                    sendMessage(receiverToken!!,senderName!!)
+                                    sendMessage(receiverToken!!,senderName!!,requestMessage)
                                 }
                             }
                             else{
@@ -59,7 +59,7 @@ class messagingViewModel : ViewModel() {
         }
     }
 
-    fun sendMessage(token : String, name : String)
+    fun sendMessage(token : String, name : String, requestMessage : String)
     {
         viewModelScope.launch(Dispatchers.IO) {
             val client = OkHttpClient()
@@ -69,8 +69,8 @@ class messagingViewModel : ViewModel() {
                                 "data" : {
                                 "id" : "${auth.uid.toString()}"
                                 "category" : "request",
-                                "title" : "$name"
-                                "body" : "you have a new message request"
+                                "title" : "New Message Request"
+                                "body" : "$name : $requestMessage"
                                 },
                                 "to":"$token"
                                 }"""

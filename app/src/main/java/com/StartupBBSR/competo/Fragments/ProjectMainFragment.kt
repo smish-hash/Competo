@@ -98,8 +98,6 @@ class ProjectMainFragment : Fragment() {
 
         messagingViewModel = ViewModelProvider(this).get(com.StartupBBSR.competo.ViewModel.messagingViewModel::class.java)
 
-        //messagingViewModel.notification("UbIkDkNJoXPlsW81HjyjA7acM393","UbIkDkNJoXPlsW81HjyjA7acM393")
-
         return binding.root
     }
 
@@ -280,7 +278,7 @@ class ProjectMainFragment : Fragment() {
                         sendMessageBottomDialog.dismiss();
 
                         //send message request
-                        messagingViewModel.notification(organizerID,userID)
+                        messagingViewModel.notification(organizerID,userID,requestMessage)
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, "Error sending request", Toast.LENGTH_SHORT).show()
