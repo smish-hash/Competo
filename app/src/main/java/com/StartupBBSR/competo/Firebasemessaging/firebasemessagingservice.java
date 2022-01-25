@@ -108,7 +108,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         SharedPreferences sharedPreferences = getSharedPreferences(id,MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         int count = sharedPreferences.getInt("count",0);
-        int randomvalue = (int) (Calendar.getInstance().getTimeInMillis() % 100000);
+        int randomvalue = (int) (Calendar.getInstance().getTimeInMillis() % 1000000000);
         int notiid = sharedPreferences.getInt("notification_id",0);
         if(notiid == 0)
         {
