@@ -29,19 +29,19 @@ public class firebasemessagingservice extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
 
-        if(remoteMessage.getData().get("category").equals("event"))
+        if(Objects.equals(remoteMessage.getData().get("category"), "event"))
         {
                 geteventmessage(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"));
         }
-        else if(remoteMessage.getData().get("category").equals("chat"))
+        else if(Objects.equals(remoteMessage.getData().get("category"), "chat"))
         {
                 getchatmessage(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("id"));
         }
-        else if(remoteMessage.getData().get("category").equals("request"))
+        else if(Objects.equals(remoteMessage.getData().get("category"), "request"))
         {
                 getrequestmessage(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"));
         }
-        else if(remoteMessage.getData().get("category").equals("team"))
+        else if(Objects.equals(remoteMessage.getData().get("category"), "team"))
         {
                 getteammessage(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"));
         }
@@ -104,32 +104,32 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
         SharedPreferences sharedPreferences = getSharedPreferences(id,MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        int count = sharedPreferences.getInt("count",0);
-        int randomvalue = (int) (Calendar.getInstance().getTimeInMillis() % 1000000000);
-        int notiid = sharedPreferences.getInt("notification_id",0);
-        if(notiid == 0)
+        int count = sharedPreferences.getInt("chatCount",0);
+        int randomValue = (int) (Calendar.getInstance().getTimeInMillis() % 1000000000);
+        int chat_notification_id = sharedPreferences.getInt("chat_notification_id",0);
+        if(chat_notification_id == 0)
         {
-            myEdit.putInt("notification_id",randomvalue);
+            myEdit.putInt("chat_notification_id",randomValue);
         }
         if(count == 0)
         {
-            myEdit.putString("msg1",body);
-            myEdit.putInt("count",1);
+            myEdit.putString("chatMsg1",body);
+            myEdit.putInt("chatCount",1);
         }
         else if(count == 1)
         {
-            myEdit.putString("msg2",body);
-            myEdit.putInt("count",2);
+            myEdit.putString("chatMsg2",body);
+            myEdit.putInt("chatCount",2);
         }
         else
         {
-            myEdit.putString("msg1",sharedPreferences.getString("msg2",null));
-            myEdit.putString("msg2",body);
+            myEdit.putString("chatMsg1",sharedPreferences.getString("chatMsg2",null));
+            myEdit.putString("chatMsg2",body);
         }
         myEdit.apply();
 
         Person user = new Person.Builder().setIcon(null).setName("Chat").build();
-        NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(user).addMessage(sharedPreferences.getString("msg1",null), Calendar.getInstance().getTimeInMillis(),title).addMessage(sharedPreferences.getString("msg2",null), Calendar.getInstance().getTimeInMillis(),title);
+        NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(user).addMessage(sharedPreferences.getString("chatMsg1",null), Calendar.getInstance().getTimeInMillis(),title).addMessage(sharedPreferences.getString("chatMsg2",null), Calendar.getInstance().getTimeInMillis(),title);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -151,7 +151,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
                 .setAutoCancel(true);
 
         //int oneTimeID = (int) SystemClock.uptimeMillis();
-        notificationmanager3.notify(sharedPreferences.getInt("notification_id",0), builder.build());
+        notificationmanager3.notify(sharedPreferences.getInt("chat_notification_id",0), builder.build());
     }
 
     public void getteammessage(String title, String body) {
