@@ -333,12 +333,11 @@ public class EventPalMainFragment extends Fragment implements TeamFinderBottomSh
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,"{\n" +
-                    "    \"notification\":{\n" +
+                    "    \"data\" : {\n" +
+                    "      \"id\" : \""+firebaseAuth.getUid()+"\",\n" +
+                    "      \"category\" : \"request\",\n" +
                     "      \"title\":\"Request\",\n" +
                     "      \"body\":\"You have a new message request from "+name+"\"\n" +
-                    "    },\n" +
-                    "    \"data\" : {\n" +
-                    "      \"category\" : \"request\",\n" +
                     "    },\n" +
                     "    \"to\":\""+token+"\"\n" +
                     "}");

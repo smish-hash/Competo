@@ -116,4 +116,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation "androidx.core:core:1.7.0"
+
+    //kotlin coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 }
