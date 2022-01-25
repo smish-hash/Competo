@@ -116,7 +116,6 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
     private SharedPreferences sharedPreferences;
     private String theme;
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

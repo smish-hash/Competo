@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.StartupBBSR.competo.Activity.ChatDetailActivity
@@ -18,6 +20,7 @@ import com.StartupBBSR.competo.Models.ProjectModel
 import com.StartupBBSR.competo.Models.RequestModel
 import com.StartupBBSR.competo.R
 import com.StartupBBSR.competo.Utils.Constant
+import com.StartupBBSR.competo.ViewModel.messagingViewModel
 import com.StartupBBSR.competo.databinding.FragmentLikedProjectsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -43,6 +46,9 @@ class LikedProjectsFragment : Fragment() {
     private var likedProjectsList: ArrayList<ProjectModel> = ArrayList()
     private lateinit var adapter: ProjectAdapter
 
+    //messaging viewmodel
+    lateinit var messagingViewModel: messagingViewModel
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
@@ -65,6 +71,8 @@ class LikedProjectsFragment : Fragment() {
         constant = Constant()
 
         likedProjectsRef = firestoreDB.collection(constant.project).document(userID).collection(constant.likedProjects)
+
+        messagingViewModel = ViewModelProvider(this).get(com.StartupBBSR.competo.ViewModel.messagingViewModel::class.java)
 
         loadProjects()
 
@@ -203,41 +211,9 @@ class LikedProjectsFragment : Fragment() {
                     .addOnSuccessListener {
                         Toast.makeText(context, "Request Sent", Toast.LENGTH_SHORT).show()
                         sendMessageBottomDialog.dismiss();
-//                        todo by aditya for notification
-                        /*firestoreDB.collection("token").document(organizerID).get()
-                            .addOnCompleteListener { task: Task<DocumentSnapshot> ->
-                                if (task.isSuccessful) {
-                                    val document = task.result
-                                    if (document.exists()) {
-                                        Log.d(
-                                            "data",
-                                            "DocumentSnapshot data: " + document.getString("token")
-                                        )
-                                        firestoreDB.collection("Users").document(userID).get()
-                                            .addOnCompleteListener { task3: Task<DocumentSnapshot> ->
-                                                if (task3.isSuccessful) {
-                                                    val document3 = task3.result
-                                                    if (document3.exists()) {
-                                                        Log.d(
-                                                            "data",
-                                                            "DocumentSnapshot data: " + document3.getString(
-                                                                "Name"
-                                                            )
-                                                        )
-                                                        sendfcm(
-                                                            document.getString("token"),
-                                                            document3.getString("Name")
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                    } else {
-                                        Log.d("data", "No such document")
-                                    }
-                                } else {
-                                    Log.d("data", "get failed with ", task.exception)
-                                }
-                            }*/
+
+                        //send notification
+                        messagingViewModel.notification(organizerID,userID,requestMessage)
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, "Error sending request", Toast.LENGTH_SHORT).show()
