@@ -213,7 +213,7 @@ class LikedProjectsFragment : Fragment() {
                         sendMessageBottomDialog.dismiss();
 
                         //send notification
-                        messagingViewModel.notification(organizerID,userID)
+                        messagingViewModel.notification(organizerID,userID,requestMessage)
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, "Error sending request", Toast.LENGTH_SHORT).show()
