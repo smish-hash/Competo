@@ -98,6 +98,8 @@ class ProjectMainFragment : Fragment() {
 
         messagingViewModel = ViewModelProvider(this).get(com.StartupBBSR.competo.ViewModel.messagingViewModel::class.java)
 
+        //messagingViewModel.notification("UbIkDkNJoXPlsW81HjyjA7acM393","UbIkDkNJoXPlsW81HjyjA7acM393","this is a test2")
+
         return binding.root
     }
 
