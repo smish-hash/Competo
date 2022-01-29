@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.StartupBBSR.competo.Models.EventModel;
+import com.StartupBBSR.competo.Models.OnboardingModel;
+import com.StartupBBSR.competo.R;
 import com.StartupBBSR.competo.databinding.EventFeedItemBinding;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -15,7 +17,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -67,10 +71,13 @@ public class EventFeedAdapter extends FirestoreRecyclerAdapter<EventModel, Event
         this.listener = listener;
     }
 
-    public EventFeedAdapter(Context context, @NonNull FirestoreRecyclerOptions<EventModel> options) {
+    public EventFeedAdapter(Context context, @NonNull FirestoreRecyclerOptions<EventModel> options)
+    {
         super(options);
         this.context = context;
     }
+
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

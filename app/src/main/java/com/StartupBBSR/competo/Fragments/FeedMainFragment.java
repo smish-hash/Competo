@@ -67,6 +67,7 @@ public class FeedMainFragment extends Fragment {
         collectionReference = firestoreDB.collection(constant.getEvents());
 
         initGreetings();
+        randomanim ();
         initData();
 
         binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +154,8 @@ public class FeedMainFragment extends Fragment {
             }
         });
 
+
+
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
@@ -164,6 +167,14 @@ public class FeedMainFragment extends Fragment {
             binding.tvFeedGreeting.setText(R.string.goodEvening);
         }
     }
+
+    private void randomanim(){
+        int[] Animation = {R.raw.home_animation_1,R.raw.home_animation_2,R.raw.home_animation_3};
+        Random r = new Random();
+        int randomNumber = r.nextInt(Animation.length);
+        binding.cvPosterImage.setAnimation (Animation[randomNumber]);
+    }
+
 
     private void initData() {
         Query query = collectionReference.orderBy("eventDateStamp")

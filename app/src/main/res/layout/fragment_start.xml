@@ -37,7 +37,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:letterSpacing="0.1"
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/text_gray"
@@ -46,14 +45,14 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnInbox"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/grid_3x"
                     android:layout_marginTop="@dimen/grid_3x"
-                    android:layout_marginEnd="@dimen/grid_3x"
+                    android:layout_marginEnd="22dp"
                     android:layout_marginBottom="@dimen/grid_3x"
-                    android:src="@drawable/ic_baseline_chat_24"
+                    android:src="@drawable/messagecircleoutline_110731"
                     app:tint="@color/text_gray" />
             </RelativeLayout>
 
@@ -84,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/grid_5x"
             android:layout_gravity="bottom"
+            android:forceHasOverlappingRendering="true"
             android:backgroundTint="@color/white">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -93,9 +93,10 @@
                 android:layout_marginEnd="@dimen/grid_3x"
                 android:background="@color/white"
                 app:elevation="0dp"
-                app:labelVisibilityMode="selected"
+                android:forceHasOverlappingRendering="true"
                 app:itemIconTint="@drawable/bottom_nav_selector"
                 app:itemRippleColor="@null"
+                app:labelVisibilityMode="labeled"
                 app:itemTextColor="@drawable/bottom_nav_selector"
                 app:menu="@menu/bottom_nav_menu" />
 

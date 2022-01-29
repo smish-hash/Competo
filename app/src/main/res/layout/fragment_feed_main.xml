@@ -137,7 +137,6 @@
                 android:id="@+id/cvPosterImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:lottie_rawRes="@raw/teamos_home_anim_01"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="false"/>
 

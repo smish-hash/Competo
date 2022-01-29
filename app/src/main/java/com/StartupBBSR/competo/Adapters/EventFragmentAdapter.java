@@ -77,6 +77,7 @@ public class EventFragmentAdapter extends RecyclerView.Adapter<EventFragmentAdap
     }
 
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, day, month,description;
