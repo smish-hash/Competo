@@ -31,7 +31,7 @@
             android:layout_marginStart="@dimen/grid_3x"
             android:layout_marginTop="@dimen/grid_3x"
             android:layout_marginEnd="@dimen/grid_4x"
-            app:queryBackground="@color/transparent"
+            app:queryBackground="@color/search_view"
             android:background="@drawable/btn_search_round"
             app:iconifiedByDefault="false"
             android:elevation="@dimen/grid_1x"

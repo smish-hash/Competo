@@ -9,6 +9,7 @@
     <color name="white">#292D32</color>
     <color name="light_white">#F8F8F8</color>
     <color name="white_ui">#FFFFFF</color>
+    <color name="Event_feed_item">#34373f</color>
     <color name="chat_background_color">#292D32</color>
     <color name="neumorph_bgcolor">#292D32</color>
     <color name="neumorph_shadowColorDark">#30343A</color>
