@@ -229,6 +229,8 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         tvFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.title_bar_text_animation_fade_in);
     }
 
+
+
     private void popupSnackbarForCompleteUpdate() {
         Snackbar snackbar =
                 Snackbar.make(
@@ -316,6 +318,9 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
             loadFragment(3);
         });
 
+
+
+
         binding.drawerToggleIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
@@ -331,6 +336,8 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
                 Navigation.findNavController(binding.getRoot()).navigate(R.id.action_startFragment_to_inboxNewFragment3);
             }
         });
+
+
     }
 
     @Override

@@ -20,6 +20,13 @@ class ProjectFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_project, container, false)
     }
 
+    protected fun onclickproject() {
+        val navHostFragment = parentFragment as NavHostFragment?
+        if (navHostFragment != null) {
+            val startFragment = navHostFragment.parentFragment as StartFragment?
+            startFragment?.loadFragment(4)
+        }
+    }
 
     fun onGoHomeBackPressed() {
         val navHostFragment = parentFragment as NavHostFragment
