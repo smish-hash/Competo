@@ -43,7 +43,7 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         }
         else if(Objects.equals(remoteMessage.getData().get("category"), "team"))
         {
-                getteammessage(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"));
+                getteammessage(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("teamId"));
         }
         super.onMessageReceived(remoteMessage);
     }
@@ -129,7 +129,8 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         myEdit.apply();
 
         Person user = new Person.Builder().setIcon(null).setName("Chat").build();
-        NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(user).addMessage(sharedPreferences.getString("chatMsg1",null), Calendar.getInstance().getTimeInMillis(),title).addMessage(sharedPreferences.getString("chatMsg2",null), Calendar.getInstance().getTimeInMillis(),title);
+        NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(user).addMessage(sharedPreferences.getString("chatMsg1",null), Calendar.getInstance().getTimeInMillis(),title)
+                .addMessage(sharedPreferences.getString("chatMsg2",null), Calendar.getInstance().getTimeInMillis(),title);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -154,7 +155,52 @@ public class firebasemessagingservice extends FirebaseMessagingService {
         notificationmanager3.notify(sharedPreferences.getInt("chat_notification_id",0), builder.build());
     }
 
-    public void getteammessage(String title, String body) {
+    public void getteammessage(String title, String body, String id) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(id,MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        int count = sharedPreferences.getInt("teamCount",0);
+        int randomValue = (int) (Calendar.getInstance().getTimeInMillis() % 1000000000);
+        int chat_notification_id = sharedPreferences.getInt("team_notification_id",0);
+        if(chat_notification_id == 0)
+        {
+            myEdit.putInt("team_notification_id",randomValue);
+        }
+        if(count == 0)
+        {
+            myEdit.putString("teamMsg1",body);
+            myEdit.putString("teamTitle1",title);
+            myEdit.putInt("teamCount",1);
+        }
+        else if(count == 1)
+        {
+            myEdit.putString("teamMsg2",body);
+            myEdit.putString("teamTitle2",title);
+            myEdit.putInt("teamCount",2);
+        }
+        else if(count == 2)
+        {
+            myEdit.putString("teamMsg3",body);
+            myEdit.putString("teamTitle3",title);
+            myEdit.putInt("teamCount",3);
+        }
+        else
+        {
+            myEdit.putString("teamMsg1",sharedPreferences.getString("teamMsg2",null));
+            myEdit.putString("teamMsg2",sharedPreferences.getString("teamMsg3",null));
+            myEdit.putString("teamMsg3",body);
+
+            myEdit.putString("teamTitle1",sharedPreferences.getString("teamTitle2",null));
+            myEdit.putString("teamTitle2",sharedPreferences.getString("teamTitle3",null));
+            myEdit.putString("teamTitle3",title);
+        }
+        myEdit.apply();
+
+        Person user = new Person.Builder().setIcon(null).setName("Teams").build();
+        NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(user).addMessage(sharedPreferences.getString("teamMsg1",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle1",null))
+                .addMessage(sharedPreferences.getString("teamMsg2",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle2",null))
+                .addMessage(sharedPreferences.getString("teamMsg3",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle3",null));
+
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -171,12 +217,11 @@ public class firebasemessagingservice extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "team_notification")
                 .setSmallIcon(R.drawable.teamos_one_point_four_logo)
-                .setContentTitle(title)
-                .setContentText(body)
+                .setStyle(style)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
-        int oneTimeID = (int) SystemClock.uptimeMillis();
-        notificationmanager4.notify(oneTimeID, builder.build());
+        //int oneTimeID = (int) SystemClock.uptimeMillis();
+        notificationmanager4.notify(sharedPreferences.getInt("team_notification_id",0), builder.build());
     }
 }
