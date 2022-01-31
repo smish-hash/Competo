@@ -49,7 +49,7 @@
             android:layout_weight="1"
             android:textAllCaps="false"
             android:layout_marginStart="@dimen/grid_2x"
-            android:textColor="@color/white"
+            android:textColor="@color/white_ui"
             tools:layout_editor_absoluteX="269dp"
             tools:layout_editor_absoluteY="223dp" />
 

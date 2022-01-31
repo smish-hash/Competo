@@ -5,12 +5,14 @@
     <item
         android:id="@+id/feedFragmentMenu"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home"/>
+        android:title="Home"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/eventFragmentMenu"
         android:icon="@drawable/ic_baseline_calendar_view_day_24"
-        android:title="Events"/>
+        android:title="Events"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/dummy"
@@ -21,11 +23,13 @@
     <item
         android:id="@+id/projectFragmentMenu"
         android:icon="@drawable/ic_baseline_architecture_24"
-        android:title="Projects"/>
+        android:title="Projects"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/profileFragmentMenu"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="My Profile"/>
+        android:title="My Profile"
+        app:showAsAction="always"/>
 
 </menu>

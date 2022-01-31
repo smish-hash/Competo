@@ -9,6 +9,7 @@
     <color name="white">#292D32</color>
     <color name="light_white">#F8F8F8</color>
     <color name="white_ui">#FFFFFF</color>
+    <color name="Event_feed_item">#34373f</color>
     <color name="chat_background_color">#292D32</color>
     <color name="neumorph_bgcolor">#292D32</color>
     <color name="neumorph_shadowColorDark">#30343A</color>
@@ -33,6 +34,11 @@
     <color name="onboarding_blue">#33B5E5</color>
     <color name="onboarding_pink">#E31A74</color>
     <color name="onboarding_green">#12BFA8</color>
+
+    <color name="orange">#FF7A40</color>
+    <color name="darkOrange">#E34500</color>
+    <color name="search_view">#34373f</color>
+
 
 
     <color name="main_background">#292D32</color>

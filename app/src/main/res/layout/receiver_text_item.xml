@@ -8,10 +8,14 @@
         android:id="@+id/conLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_2x"
+        android:layout_marginStart="@dimen/grid_2x"
+        android:layout_marginTop="@dimen/grid_2x"
+        android:layout_marginEnd="@dimen/grid_2x"
+        android:layout_marginBottom="@dimen/grid_2x"
         android:background="@drawable/receiver_text_bg"
         android:maxWidth="300dp"
         android:minHeight="40dp"
+        android:elevation="@dimen/grid_1x"
         android:padding="@dimen/grid_1x">
 
         <TextView
@@ -20,15 +24,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_1x"
             android:layout_marginEnd="@dimen/grid_1x"
-            android:paddingTop="@dimen/grid_1x"
-            android:paddingBottom="@dimen/grid_2x"
-            android:paddingEnd="@dimen/grid_1x"
-            android:paddingStart="@dimen/grid_1x"
             android:autoLink="all"
             android:maxWidth="270dp"
             android:minWidth="50dp"
+            android:paddingStart="@dimen/grid_1x"
+            android:paddingTop="@dimen/grid_1x"
+            android:paddingEnd="@dimen/grid_1x"
+            android:paddingBottom="@dimen/grid_2x"
             android:text="Received Message"
-            android:textColor="@color/text_dark_gray"
+            android:textColor="@color/text_gray"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="parent" />
 

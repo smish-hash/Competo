@@ -69,4 +69,14 @@ public class FeedFragment extends Fragment {
         }
     }
 
+    protected void onclickproject () {
+
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+        if (navHostFragment != null) {
+            StartFragment startFragment = (StartFragment)navHostFragment.getParentFragment();
+            if (startFragment != null) {
+                startFragment.loadFragment(4);
+            }
+        }
+    }
 }
