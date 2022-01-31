@@ -178,19 +178,28 @@ public class firebasemessagingservice extends FirebaseMessagingService {
             myEdit.putString("teamTitle2",title);
             myEdit.putInt("teamCount",2);
         }
+        else if(count == 2)
+        {
+            myEdit.putString("teamMsg3",body);
+            myEdit.putString("teamTitle3",title);
+            myEdit.putInt("teamCount",3);
+        }
         else
         {
             myEdit.putString("teamMsg1",sharedPreferences.getString("teamMsg2",null));
-            myEdit.putString("teamMsg2",body);
+            myEdit.putString("teamMsg2",sharedPreferences.getString("teamMsg3",null));
+            myEdit.putString("teamMsg3",body);
 
             myEdit.putString("teamTitle1",sharedPreferences.getString("teamTitle2",null));
-            myEdit.putString("teamTitle2",title);
+            myEdit.putString("teamTitle2",sharedPreferences.getString("teamTitle3",null));
+            myEdit.putString("teamTitle3",title);
         }
         myEdit.apply();
 
         Person user = new Person.Builder().setIcon(null).setName("Teams").build();
         NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(user).addMessage(sharedPreferences.getString("teamMsg1",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle1",null))
-                .addMessage(sharedPreferences.getString("teamMsg2",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle2",null));
+                .addMessage(sharedPreferences.getString("teamMsg2",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle2",null))
+                .addMessage(sharedPreferences.getString("teamMsg3",null), Calendar.getInstance().getTimeInMillis(),sharedPreferences.getString("teamTitle3",null));
 
 
         Intent intent = new Intent(this, MainActivity.class);
