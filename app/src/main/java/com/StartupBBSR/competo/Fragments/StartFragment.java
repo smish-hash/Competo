@@ -110,7 +110,6 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
     private static final String testTAG = "empty";
 
     private AlertDialog.Builder builder1;
-    private AlertDialog.Builder builder2;
 
 
     private SharedPreferences sharedPreferences;
@@ -152,7 +151,6 @@ public class StartFragment extends Fragment implements NavigationView.OnNavigati
         View view = binding.getRoot();
 
         builder1 = new AlertDialog.Builder(requireContext());
-        builder2 = new AlertDialog.Builder(getContext());
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         theme = sharedPreferences.getString("THEME", "1");
