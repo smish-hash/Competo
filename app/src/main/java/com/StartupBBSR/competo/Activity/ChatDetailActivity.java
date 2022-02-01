@@ -487,12 +487,11 @@ public class ChatDetailActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,"{\n" +
-                    "    \"notification\":{\n" +
+                    "    \"data\" : {\n" +
+                    "      \"id\" : \""+senderID+"\",\n" +
+                    "      \"category\" : \"chat\",\n" +
                     "      \"title\":\""+name+"\",\n" +
                     "      \"body\":\""+message+"\"\n" +
-                    "    },\n" +
-                    "    \"data\" : {\n" +
-                    "      \"category\" : \"chat\",\n" +
                     "    },\n" +
                     "    \"to\":\""+token+"\"\n" +
                     "}");

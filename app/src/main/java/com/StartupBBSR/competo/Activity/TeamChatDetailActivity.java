@@ -202,7 +202,7 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
                                                     DocumentSnapshot document = task.getResult();
                                                     if (document.exists()) {
                                                         Log.d("data", "DocumentSnapshot data: " + document.getString("token"));
-                                                        sendfcm(document.getString("token"));
+                                                        sendfcm(document.getString("token"),message,senderName);
                                                     } else {
                                                         Log.d("data", "No such document");
                                                     }
@@ -510,18 +510,18 @@ public class TeamChatDetailActivity extends AppCompatActivity implements AddTeam
         }
     }
 
-    public void sendfcm(String token)
+    public void sendfcm(String token, String message, String senderName)
     {
         Runnable runnable = () -> {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,"{\n" +
-                    "    \"notification\":{\n" +
-                    "      \"title\":\"Team\",\n" +
-                    "      \"body\":\"You have a new TEAM message\"\n" +
-                    "    },\n" +
                     "    \"data\" : {\n" +
+                    "      \"id\" : \""+firebaseAuth.getUid()+"\",\n" +
                     "      \"category\" : \"team\",\n" +
+                    "      \"teamId\" : \""+teamID+"\",\n" +
+                    "      \"title\":\""+senderName+"\",\n" +
+                    "      \"body\":\""+message+"\"\n" +
                     "    },\n" +
                     "    \"to\":\""+token+"\"\n" +
                     "}");

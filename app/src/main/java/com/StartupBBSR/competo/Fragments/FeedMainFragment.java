@@ -1,26 +1,21 @@
 package com.StartupBBSR.competo.Fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import com.StartupBBSR.competo.Activity.MainActivity;
 import com.StartupBBSR.competo.Adapters.EventFeedAdapter;
 import com.StartupBBSR.competo.Models.EventModel;
 import com.StartupBBSR.competo.R;
@@ -68,6 +63,7 @@ public class FeedMainFragment extends Fragment {
         collectionReference = firestoreDB.collection(constant.getEvents());
 
         initGreetings();
+        randomanim ();
         initData();
 
         binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
@@ -82,20 +78,50 @@ public class FeedMainFragment extends Fragment {
             }
         });
 
-        binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
+        binding.cvPosterImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
                 if (navHostFragment != null) {
                     FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
                     if (feedFragment != null)
-                        feedFragment.onClickViewAllEvents();
+                        feedFragment.onclickproject ();
                 }
             }
         });
 
 
-        binding.btnExplore.setOnClickListener(new View.OnClickListener() {
+        binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                if (feedFragment != null) {
+                    feedFragment.onClickViewAllEvents();
+                }
+            }
+        });
+
+
+        binding.btnprojectExplore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.onclickproject();
+                }
+
+//                This also works, but cannot unselect selected icon in bottom bar :)
+                /*if (getActivity() != null) {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.eventPalFragmentMenu);
+                }*/
+            }
+
+        });
+        binding.btnfinderExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
@@ -105,13 +131,11 @@ public class FeedMainFragment extends Fragment {
                         feedFragment.findTeamMate();
                 }
 
-//                This also works, but cannot unselect selected icon in bottom bar :)
-                /*if (getActivity() != null) {
-                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                    navController.navigate(R.id.eventPalFragmentMenu);
-                }*/
+//
             }
+
         });
+
 
         return view;
     }
@@ -154,6 +178,8 @@ public class FeedMainFragment extends Fragment {
             }
         });
 
+
+
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
@@ -165,6 +191,14 @@ public class FeedMainFragment extends Fragment {
             binding.tvFeedGreeting.setText(R.string.goodEvening);
         }
     }
+
+    private void randomanim(){
+        int[] Animation = {R.raw.home_animation_1,R.raw.home_animation_2,R.raw.home_animation_3};
+        Random r = new Random();
+        int randomNumber = r.nextInt(Animation.length);
+        binding.cvPosterImage.setAnimation (Animation[randomNumber]);
+    }
+
 
     private void initData() {
         Query query = collectionReference.orderBy("eventDateStamp")

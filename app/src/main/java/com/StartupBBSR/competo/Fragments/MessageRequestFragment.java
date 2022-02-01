@@ -245,12 +245,11 @@ public class MessageRequestFragment extends Fragment {
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,"{\n" +
-                    "    \"notification\":{\n" +
-                    "      \"title\":\"Request\",\n" +
-                    "      \"body\":\""+name+" has accepted your message request\"\n" +
-                    "    },\n" +
                     "    \"data\" : {\n" +
+                    "      \"id\" : \""+firebaseAuth.getUid()+"\",\n" +
                     "      \"category\" : \"request\",\n" +
+                    "      \"title\":\"Request Accepted\",\n" +
+                    "      \"body\":\""+name+" has accepted your message request\"\n" +
                     "    },\n" +
                     "    \"to\":\""+token+"\"\n" +
                     "}");
