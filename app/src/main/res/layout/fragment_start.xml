@@ -17,6 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/chat_background_color"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
             android:elevation="@dimen/grid_1x">
 
             <RelativeLayout
@@ -28,6 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/grid_3x"
                     android:contentDescription="Navigation Drawer"
                     android:src="@drawable/ic_baseline_dehaze_24"
                     app:tint="@color/text_gray" />
@@ -35,9 +44,9 @@
                 <TextView
                     android:id="@+id/tvTitleBar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:layout_marginTop="15dp"
+                    android:gravity="center"
                     android:letterSpacing="0.1"
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -50,9 +59,10 @@
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/grid_3x"
                     android:layout_marginTop="@dimen/grid_3x"
-                    android:layout_marginEnd="22dp"
+                    android:layout_marginEnd="@dimen/grid_3x"
                     android:layout_marginBottom="@dimen/grid_3x"
                     android:src="@drawable/messagecircleoutline_110731"
                     app:tint="@color/text_gray" />
@@ -86,13 +96,20 @@
             android:layout_height="@dimen/grid_5x"
             android:layout_gravity="bottom"
             android:forceHasOverlappingRendering="true"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
             android:backgroundTint="@color/white">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/grid_3x"
                 android:background="@color/white"
                 app:elevation="0dp"
                 android:forceHasOverlappingRendering="true"

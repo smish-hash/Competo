@@ -69,7 +69,7 @@ public class FeedFragment extends Fragment {
         }
     }
 
-    protected void onclickproject () {
+    protected void onClickProject () {
 
         NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
         if (navHostFragment != null) {

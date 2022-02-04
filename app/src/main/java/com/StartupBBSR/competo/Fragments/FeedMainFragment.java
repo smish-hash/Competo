@@ -1,9 +1,11 @@
 package com.StartupBBSR.competo.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -50,6 +53,8 @@ public class FeedMainFragment extends Fragment {
     private FirestoreRecyclerOptions<EventModel> options;
     private String userID;
 
+    private int randomAnimNumber, result;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,78 +68,8 @@ public class FeedMainFragment extends Fragment {
         collectionReference = firestoreDB.collection(constant.getEvents());
 
         initGreetings();
-        randomanim ();
         initData();
-
-        binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                if (navHostFragment != null) {
-                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                    if (feedFragment != null)
-                        feedFragment.onProfileImageClick();
-                }
-            }
-        });
-
-        binding.cvPosterImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                if (navHostFragment != null) {
-                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                    if (feedFragment != null)
-                        feedFragment.onclickproject ();
-                }
-            }
-        });
-
-
-        binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                if (feedFragment != null) {
-                    feedFragment.onClickViewAllEvents();
-                }
-            }
-        });
-
-
-        binding.btnprojectExplore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                if (navHostFragment != null) {
-                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                    if (feedFragment != null)
-                        feedFragment.onclickproject();
-                }
-
-//                This also works, but cannot unselect selected icon in bottom bar :)
-                /*if (getActivity() != null) {
-                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                    navController.navigate(R.id.eventPalFragmentMenu);
-                }*/
-            }
-
-        });
-        binding.btnfinderExplore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
-                if (navHostFragment != null) {
-                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
-                    if (feedFragment != null)
-                        feedFragment.findTeamMate();
-                }
-
-//
-            }
-
-        });
+        randomAnim();
 
 
         return view;
@@ -145,11 +80,9 @@ public class FeedMainFragment extends Fragment {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(getActivity()==null) {
-                    return;
-                }
 
-                if (getActivity() == null) {
+
+                if(getActivity()==null) {
                     return;
                 }
 
@@ -158,9 +91,9 @@ public class FeedMainFragment extends Fragment {
                     String name = snapshot.getString(constant.getUserNameField());
                     String img = snapshot.getString(constant.getUserPhotoField());
                     if (img != null) {
-                        Glide.with(getContext()).load(img).into(binding.ivFeedImage);
+                        Glide.with(requireContext()).load(img).into(binding.ivFeedImage);
                     } else {
-                        Glide.with(getContext()).load(R.drawable.user).into(binding.ivFeedImage);
+                        Glide.with(requireContext()).load(R.drawable.user).into(binding.ivFeedImage);
                     }
 
                     // Creating random greetings
@@ -178,8 +111,6 @@ public class FeedMainFragment extends Fragment {
             }
         });
 
-
-
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
@@ -192,11 +123,10 @@ public class FeedMainFragment extends Fragment {
         }
     }
 
-    private void randomanim(){
-        int[] Animation = {R.raw.home_animation_1,R.raw.home_animation_2,R.raw.home_animation_3};
-        Random r = new Random();
-        int randomNumber = r.nextInt(Animation.length);
-        binding.cvPosterImage.setAnimation (Animation[randomNumber]);
+    private void randomAnim(){
+        int[] Animation = {R.raw.home_animation_1, R.raw.home_animation_2, R.raw.home_animation_3};
+        randomAnimNumber = new Random().nextInt(Animation.length);
+        binding.cvPosterImage.setAnimation(Animation[randomAnimNumber]);
     }
 
 
@@ -204,6 +134,7 @@ public class FeedMainFragment extends Fragment {
         Query query = collectionReference.orderBy("eventDateStamp")
                 .whereGreaterThanOrEqualTo("eventDateStamp", new Date().getTime())
                 .limit(4);
+
 
         options = new FirestoreRecyclerOptions.Builder<EventModel>()
                 .setQuery(query, EventModel.class)
@@ -261,6 +192,85 @@ public class FeedMainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
 
+        setListeners();
+    }
 
+    private void setListeners() {
+        binding.ivFeedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.onProfileImageClick();
+                }
+            }
+        });
+
+        binding.cvPosterImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null) {
+                        switch (randomAnimNumber) {
+                            case 0:
+                            case 1:
+                                feedFragment.findTeamMate();
+                                break;
+                            case 2: feedFragment.onClickProject();
+                                 break;
+                        }
+                    }
+                }
+            }
+        });
+
+
+        binding.tvViewAllUpcomingEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null) {
+                        feedFragment.onClickViewAllEvents();
+                    }
+                }
+            }
+        });
+
+
+        binding.btnProjectExplore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.onClickProject();
+                }
+
+//                This also works, but cannot unselect selected icon in bottom bar :)
+                /*if (getActivity() != null) {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.eventPalFragmentMenu);
+                }*/
+            }
+
+        });
+        binding.btnFinderExplore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getParentFragment();
+                if (navHostFragment != null) {
+                    FeedFragment feedFragment = (FeedFragment) navHostFragment.getParentFragment();
+                    if (feedFragment != null)
+                        feedFragment.findTeamMate();
+                }
+            }
+        });
     }
 }

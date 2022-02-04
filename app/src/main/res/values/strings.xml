@@ -57,7 +57,10 @@ and organizations.</string>
     <string name="don_t_have_an_account_register">Don\'t have an account? <b>Register</b></string>
     <string name="projectDateFormat">%s\n%s</string>
 
+    <string name="noProjectsAddedMessage">It\'s oh, so quiet!\nclick <u>here</u> to add project</string>
+
     <string name="contactMe">Contact %s</string>
+    <string name="explore">Explore</string>
 
     <string-array name="FilterChips">
         <item>Web Development</item>

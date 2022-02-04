@@ -1,144 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/projectSwipeRefresh"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.ProjectMainFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/projectRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/project_item" />
-
-    <ProgressBar
-        android:id="@+id/projectProgressBar"
-        android:layout_width="@dimen/grid_4x"
-        android:layout_height="@dimen/grid_4x"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <View
-        android:id="@+id/view_background_gradient"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/project_fab_background_gradient"
-        android:elevation="@dimen/grid_1x"
-        android:visibility="gone"/>
+        android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnLikedProjects"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/orange"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/button_favorite"
-        android:layout_marginBottom="@dimen/grid_2x"
-        android:elevation="@dimen/grid_2x"
-        android:visibility="invisible"
-        android:layout_marginRight="5dp"
-        app:borderWidth="0dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/btnMyProjects"
-        app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
-        app:rippleColor="@color/orange"
-        app:tint="@color/white_ui" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/projectRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/project_item" />
 
-    <TextView
-        android:id="@+id/tvLikedProjects"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/grid_3x"
-        android:layout_toStartOf="@id/btnLikedProjects"
-        android:elevation="@dimen/grid_2x"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Liked Projects"
-        android:textColor="@color/white_ui"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/btnLikedProjects"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
-        app:layout_constraintTop_toTopOf="@+id/btnLikedProjects" />
+        <ProgressBar
+            android:id="@+id/projectProgressBar"
+            android:layout_width="@dimen/grid_4x"
+            android:layout_height="@dimen/grid_4x"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
+        <View
+            android:id="@+id/view_background_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/project_fab_background_gradient"
+            android:elevation="@dimen/grid_1x"
+            android:visibility="gone"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnMyProjects"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/orange"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/icon_bookmarks"
-        android:layout_marginBottom="@dimen/grid_2x"
-        android:layout_marginRight="5dp"
-        android:elevation="@dimen/grid_2x"
-        android:visibility="invisible"
-        app:borderWidth="0dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddProject"
-        app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
-        app:rippleColor="@color/orange"
-        app:tint="@color/white_ui" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnLikedProjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/orange"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/button_favorite"
+            android:layout_marginBottom="@dimen/grid_2x"
+            android:elevation="@dimen/grid_2x"
+            android:visibility="invisible"
+            android:layout_marginRight="5dp"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/btnMyProjects"
+            app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
+            app:rippleColor="@color/orange"
+            app:tint="@color/white_ui" />
 
-    <TextView
-        android:id="@+id/tvMyProjects"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/grid_3x"
-        android:layout_toStartOf="@id/btnMyProjects"
-        android:elevation="@dimen/grid_2x"
-        android:fontFamily="sans-serif-condensed"
-        android:text="My Projects"
-        android:textColor="@color/white_ui"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/btnMyProjects"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
-        app:layout_constraintTop_toTopOf="@+id/btnMyProjects" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnAddProject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_3x"
-        android:backgroundTint="@color/orange"
-        android:src="@drawable/ic_round_workspaces_24"
-        app:elevation="@dimen/grid_2x"
-        app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/darkOrange"
-        app:tint="@color/white_ui" />
-
-    <TextView
-        android:id="@+id/tvAddProject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/btnMyProjects"
-        android:text="Create Project"
-        android:fontFamily="sans-serif-condensed"
-        android:elevation="@dimen/grid_2x"
-        android:textColor="@color/white_ui"
-        android:layout_marginEnd="@dimen/grid_3x"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAddProject"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
-        app:layout_constraintTop_toTopOf="@+id/btnAddProject" />
+        <TextView
+            android:id="@+id/tvLikedProjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/grid_3x"
+            android:layout_toStartOf="@id/btnLikedProjects"
+            android:elevation="@dimen/grid_2x"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Liked Projects"
+            android:textColor="@color/white_ui"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLikedProjects"
+            app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
+            app:layout_constraintTop_toTopOf="@+id/btnLikedProjects" />
 
 
+        <TextView
+            android:id="@+id/tvNoProjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/noProjectsAddedMessage"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnMyProjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/orange"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_bookmarks"
+            android:layout_marginBottom="@dimen/grid_2x"
+            android:layout_marginRight="5dp"
+            android:elevation="@dimen/grid_2x"
+            android:visibility="invisible"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/btnAddProject"
+            app:layout_constraintEnd_toEndOf="@+id/btnAddProject"
+            app:rippleColor="@color/orange"
+            app:tint="@color/white_ui" />
+
+        <TextView
+            android:id="@+id/tvMyProjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/grid_3x"
+            android:layout_toStartOf="@id/btnMyProjects"
+            android:elevation="@dimen/grid_2x"
+            android:fontFamily="sans-serif-condensed"
+            android:text="My Projects"
+            android:textColor="@color/white_ui"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/btnMyProjects"
+            app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
+            app:layout_constraintTop_toTopOf="@+id/btnMyProjects" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAddProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_3x"
+            android:backgroundTint="@color/orange"
+            android:src="@drawable/ic_round_workspaces_24"
+            app:elevation="@dimen/grid_2x"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/darkOrange"
+            app:tint="@color/white_ui" />
+
+        <TextView
+            android:id="@+id/tvAddProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btnMyProjects"
+            android:text="Create Project"
+            android:fontFamily="sans-serif-condensed"
+            android:elevation="@dimen/grid_2x"
+            android:textColor="@color/white_ui"
+            android:layout_marginEnd="@dimen/grid_3x"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/btnAddProject"
+            app:layout_constraintEnd_toStartOf="@+id/btnAddProject"
+            app:layout_constraintTop_toTopOf="@+id/btnAddProject" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

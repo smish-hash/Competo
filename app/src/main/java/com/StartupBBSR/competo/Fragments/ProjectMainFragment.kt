@@ -134,6 +134,15 @@ class ProjectMainFragment : Fragment() {
         binding.viewBackgroundGradient.setOnClickListener {
             animateFAB()
         }
+
+        binding.projectSwipeRefresh.setOnRefreshListener {
+            loadProjects();
+            binding.projectSwipeRefresh.isRefreshing = false
+        }
+
+        binding.tvNoProjects.setOnClickListener {
+            navController.navigate(R.id.action_projectMainFragment_to_addProjectFragment)
+        }
     }
 
     private fun setAnimators() {
@@ -161,6 +170,9 @@ class ProjectMainFragment : Fragment() {
                     .addOnCompleteListener {
                         Log.d("adapter", "loadProjects: ${projectList.size}")
                         if (projectList.size > 0) {
+
+                            binding.projectRecyclerView.visibility = View.VISIBLE
+                            binding.tvNoProjects.visibility = View.GONE
 
                             projectList.sortByDescending { p ->
                                 p.projectTimeStamp
@@ -214,6 +226,10 @@ class ProjectMainFragment : Fragment() {
                             binding.projectRecyclerView.adapter = adapter
                             binding.projectRecyclerView.setHasFixedSize(true)
                             binding.projectRecyclerView.visibility = View.VISIBLE
+                        } else {
+//                            No projects added
+                            binding.tvNoProjects.visibility = View.VISIBLE
+                            binding.projectRecyclerView.visibility = View.GONE
                         }
                     }
             }

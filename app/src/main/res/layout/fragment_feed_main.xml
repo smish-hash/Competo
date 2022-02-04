@@ -11,14 +11,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/grid_3x">
+        android:paddingBottom="@dimen/grid_5x">
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cvImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="@dimen/grid_3x"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/grid_1x"
             app:cardCornerRadius="@dimen/radius_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tvFeedHello"
@@ -37,7 +39,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/palanquin_semibold"
             android:layout_margin="@dimen/grid_3x"
-            android:maxLines="1"
+            android:maxLines="2"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/text_gray"
@@ -56,36 +58,130 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFeedHello" />
 
-        <TextView
-            android:id="@+id/tvEventPal"
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvPoster"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/grid_3x"
-            android:layout_marginTop="@dimen/grid_4x"
-            android:fontFamily="sans-serif"
-            android:text="Team Finder"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-            android:textColor="@color/text_gray"
-            android:textStyle="bold"
+            android:layout_height="225dp"
+            app:cardUseCompatPadding="true"
+            android:layout_marginStart="@dimen/grid_2x"
+            android:layout_marginEnd="@dimen/grid_2x"
+            android:layout_marginTop="@dimen/grid_3x"
+            app:cardElevation="@dimen/grid_1x"
+            app:cardCornerRadius="@dimen/radius_10"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFeedGreeting" />
+            app:layout_constraintTop_toBottomOf="@+id/cvImage">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/cvPosterImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false" />
+
+            <!--<ImageView
+                android:id="@+id/cvPosterImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/cover_compressed" />-->
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/bannerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:layout_margin="@dimen/grid_3x"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/cvPoster"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:weightSum="2">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardElevation="@dimen/grid_1x"
+                app:cardUseCompatPadding="true"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/grid_2x">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#EE739A"
+                    android:src="@drawable/bannerproject" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnProjectExplore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/grid_3x"
+                    android:layout_marginEnd="@dimen/grid_3x"
+                    android:backgroundTint="@color/white"
+                    android:alpha="0.9"
+                    android:elevation="@dimen/grid_2x"
+                    android:fontFamily="@font/palanquin_semibold"
+                    android:text="Projects"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+                    android:textColor="@color/Explore"
+                    app:cornerRadius="@dimen/radius_10" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardElevation="@dimen/grid_1x"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/grid_2x"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#A2DEFA"
+                    android:src="@drawable/bannerfinder" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFinderExplore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:alpha="0.9"
+                    android:layout_marginStart="@dimen/grid_3x"
+                    android:layout_marginEnd="@dimen/grid_3x"
+                    android:backgroundTint="@color/white"
+                    android:elevation="@dimen/grid_1x"
+                    android:fontFamily="@font/palanquin_semibold"
+                    android:text="Team Finder"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+                    android:textColor="@color/Explore"
+                    app:cornerRadius="@dimen/radius_10" />
+
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvUpcomingEvents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_3x"
-            android:layout_marginTop="@dimen/grid_3x"
             android:fontFamily="sans-serif"
             android:text="Upcoming Events"
+            android:layout_marginTop="@dimen/grid_3x"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
             android:textColor="@color/text_gray"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/unpcomingEventsRecyclerView"
-            app:layout_constraintStart_toEndOf="@+id/projectbanner"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/projectbanner"
-            app:layout_constraintTop_toTopOf="@+id/unpcomingEventsRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/bannerLayout" />
 
         <TextView
             android:id="@+id/tvViewAllUpcomingEvents"
@@ -100,126 +196,17 @@
             app:layout_constraintTop_toTopOf="@id/tvUpcomingEvents" />
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvPoster"
-            android:layout_width="375dp"
-            android:layout_height="225dp"
-            android:layout_marginBottom="@dimen/grid_3x"
-            android:layout_marginTop="@dimen/grid_2x"
-            app:layout_constraintBottom_toTopOf="@+id/projectbanner"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/tvNoUpcomingEvents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_5x"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvUpcomingEvents"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEventPal">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Upcoming events will be shown here"/>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/cvPosterImage"
-                android:layout_width="375dp"
-                android:layout_height="225dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="false" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExplore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:layout_marginBottom="@dimen/grid_2x"
-                android:backgroundTint="@color/white"
-                android:elevation="@dimen/grid_2x"
-                android:fontFamily="@font/palanquin_semibold"
-                android:text="Explore"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-                android:textColor="@color/Explore"
-                android:visibility="gone"
-                app:cornerRadius="10dp" />
-
-            <!--<ImageView
-                android:id="@+id/cvPosterImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/cover_compressed" />-->
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/projectbanner"
-            android:layout_width="175dp"
-            android:layout_height="222dp"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="@dimen/grid_2x"
-            app:layout_constraintBottom_toTopOf="@+id/tvUpcomingEvents"
-            app:layout_constraintEnd_toStartOf="@+id/finderbanner"
-            app:layout_constraintHorizontal_bias="0.18"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#EE739A"
-                android:src="@drawable/bannerproject" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnprojectExplore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:layout_marginBottom="@dimen/grid_2x"
-                android:backgroundTint="@color/white"
-                android:elevation="@dimen/grid_2x"
-                android:fontFamily="@font/palanquin_semibold"
-                android:text="Explore"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-                android:textColor="@color/Explore"
-                app:cornerRadius="10dp" />
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/finderbanner"
-            android:layout_width="175dp"
-            android:layout_height="225dp"
-            app:cardCornerRadius="@dimen/grid_2x"
-            app:layout_constraintBottom_toBottomOf="@+id/projectbanner"
-            app:layout_constraintHorizontal_bias="0.421"
-            app:layout_constraintLeft_toRightOf="@id/projectbanner"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginStart="@dimen/grid_2x"
-            android:layout_marginEnd="@dimen/grid_1x"
-            app:layout_constraintTop_toTopOf="@id/tvUpcomingEvents"
-            app:layout_constraintVertical_bias="0.995">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#A2DEFA"
-                android:src="@drawable/bannerfinder" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnfinderExplore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/grid_3x"
-                android:layout_marginEnd="@dimen/grid_3x"
-                android:layout_marginBottom="@dimen/grid_2x"
-                android:backgroundTint="@color/white"
-                android:elevation="@dimen/grid_2x"
-                android:fontFamily="@font/palanquin_semibold"
-                android:text="Explore"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-                android:textColor="@color/Explore"
-                app:cornerRadius="10dp" />
-
-        </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/unpcomingEventsRecyclerView"
@@ -227,11 +214,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_1x"
             android:nestedScrollingEnabled="false"
+            android:visibility="visible"
             android:orientation="vertical"
             android:paddingBottom="@dimen/grid_3x"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUpcomingEvents"
             tools:listitem="@layout/event_feed_item" />
